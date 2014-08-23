@@ -1,0 +1,156 @@
+package net.rockey.app.web;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import net.rockey.app.manager.FuncGroupManager;
+import net.rockey.app.manager.FunctionManager;
+import net.rockey.app.model.AppFunction;
+import net.rockey.app.service.AppService;
+import net.rockey.app.support.AppFuncGroupDTO;
+import net.rockey.app.support.AppFunctionDTO;
+import net.rockey.core.mapper.BeanMapper;
+import net.rockey.core.util.CONSTANTS;
+import net.rockey.core.util.LogUtils;
+import net.rockey.core.util.Page;
+import net.rockey.core.util.ParamUtils;
+import net.rockey.core.util.SequencePrefix;
+import net.rockey.core.util.SequenceUtils;
+import net.rockey.core.util.StringUtils;
+import net.rockey.core.util.ViewTransfer;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+@Controller
+@RequestMapping("app")
+public class FunctionController {
+
+	private Logger log = LogUtils.getLogger(FunctionController.class, true);
+
+	@Autowired
+	private FuncGroupManager funcGrpManager;
+
+	@Autowired
+	private FunctionManager functionManager;
+
+	@Autowired
+	private AppService appService;
+
+	private BeanMapper mapper = new BeanMapper();
+
+	@RequestMapping("function-list")
+	public String list(@ModelAttribute Page page,
+			@RequestParam Map<String, Object> parameterMap, Model model) {
+
+		String funcName = ParamUtils.getString(parameterMap, "funcName");
+
+		List<AppFunctionDTO> funcDtos = new ArrayList<AppFunctionDTO>();
+
+		List<AppFunction> funcs;
+		if (StringUtils.isEmpty(funcName)) {
+			funcs = (List<AppFunction>) functionManager
+					.find(" from AppFunction");
+		} else {
+			/* 字符串两端全模糊匹配 */
+			funcs = (List<AppFunction>) functionManager.findByLike("funcName",
+					"%" + funcName + "%");
+		}
+
+		for (AppFunction func : funcs) {
+			AppFunctionDTO dest = new AppFunctionDTO();
+			mapper.copy(func, dest);
+			dest.setStatFlagCn(ViewTransfer.getPairStatFlagCn(dest
+					.getStatFlag()));
+			funcDtos.add(dest);
+		}
+
+		page.setResult(funcDtos);
+		model.addAttribute("page", page);
+
+		return "app/function-list";
+	}
+
+	@RequestMapping("function-input")
+	public String input(
+			@RequestParam(value = "fid", required = false) Long fid,
+			Model model) {
+
+		List<AppFuncGroupDTO> funcGrps = new ArrayList<AppFuncGroupDTO>();
+
+		AppFunction function = null;
+
+		if (fid != null) {
+
+			function = functionManager.load(fid);
+
+			AppFunctionDTO dest = new AppFunctionDTO();
+
+			mapper.copy(function, dest);
+
+			dest.setStatFlagCn(ViewTransfer.getPairStatFlagCn(function
+					.getStatFlag()));
+
+			model.addAttribute("fid", fid);
+			model.addAttribute("func", dest);
+		}
+
+		funcGrps = appService
+				.createFuncGroupListOnSelected(function == null ? null
+						: function);
+		model.addAttribute("funcGrps", funcGrps);
+
+		return "app/function-input";
+	}
+
+	@RequestMapping("function-save")
+	public String save(@ModelAttribute AppFunctionDTO funcDTO, Model model) {
+		Long funcId = funcDTO.getId();
+		String funcCode = funcDTO.getCode();
+		String funcName = funcDTO.getName();
+		String funcAction = funcDTO.getAction();
+		Long funcGrpId = funcDTO.getGroupId();
+		String statFlag = funcDTO.getStatFlag();
+
+		statFlag = statFlag == null ? CONSTANTS.STAT_FLAG_CLOSE : statFlag;
+
+		if (funcId == null) {
+			// Create an new record.
+
+			AppFunction function = new AppFunction();
+
+			function.setId(SequenceUtils
+					.getSequence(SequencePrefix.SEQ_FISRT_POSITION_FOR_APP_FUNCTION));
+			function.setCode(funcCode);
+			function.setName(funcName);
+			function.setAction(funcAction);
+			function.setGroup(funcGrpManager.load(funcGrpId));
+			function.setMenu(Boolean.FALSE);
+			function.setStatFlag(statFlag);
+
+			functionManager.save(function);
+
+		} else {
+			// Modify an exists record.
+
+			AppFunction function = functionManager.get(funcId);
+
+			function.setCode(funcCode);
+			function.setName(funcName);
+			function.setAction(funcAction);
+			function.setGroup(funcGrpManager.load(funcGrpId));
+			function.setMenu(Boolean.FALSE);
+			function.setStatFlag(statFlag);
+
+			functionManager.save(function);
+		}
+
+		return "redirect:function-list.do";
+	}
+}

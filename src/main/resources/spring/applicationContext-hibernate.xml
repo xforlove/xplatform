@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="sessionFactory" class="net.rockey.core.hibernate.RecoverableSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="
+				net.rockey.auth.model, 
+				net.rockey.app.model" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.generate_statistics">false</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="transactionManager" class="net.rockey.core.hibernate.ReadOnlyTransactionManager">
+		<property name="platformTransactionManager">
+			<bean
+				class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+				<property name="sessionFactory" ref="sessionFactory" />
+			</bean>
+		</property>
+	</bean>
+
+</beans>
