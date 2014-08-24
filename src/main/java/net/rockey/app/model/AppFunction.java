@@ -26,7 +26,6 @@ public class AppFunction {
 	private String name;
 	private int level;
 	private String action;
-	private boolean isMenu;
 	private AppFuncGroup group;
 	private AppFunction parent;
 	private String descn;
@@ -112,15 +111,6 @@ public class AppFunction {
 
 	public void setLevel(int level) {
 		this.level = level;
-	}
-
-	@Column(name = "is_menu", nullable = false)
-	public boolean isMenu() {
-		return isMenu;
-	}
-
-	public void setMenu(boolean isMenu) {
-		this.isMenu = isMenu;
 	}
 
 	@ManyToOne

@@ -48,8 +48,14 @@
 						
 						<div class="btn-group">
 							<button type="button" class="btn btn-default" onclick="javascript: document.searchForm.submit();">查询</button>
+							
+							<shiro:hasPermission name="user:create">							
 							<button type="button" class="btn btn-default" onclick="javascript: location.href='user-input.do'">创建</button>
+							</shiro:hasPermission>
+							
+							<shiro:hasPermission name="user:export">
 							<button type="button" class="btn btn-default" onclick="javascript: return userExport();">导出</button>
+							</shiro:hasPermission>
 						</div>
 					</form>
 				</div>
@@ -59,7 +65,6 @@
 						<thead>
 							<tr>
 								<td>序号</td>
-								<td>用户ID</td>
 								<td>用户名</td>
 								<td>状态</td>
 								<td>&nbsp;</td>
@@ -69,15 +74,19 @@
 							<c:forEach items="${page.result }" var="object" varStatus="status">
 								<tr>
 									<td>${status.index + 1 }</td>
-									<td>${object.id }</td>
 									<td>${object.name }</td>
 									<td>${object.statFlagCn }</td>
 									<td>
 										<div class="btn-group">
+											<shiro:hasPermission name="user:edit">
 											<button type="button" class="btn btn-default btn-sm" 
 												onclick="javascript: location.href='user-input.do?uid=${object.id }' ">编辑</button>
+											</shiro:hasPermission>
+											
+											<shiro:hasPermission name="user:configRole">
 											<button type="button" class="btn btn-default btn-sm" 
 												onclick="javascript: location.href='user-role-input.do?uid=${object.id }' ">设定角色</button>
+											</shiro:hasPermission>
 										</div>
 									</td>
 								</tr>

@@ -16,8 +16,6 @@ import net.rockey.core.util.CONSTANTS;
 import net.rockey.core.util.LogUtils;
 import net.rockey.core.util.Page;
 import net.rockey.core.util.ParamUtils;
-import net.rockey.core.util.SequencePrefix;
-import net.rockey.core.util.SequenceUtils;
 import net.rockey.core.util.StringUtils;
 import net.rockey.core.util.ViewTransfer;
 
@@ -133,7 +131,6 @@ public class FunctionController {
 		function.setName(funcName);
 		function.setAction(funcAction);
 		function.setGroup(funcGrpManager.load(funcGrpId));
-		function.setMenu(Boolean.FALSE);
 		function.setStatFlag(statFlag);
 
 		functionManager.save(function);

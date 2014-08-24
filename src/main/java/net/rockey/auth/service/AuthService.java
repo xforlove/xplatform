@@ -79,9 +79,9 @@ public class AuthService {
 	@Transactional(propagation = Propagation.NOT_SUPPORTED)
 	public List<Map<String, Object>> findFunctionsBy(Long uid) {
 		StringBuffer sql = new StringBuffer(128);
-		sql.append(" select rf.id as id, rf.code as code ");
-		sql.append(" from auth_role_function as rf, auth_user_role as ur ");
-		sql.append(" where rf.role_id = ur.role_id and ur.user_id = ? ");
+		sql.append(" select rf.function_id as id, f.code as code ");
+		sql.append(" from auth_role_function as rf, auth_user_role as ur, app_function f ");
+		sql.append(" where rf.role_id = ur.role_id and f.id = rf.function_id and ur.user_id = ? ");
 
 		return jdbcTemplate.queryForList(sql.toString(), uid);
 	}

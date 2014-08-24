@@ -43,8 +43,8 @@
 					<a href="#" class="dropdown-toggle ${currentHeader == 'system' ? 'active' : ''}" data-toggle="dropdown">系统配置 <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
 						<li><a href="#">组织结构</a></li>
-						<li><a href="/${scopeUrl }/auth/user-list.do">权限体系</a></li>
-						<li><a href="#">流程管理</a></li>
+						<li><a href="/${scopeUrl }/auth/index.do">权限体系</a></li>
+						<li><a href="/${scopeUrl }/bpm/index.do"">流程管理</a></li>
 						<li class="divider"></li>
 						<li><a href="#">系统日志</a></li>
 						<li><a href="#">参数设置</a></li>

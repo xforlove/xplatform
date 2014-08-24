@@ -1,7 +1,7 @@
 <%@page import="org.apache.shiro.SecurityUtils"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@include file="/common/taglibs.jsp"%>
-<%pageContext.setAttribute("currentNavi", "role");%>
+<%pageContext.setAttribute("currentNavi", "bpm-category");%>
 
 <!DOCTYPE html>
 <html lang="zh-cn">
@@ -14,14 +14,16 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		// TODO
+		
 	});
+	
 </script>
 
 </head>
 
 <body>
 
-	<%@include file="/header/auth.jsp"%>
+	<%@include file="/header/bpm.jsp"%>
 
 	<div class="container-fluid">
 
@@ -31,17 +33,17 @@
 
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<div id="ROCK_DT_SEARCH">
-					<form id="searchForm" name="searchForm" class="form-inline" role="form" action="role-list.do" method="post">
+					<form id="searchForm" name="searchForm" class="form-inline" role="form" action="user-list.do" method="post">
 						
 						<div class="form-group">
-							<label>角色名：</label>
-							<input type="text" class="form-control" id="rName" name="rName" value="${param.rName }">
+							<label for="name">用户名：</label>
+							<input type="text" class="form-control" id="uName" name="uName" value="${param.uName }">
 						</div>
 						
 						<div class="btn-group">
 							<button type="button" class="btn btn-default" onclick="javascript: document.searchForm.submit();">查询</button>
-							<button type="button" class="btn btn-default" onclick="javascript: location.href='role-input.do'">创建</button>
-							<button type="button" class="btn btn-default" onclick="javascript: void(0);">导出</button>
+							<button type="button" class="btn btn-default" onclick="javascript: location.href='user-input.do'">创建</button>
+							<button type="button" class="btn btn-default" onclick="javascript: return userExport();">导出</button>
 						</div>
 					</form>
 				</div>
@@ -51,8 +53,8 @@
 						<thead>
 							<tr>
 								<td>序号</td>
-								<td>角色代号</td>
-								<td>角色名</td>
+								<td>用户ID</td>
+								<td>用户名</td>
 								<td>状态</td>
 								<td>&nbsp;</td>
 							</tr>
@@ -61,15 +63,15 @@
 							<c:forEach items="${page.result }" var="object" varStatus="status">
 								<tr>
 									<td>${status.index + 1 }</td>
-									<td>${object.code }</td>
+									<td>${object.id }</td>
 									<td>${object.name }</td>
 									<td>${object.statFlagCn }</td>
 									<td>
 										<div class="btn-group">
 											<button type="button" class="btn btn-default btn-sm" 
-												onclick="javascript: location.href='role-input.do?rid=${object.id }' ">编辑</button>
+												onclick="javascript: location.href='user-input.do?uid=${object.id }' ">编辑</button>
 											<button type="button" class="btn btn-default btn-sm" 
-												onclick="javascript: location.href='role-res-input.do?rid=${object.id }' ">权限分配</button>
+												onclick="javascript: location.href='user-role-input.do?uid=${object.id }' ">设定角色</button>
 										</div>
 									</td>
 								</tr>

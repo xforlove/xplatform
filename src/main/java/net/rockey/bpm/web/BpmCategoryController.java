@@ -3,8 +3,6 @@ package net.rockey.bpm.web;
 import java.util.List;
 import java.util.Map;
 
-import net.rockey.auth.model.AuthUser;
-import net.rockey.auth.support.AuthUserDTO;
 import net.rockey.bpm.manager.BpmCategoryManager;
 import net.rockey.bpm.model.BpmCategory;
 import net.rockey.core.mapper.BeanMapper;
@@ -16,6 +14,7 @@ import net.rockey.core.util.StringUtils;
 import net.rockey.ext.export.Exportor;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,10 +29,13 @@ public class BpmCategoryController {
 	private final Logger log = LogUtils.getLogger(BpmCategoryController.class,
 			true);
 
+	@Autowired
 	private BpmCategoryManager bpmCategoryManager;
 
+	@Autowired
 	private MessageHelper messageHelper;
 
+	@Autowired
 	private Exportor exportor;
 
 	private BeanMapper beanMapper = new BeanMapper();
