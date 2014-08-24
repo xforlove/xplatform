@@ -15,8 +15,6 @@ import net.rockey.core.util.CONSTANTS;
 import net.rockey.core.util.LogUtils;
 import net.rockey.core.util.Page;
 import net.rockey.core.util.ParamUtils;
-import net.rockey.core.util.SequencePrefix;
-import net.rockey.core.util.SequenceUtils;
 import net.rockey.core.util.ViewTransfer;
 
 import org.apache.commons.lang3.StringUtils;
@@ -27,6 +25,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("auth")
@@ -98,7 +97,8 @@ public class RoleController {
 	}
 
 	@RequestMapping("role-save")
-	public String save(@ModelAttribute AuthRoleDTO roleDTO, Model model) {
+	public String save(@ModelAttribute AuthRoleDTO roleDTO,
+			RedirectAttributes redirectAttributes, Model model) {
 		Long roleId = roleDTO.getId();
 		String roleCode = roleDTO.getCode();
 		String roleName = roleDTO.getName();
@@ -107,30 +107,17 @@ public class RoleController {
 
 		statFlag = statFlag == null ? CONSTANTS.STAT_FLAG_CLOSE : statFlag;
 
-		if (roleId == null) {
-			// Create an new role.
+		AuthRole role = (roleId == null) ? (new AuthRole()) : (roleManager
+				.get(roleId));
 
-			AuthRole role = new AuthRole();
-			role.setCode(roleCode);
-			role.setName(roleName);
-			role.setDescn(roleDesc);
-			role.setStatFlag(statFlag);
+		role.setCode(roleCode);
+		role.setName(roleName);
+		role.setDescn(roleDesc);
+		role.setStatFlag(statFlag);
 
-			roleManager.save(role);
+		roleManager.save(role);
 
-		} else {
-
-			// Modify an exists role.
-
-			AuthRole role = roleManager.load(roleId);
-			role.setId(roleId);
-			role.setCode(roleCode);
-			role.setName(roleName);
-			role.setDescn(roleDesc);
-			role.setStatFlag(statFlag);
-
-			roleManager.save(role);
-		}
+		messageHelper.addFlashMessage(redirectAttributes, "保存成功");
 
 		return "redirect:role-list.do";
 	}
@@ -164,7 +151,7 @@ public class RoleController {
 	public String configResSave(
 			@RequestParam(value = "rid", required = true) Long rid,
 			@RequestParam(value = "funcIds", required = false) String funcIds,
-			Model model) {
+			RedirectAttributes redirectAttributes, Model model) {
 
 		log.debug(funcIds);
 
@@ -178,6 +165,8 @@ public class RoleController {
 			}
 			authService.configRoleFunction(rid, funcList, true);
 		}
+
+		messageHelper.addFlashMessage(redirectAttributes, "保存成功");
 
 		return "redirect:role-list.do";
 	}

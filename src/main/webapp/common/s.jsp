@@ -38,6 +38,9 @@
 <script src="${ctx }/s/multiselect/js/bootstrap-multiselect.js"></script>
 <script src="${ctx }/s/multiselect/js/prettify.js"></script>
 
+<!-- jQuery Sliding Message 核心 JavaScript 文件 -->
+<script src="${ctx }/s/slidingMessage/jquery.slidingmessage.min.js"></script>
+
 <!-- Customer 脚本 -->
 <script src="${ctx }/s/customer/js/chkbox.js"></script>
 
@@ -52,6 +55,13 @@
 <script type="text/javascript">
 <!--
 $(document).ready(function() {
+	
+	$.showMessage($('#m-success-message').html(), {
+		position: 'bottom',
+        size: '55',
+        fontSize: '20px'
+    });
+	 
 	$("#ROCK_DT").dataTable({
 		"dom" : "<'searchPanel'><'space'><fl<t>ip>",
 		"pagingType": "simple_numbers", /* simple_numbers, full_numbers */

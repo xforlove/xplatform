@@ -9,12 +9,11 @@ import net.rockey.app.model.AppFuncGroup;
 import net.rockey.app.service.AppService;
 import net.rockey.app.support.AppFuncGroupDTO;
 import net.rockey.core.mapper.BeanMapper;
+import net.rockey.core.spring.MessageHelper;
 import net.rockey.core.util.CONSTANTS;
 import net.rockey.core.util.LogUtils;
 import net.rockey.core.util.Page;
 import net.rockey.core.util.ParamUtils;
-import net.rockey.core.util.SequencePrefix;
-import net.rockey.core.util.SequenceUtils;
 import net.rockey.core.util.StringUtils;
 import net.rockey.core.util.ViewTransfer;
 
@@ -25,18 +24,23 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("app")
 public class FuncGroupController {
 
-	private final Logger log = LogUtils.getLogger(FuncGroupController.class, true);
+	private final Logger log = LogUtils.getLogger(FuncGroupController.class,
+			true);
 
 	@Autowired
 	private FuncGroupManager funcGroupManager;
 
 	@Autowired
 	private AppService appService;
+
+	@Autowired
+	private MessageHelper messageHelper;
 
 	private BeanMapper mapper = new BeanMapper();
 
@@ -81,11 +85,11 @@ public class FuncGroupController {
 		if (fgid != null) {
 
 			AppFuncGroup funcGrp = funcGroupManager.load(fgid);
-			
+
 			AppFuncGroupDTO dest = new AppFuncGroupDTO();
-			
+
 			mapper.copy(funcGrp, dest);
-			
+
 			dest.setStatFlagCn(ViewTransfer.getPairStatFlagCn(funcGrp
 					.getStatFlag()));
 
@@ -97,31 +101,23 @@ public class FuncGroupController {
 	}
 
 	@RequestMapping("funcgroup-save")
-	public String save(@ModelAttribute AppFuncGroupDTO funcGrpDTO, Model model) {
+	public String save(@ModelAttribute AppFuncGroupDTO funcGrpDTO,
+			RedirectAttributes redirectAttributes, Model model) {
 		Long funcGrpId = funcGrpDTO.getId();
 		String funcGrpName = funcGrpDTO.getName();
 		String statFlag = funcGrpDTO.getStatFlag();
 
 		statFlag = statFlag == null ? CONSTANTS.STAT_FLAG_CLOSE : statFlag;
 
-		if (funcGrpId == null) {
-			// Create an new record.
+		AppFuncGroup funcGrp = (funcGrpId == null) ? (new AppFuncGroup())
+				: (funcGroupManager.get(funcGrpId));
 
-			AppFuncGroup funcGrp = new AppFuncGroup();
+		funcGrp.setName(funcGrpName);
+		funcGrp.setStatFlag(statFlag);
 
-			funcGrp.setName(funcGrpName);
-			funcGrp.setStatFlag(statFlag);
-			funcGroupManager.save(funcGrp);
+		funcGroupManager.save(funcGrp);
 
-		} else {
-			// Modify an exists record.
-
-			AppFuncGroup funcGrp = funcGroupManager.get(funcGrpId);
-
-			funcGrp.setName(funcGrpName);
-			funcGrp.setStatFlag(statFlag);
-			funcGroupManager.save(funcGrp);
-		}
+		messageHelper.addFlashMessage(redirectAttributes, "保存成功");
 
 		return "redirect:funcgroup-list.do";
 	}

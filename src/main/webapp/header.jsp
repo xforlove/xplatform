@@ -1,6 +1,17 @@
 <%@page import="net.rockey.core.util.PropertyUtils"%>
 <%@page contentType="text/html;charset=UTF-8"%>
 
+<c:if test="${not empty flashMessages}">
+	<div id="m-success-message" style="display:none;">
+		<ul>
+			<c:forEach items="${flashMessages}" var="item">
+				 <li>${item}</li>
+			</c:forEach>
+		</ul>
+	</div>
+</c:if>
+
+<!-- start of header bar -->
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 	<div class="container-fluid">
 		<div class="navbar-header">

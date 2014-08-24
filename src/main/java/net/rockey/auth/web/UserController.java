@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import net.rockey.auth.manager.UserManager;
 import net.rockey.auth.model.AuthRole;
 import net.rockey.auth.model.AuthUser;
@@ -16,9 +18,9 @@ import net.rockey.core.util.CONSTANTS;
 import net.rockey.core.util.LogUtils;
 import net.rockey.core.util.Page;
 import net.rockey.core.util.ParamUtils;
-import net.rockey.core.util.SequencePrefix;
-import net.rockey.core.util.SequenceUtils;
 import net.rockey.core.util.StringUtils;
+import net.rockey.ext.export.Exportor;
+import net.rockey.ext.export.TableModel;
 
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
@@ -29,6 +31,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("auth")
@@ -47,6 +50,9 @@ public class UserController {
 
 	@Autowired
 	private MessageHelper messageHelper;
+
+	@Autowired
+	private Exportor exportor;
 
 	@RequestMapping("user-list")
 	public String list(@ModelAttribute Page page,
@@ -102,7 +108,8 @@ public class UserController {
 	}
 
 	@RequestMapping("user-save")
-	public String save(@ModelAttribute AuthUserDTO userDTO, Model model) {
+	public String save(@ModelAttribute AuthUserDTO userDTO,
+			RedirectAttributes redirectAttributes, Model model) {
 		Long userId = userDTO.getId();
 		String loginId = userDTO.getLoginId();
 		String userName = userDTO.getName();
@@ -112,34 +119,21 @@ public class UserController {
 
 		statFlag = statFlag == null ? CONSTANTS.STAT_FLAG_CLOSE : statFlag;
 
-		if (userId == null) {
-			// Create an new record.
+		AuthUser user = (userId == null) ? (new AuthUser()) : (userManager
+				.get(userId));
 
-			AuthUser user = new AuthUser();
-			user.setName(userName);
-			user.setLoginId(loginId);
-			user.setLoginPass(CONSTANTS.USER_PASSWORD_DEFAULT);
-			user.setStatFlag(statFlag);
-			user.setEmail(CONSTANTS.USER_EMAIL_DEFAULT);
-			user.setPhone(CONSTANTS.USER_PHONE_DEFAULT);
+		user.setId(userId);
+		user.setName(userName);
+		user.setLoginId(loginId);
+		user.setLoginPass(CONSTANTS.USER_PASSWORD_DEFAULT);
+		user.setStatFlag(statFlag);
+		user.setEmail(CONSTANTS.USER_EMAIL_DEFAULT);
+		user.setPhone(CONSTANTS.USER_PHONE_DEFAULT);
 
-			userManager.save(user);
+		userManager.save(user);
 
-		} else {
-			// Modify an exists record.
-
-			AuthUser user = userManager.get(userId);
-			user.setId(userId);
-			user.setName(userName);
-			user.setLoginId(loginId);
-			user.setLoginPass(CONSTANTS.USER_PASSWORD_DEFAULT);
-			user.setStatFlag(statFlag);
-			user.setEmail(CONSTANTS.USER_EMAIL_DEFAULT);
-			user.setPhone(CONSTANTS.USER_PHONE_DEFAULT);
-
-			userManager.save(user);
-		}
-
+		messageHelper.addFlashMessage(redirectAttributes, "保存成功");
+		
 		return "redirect:user-list.do";
 	}
 
@@ -167,7 +161,7 @@ public class UserController {
 	public String configRoleSave(
 			@RequestParam(value = "uid", required = true) Long uid,
 			@RequestParam(value = "roleIds", required = false) String roleIds,
-			Model model) {
+			RedirectAttributes redirectAttributes, Model model) {
 		log.debug(roleIds);
 
 		if (StringUtils.isEmpty(roleIds)) {
@@ -180,8 +174,36 @@ public class UserController {
 			}
 			authService.configUserRole(uid, roleList, true);
 		}
+		
+		messageHelper.addFlashMessage(redirectAttributes, "保存成功");
 
 		return "redirect:user-list.do";
+	}
+
+	@RequestMapping("user-export")
+	public void export(@ModelAttribute Page page,
+			@RequestParam Map<String, Object> parameterMap,
+			HttpServletResponse response) throws Exception {
+
+		String userName = ParamUtils.getString(parameterMap, "uName");
+
+		List<AuthUserDTO> userDtos = new ArrayList<AuthUserDTO>();
+
+		List<AuthUser> users;
+		if (StringUtils.isEmpty(userName)) {
+			users = (List<AuthUser>) userManager.find(" from AuthUser");
+		} else {
+			/* 字符串两端全模糊匹配 */
+			users = (List<AuthUser>) userManager.findByLike("name", "%"
+					+ userName + "%");
+		}
+
+		// 将查询结果导出
+		TableModel tbModel = new TableModel();
+		tbModel.setName("user");
+		tbModel.addHeaders("id", "name", "statFlag");
+		tbModel.setData(users);
+		exportor.export(response, tbModel);
 	}
 
 	@RequestMapping("shiro-user-info")
