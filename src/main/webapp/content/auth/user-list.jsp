@@ -16,6 +16,13 @@
 		// TODO
 		
 	});
+	
+	
+	function userExport() {
+		document.searchForm.action = 'user-export.do';
+		document.searchForm.submit();
+		return true;
+	}
 </script>
 
 </head>
@@ -42,7 +49,7 @@
 						<div class="btn-group">
 							<button type="button" class="btn btn-default" onclick="javascript: document.searchForm.submit();">查询</button>
 							<button type="button" class="btn btn-default" onclick="javascript: location.href='user-input.do'">创建</button>
-							<button type="button" class="btn btn-default" onclick="javascript: void(0);">导出</button>
+							<button type="button" class="btn btn-default" onclick="javascript: return userExport();">导出</button>
 						</div>
 					</form>
 				</div>
