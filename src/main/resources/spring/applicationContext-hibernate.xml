@@ -7,7 +7,9 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan" value="
 				net.rockey.auth.model, 
-				net.rockey.app.model" />
+				net.rockey.app.model,
+				net.rockey.system.model,
+				net.rockey.bpm.model" />
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>

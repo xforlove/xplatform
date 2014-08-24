@@ -9,6 +9,8 @@
 	<properties>
 		<!-- unit test -->
 		<junit.version>4.11</junit.version>
+		<mockito.version>1.9.5</mockito.version>
+		<dbunit.version>2.5.0</dbunit.version>
 
 		<!-- apache common -->
 		<commons-lang.version>3.2.1</commons-lang.version>
@@ -20,10 +22,11 @@
 
 		<!-- core framework -->
 		<spring.version>4.0.5.RELEASE</spring.version>
-		<hibernate.version>4.3.1.Final</hibernate.version>
+		<hibernate.version>4.3.5.Final</hibernate.version>
 		<javassist.version>3.18.1-GA</javassist.version>
 		<ehcache.version>2.8.1</ehcache.version>
 		<shiro.version>1.2.3</shiro.version>
+		<activiti.version>5.15.1</activiti.version>
 
 		<!-- database -->
 		<mysql.version>5.1.29</mysql.version>
@@ -39,10 +42,23 @@
 	</properties>
 
 	<dependencies>
+		<!-- unit test -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>${mockito.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.dbunit</groupId>
+			<artifactId>dbunit</artifactId>
+			<version>${dbunit.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -158,6 +174,19 @@
 			<groupId>org.javassist</groupId>
 			<artifactId>javassist</artifactId>
 			<version>${javassist.version}</version>
+		</dependency>
+
+		<!-- activiti -->
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-spring</artifactId>
+			<version>${activiti.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- apache commons -->
