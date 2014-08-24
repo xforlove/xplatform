@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -31,6 +32,7 @@ public class AuthRole {
 	private List<AuthUser> users = new ArrayList<AuthUser>(0);
 
 	@Id
+	@GeneratedValue
 	@Column(name = "id", unique = true, nullable = false)
 	public Long getId() {
 		return id;

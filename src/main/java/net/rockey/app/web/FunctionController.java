@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("app")
 public class FunctionController {
 
-	private Logger log = LogUtils.getLogger(FunctionController.class, true);
+	private final Logger log = LogUtils.getLogger(FunctionController.class, true);
 
 	@Autowired
 	private FuncGroupManager funcGrpManager;
@@ -125,8 +125,6 @@ public class FunctionController {
 
 			AppFunction function = new AppFunction();
 
-			function.setId(SequenceUtils
-					.getSequence(SequencePrefix.SEQ_FISRT_POSITION_FOR_APP_FUNCTION));
 			function.setCode(funcCode);
 			function.setName(funcName);
 			function.setAction(funcAction);

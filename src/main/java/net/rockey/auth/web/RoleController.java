@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("auth")
 public class RoleController {
 
-	private Logger log = LogUtils.getLogger(RoleController.class, true);
+	private final Logger log = LogUtils.getLogger(RoleController.class, true);
 
 	@Autowired
 	private RoleManager roleManager;
@@ -111,8 +111,6 @@ public class RoleController {
 			// Create an new role.
 
 			AuthRole role = new AuthRole();
-			role.setId(SequenceUtils
-					.getSequence(SequencePrefix.SEQ_FISRT_POSITION_FOR_AUTH_ROLE));
 			role.setCode(roleCode);
 			role.setName(roleName);
 			role.setDescn(roleDesc);

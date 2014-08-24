@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class LoginController {
 
-	private static final Logger log = LogUtils.getLogger(LoginController.class,
+	private final Logger log = LogUtils.getLogger(LoginController.class,
 			true);
 
 	@Autowired

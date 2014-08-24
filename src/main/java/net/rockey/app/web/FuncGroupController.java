@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("app")
 public class FuncGroupController {
 
-	private Logger log = LogUtils.getLogger(FuncGroupController.class, true);
+	private final Logger log = LogUtils.getLogger(FuncGroupController.class, true);
 
 	@Autowired
 	private FuncGroupManager funcGroupManager;
@@ -109,8 +109,6 @@ public class FuncGroupController {
 
 			AppFuncGroup funcGrp = new AppFuncGroup();
 
-			funcGrp.setId(SequenceUtils
-					.getSequence(SequencePrefix.SEQ_FISRT_POSITION_FOR_APP_FUNCGROUP));
 			funcGrp.setName(funcGrpName);
 			funcGrp.setStatFlag(statFlag);
 			funcGroupManager.save(funcGrp);

@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("auth")
 public class UserController {
 
-	private Logger log = LogUtils.getLogger(UserController.class, true);
+	private final Logger log = LogUtils.getLogger(UserController.class, true);
 
 	@Autowired
 	private UserManager userManager;
@@ -116,8 +116,6 @@ public class UserController {
 			// Create an new record.
 
 			AuthUser user = new AuthUser();
-			user.setId(SequenceUtils
-					.getSequence(SequencePrefix.SEQ_FISRT_POSITION_FOR_AUTH_USER));
 			user.setName(userName);
 			user.setLoginId(loginId);
 			user.setLoginPass(CONSTANTS.USER_PASSWORD_DEFAULT);
