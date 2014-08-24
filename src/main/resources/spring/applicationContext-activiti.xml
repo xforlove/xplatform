@@ -22,13 +22,12 @@
     	 	</list>
 		</property>
 		-->
-		<!-- 
+
 		<property name="bpmnParser">
-			<bean class="com.mossle.bpm.parser.CustomBpmnParser" />
+			<bean class="net.rockey.bpm.support.CustomBpmnParser" />
 		</property>
-		 -->
-		 
-		 <property name="transactionManager" ref="transactionManager"/>
+	
+		<property name="transactionManager" ref="transactionManager" />
 		 
 		 <property name="databaseType" value="mysql"/>
 		 
@@ -82,9 +81,8 @@
 
 
 	<!-- 自动部署 -->
-	<bean id="autoDeployer" class="net.rockey.bpm.support.AutoDeployer"
-		depends-on="applicationContextHelper">
-		<property name="enable" value="false" />
+	<bean id="autoDeployer" class="net.rockey.bpm.support.AutoDeployer">
+		<property name="enable" value="true" />
 		<property name="processEngine" ref="processEngine" />
 		<property name="deploymentResources">
 			<list>
