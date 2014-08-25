@@ -16,7 +16,6 @@ import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.DeploymentBuilder;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ContextResource;
 import org.springframework.core.io.Resource;
@@ -29,13 +28,10 @@ public class AutoDeployer {
 
 	private final Logger log = LogUtils.getLogger(AutoDeployer.class, true);
 
-	@Autowired
 	private ProcessEngine processEngine;
 
-	@Autowired
 	private Resource[] deploymentResources = new Resource[0];
 
-	@Autowired
 	private boolean enable = true;
 
 	@PostConstruct
@@ -116,5 +112,18 @@ public class AutoDeployer {
 	public void syncProcessDefinition(String processDefinitionId) {
 		processEngine.getManagementService().executeCommand(
 				new SyncProcessCmd(processDefinitionId));
+	}
+
+	// ~ ====================================================================
+	public void setProcessEngine(ProcessEngine processEngine) {
+		this.processEngine = processEngine;
+	}
+
+	public void setDeploymentResources(Resource[] deploymentResources) {
+		this.deploymentResources = deploymentResources;
+	}
+
+	public void setEnable(boolean enable) {
+		this.enable = enable;
 	}
 }

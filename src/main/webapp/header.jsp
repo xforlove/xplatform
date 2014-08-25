@@ -52,8 +52,8 @@
 				</li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#"><shiro:principal /></a></li>
-				<li><a href="#">退出</a></li>
+				<li><a href="${ctx }/auth/user-info.do"><shiro:principal /></a></li>
+				<li><a href="${ctx }/logout.do">退出</a></li>
 			</ul>
 			<form class="navbar-form">
 				<input type="text" class="form-control" placeholder="Search...">

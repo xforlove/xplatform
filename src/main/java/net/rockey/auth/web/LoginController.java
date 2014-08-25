@@ -18,8 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class LoginController {
 
-	private final Logger log = LogUtils.getLogger(LoginController.class,
-			true);
+	private final Logger log = LogUtils.getLogger(LoginController.class, true);
 
 	@Autowired
 	private UserManager userManager;
@@ -52,14 +51,4 @@ public class LoginController {
 		}
 	}
 
-	@RequestMapping("/logout")
-	public void logout(HttpServletRequest request) throws Exception {
-		Subject subject = SecurityUtils.getSubject();
-
-		if (subject != null) {
-			subject.logout();
-		}
-
-		request.getSession().invalidate();
-	}
 }

@@ -45,7 +45,7 @@
 				</ol>
 
 				<form class="form-horizontal" action="/${scopeUrl }/auth/role-save.do" method="POST" role="form">
-					<c:if test="${rid != null}">
+					<c:if test="${id != null}">
 						<input type="hidden" id="id" name="id" value="${role.id}">
 					</c:if>
 					

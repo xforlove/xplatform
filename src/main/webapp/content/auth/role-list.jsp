@@ -35,7 +35,7 @@
 						
 						<div class="form-group">
 							<label>角色名：</label>
-							<input type="text" class="form-control" id="rName" name="rName" value="${param.rName }">
+							<input type="text" class="form-control" id="name" name=""name"" value="${param."name" }">
 						</div>
 						
 						<div class="btn-group">
@@ -67,7 +67,7 @@
 									<td>
 										<div class="btn-group">
 											<button type="button" class="btn btn-default btn-sm" 
-												onclick="javascript: location.href='role-input.do?rid=${object.id }' ">编辑</button>
+												onclick="javascript: location.href='role-input.do?id=${object.id }' ">编辑</button>
 											<button type="button" class="btn btn-default btn-sm" 
 												onclick="javascript: location.href='role-res-input.do?rid=${object.id }' ">权限分配</button>
 										</div>

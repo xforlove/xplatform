@@ -36,14 +36,14 @@
 					<form id="searchForm" name="searchForm" class="form-inline" role="form" action="user-list.do" method="post">
 						
 						<div class="form-group">
-							<label for="name">用户名：</label>
-							<input type="text" class="form-control" id="uName" name="uName" value="${param.uName }">
+							<label for="name">流程分类：</label>
+							<input type="text" class="form-control" id="name" name="name" value="${param.name }">
 						</div>
 						
 						<div class="btn-group">
 							<button type="button" class="btn btn-default" onclick="javascript: document.searchForm.submit();">查询</button>
-							<button type="button" class="btn btn-default" onclick="javascript: location.href='user-input.do'">创建</button>
-							<button type="button" class="btn btn-default" onclick="javascript: return userExport();">导出</button>
+							<button type="button" class="btn btn-default" onclick="javascript: location.href='bpm-category-input.do'">创建</button>
+							<button type="button" class="btn btn-default" onclick="javascript: void(0);">导出</button>
 						</div>
 					</form>
 				</div>
@@ -53,9 +53,8 @@
 						<thead>
 							<tr>
 								<td>序号</td>
-								<td>用户ID</td>
-								<td>用户名</td>
-								<td>状态</td>
+								<td>分类名称</td>
+								<td>排序</td>
 								<td>&nbsp;</td>
 							</tr>
 						</thead>
@@ -63,15 +62,12 @@
 							<c:forEach items="${page.result }" var="object" varStatus="status">
 								<tr>
 									<td>${status.index + 1 }</td>
-									<td>${object.id }</td>
 									<td>${object.name }</td>
-									<td>${object.statFlagCn }</td>
+									<td>${object.priority }</td>
 									<td>
 										<div class="btn-group">
 											<button type="button" class="btn btn-default btn-sm" 
-												onclick="javascript: location.href='user-input.do?uid=${object.id }' ">编辑</button>
-											<button type="button" class="btn btn-default btn-sm" 
-												onclick="javascript: location.href='user-role-input.do?uid=${object.id }' ">设定角色</button>
+												onclick="javascript: location.href='bpm-category-input.do?id=${object.id }' ">编辑</button>
 										</div>
 									</td>
 								</tr>

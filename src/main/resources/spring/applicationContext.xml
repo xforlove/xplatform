@@ -14,11 +14,12 @@
 	<bean id="applicationContextHelper" class="net.rockey.core.spring.ApplicationContextHelper" />
 
 	<!-- 国际化 -->
-	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basenames" value="org.springframework.security.messages" />
 	</bean>
 
-	<bean id="exportor" class="net.rockey.ext.export.CsvExportor"/>
+	<bean id="exportor" class="net.rockey.ext.export.CsvExportor" />
 
 	<bean id="messageHelper" class="net.rockey.core.spring.MessageHelper" />
 

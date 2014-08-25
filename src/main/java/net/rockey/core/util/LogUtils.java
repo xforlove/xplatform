@@ -55,7 +55,7 @@ public class LogUtils {
 		if (isConsole == true) { // 日志输出到控制台
 			ConsoleAppender consoleAppender = new ConsoleAppender();
 			consoleAppender.setLayout(layout);
-			consoleAppender.setThreshold(Level.INFO); // ConsoleAppender日志级别为DEBUG
+			consoleAppender.setThreshold(Level.INFO); // ConsoleAppender日志级别为INFO
 			consoleAppender.activateOptions();
 			logger.addAppender(consoleAppender);
 		}

@@ -43,7 +43,7 @@
 						
 						<div class="form-group">
 							<label for="name">用户名：</label>
-							<input type="text" class="form-control" id="uName" name="uName" value="${param.uName }">
+							<input type="text" class="form-control" id="name" name="name" value="${param.name }">
 						</div>
 						
 						<div class="btn-group">
@@ -80,7 +80,7 @@
 										<div class="btn-group">
 											<shiro:hasPermission name="user:edit">
 											<button type="button" class="btn btn-default btn-sm" 
-												onclick="javascript: location.href='user-input.do?uid=${object.id }' ">编辑</button>
+												onclick="javascript: location.href='user-input.do?id=${object.id }' ">编辑</button>
 											</shiro:hasPermission>
 											
 											<shiro:hasPermission name="user:configRole">

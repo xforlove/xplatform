@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import net.rockey.bpm.manager.BpmCategoryManager;
+import net.rockey.bpm.manager.BpmProcessManager;
 import net.rockey.bpm.model.BpmCategory;
+import net.rockey.bpm.model.BpmProcess;
 import net.rockey.core.mapper.BeanMapper;
 import net.rockey.core.spring.MessageHelper;
 import net.rockey.core.util.LogUtils;
@@ -20,17 +22,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("bpm")
-public class BpmCategoryController {
+public class BpmProcessController {
 
-	private final Logger log = LogUtils.getLogger(BpmCategoryController.class,
+	private final Logger log = LogUtils.getLogger(BpmProcessController.class,
 			true);
 
 	@Autowired
 	private BpmCategoryManager bpmCategoryManager;
+
+	@Autowired
+	private BpmProcessManager bpmProcessManager;
 
 	@Autowired
 	private MessageHelper messageHelper;
@@ -40,60 +44,39 @@ public class BpmCategoryController {
 
 	private BeanMapper beanMapper = new BeanMapper();
 
-	@RequestMapping("bpm-category-list")
+	@RequestMapping("bpm-process-list")
 	public String list(@ModelAttribute Page page,
 			@RequestParam Map<String, Object> parameterMap, Model model) {
 
-		String name = ParamUtils.getString(parameterMap, "name");
+		String procName = ParamUtils.getString(parameterMap, "pName");
 
-		List<BpmCategory> categories;
-		if (StringUtils.isEmpty(name)) {
-			categories = (List<BpmCategory>) bpmCategoryManager
-					.find(" from BpmCategory ");
+		List<BpmProcess> processes;
+		if (StringUtils.isEmpty(procName)) {
+			processes = (List<BpmProcess>) bpmProcessManager.getAll();
 		} else {
 			/* 字符串两端全模糊匹配 */
-			categories = (List<BpmCategory>) bpmCategoryManager.findByLike(
-					"name", "%" + name + "%");
+			processes = (List<BpmProcess>) bpmProcessManager.findByLike("name",
+					"%" + procName + "%");
 		}
 
-		page.setResult(categories);
+		page.setResult(processes);
 		model.addAttribute("page", page);
 
-		return "bpm/bpm-category-list";
+		return "bpm/bpm-process-list";
 	}
 
-	@RequestMapping("bpm-category-input")
+	@RequestMapping("bpm-process-input")
 	public String input(@RequestParam(value = "id", required = false) Long id,
 			Model model) {
 		if (id != null) {
-
-			BpmCategory category = bpmCategoryManager.load(id);
-
-			model.addAttribute("id", id);
-			model.addAttribute("category", category);
+			BpmProcess bpmProcess = bpmProcessManager.get(id);
+			model.addAttribute("model", bpmProcess);
 		}
 
-		return "bpm/bpm-category-input";
-	}
+		List<BpmCategory> bpmCategories = bpmCategoryManager.getAll();
+		model.addAttribute("bpmCategories", bpmCategories);
 
-	@RequestMapping("bpm-category-save")
-	public String save(@ModelAttribute BpmCategory bpmCategory,
-			RedirectAttributes redirectAttributes) {
-		BpmCategory dest = null;
-		Long id = bpmCategory.getId();
-
-		if (id != null) {
-			dest = bpmCategoryManager.get(id);
-			beanMapper.copy(bpmCategory, dest);
-		} else {
-			dest = bpmCategory;
-		}
-
-		bpmCategoryManager.save(dest);
-
-		messageHelper.addFlashMessage(redirectAttributes, "保存成功");
-
-		return "redirect:/bpm/bpm-category-list.do";
+		return "bpm/bpm-process-input";
 	}
 
 }

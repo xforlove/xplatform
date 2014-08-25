@@ -48,17 +48,17 @@ public class RoleController {
 	public String list(@ModelAttribute Page page,
 			@RequestParam Map<String, Object> parameterMap, Model model) {
 
-		String roleName = ParamUtils.getString(parameterMap, "rName");
+		String name = ParamUtils.getString(parameterMap, "name");
 
 		List<AuthRoleDTO> roleDTOs = new ArrayList<AuthRoleDTO>();
 
 		List<AuthRole> roles;
-		if (StringUtils.isEmpty(roleName)) {
-			roles = (List<AuthRole>) roleManager.find(" from AuthRole");
+		if (StringUtils.isEmpty(name)) {
+			roles = (List<AuthRole>) roleManager.getAll();
 		} else {
 			/* 字符串两端全模糊匹配 */
-			roles = (List<AuthRole>) roleManager.findByLike("roleName", "%"
-					+ roleName + "%");
+			roles = (List<AuthRole>) roleManager.findByLike("name", "%"
+					+ name + "%");
 		}
 
 		for (AuthRole role : roles) {
@@ -76,12 +76,12 @@ public class RoleController {
 	}
 
 	@RequestMapping("role-input")
-	public String input(
-			@RequestParam(value = "rid", required = false) Long rid, Model model) {
+	public String input(@RequestParam(value = "id", required = false) Long id,
+			Model model) {
 
-		if (rid != null) {
+		if (id != null) {
 
-			AuthRole role = roleManager.load(rid);
+			AuthRole role = roleManager.load(id);
 
 			AuthRoleDTO dest = new AuthRoleDTO();
 
@@ -89,7 +89,7 @@ public class RoleController {
 			dest.setStatFlagCn(ViewTransfer.getPairStatFlagCn(role
 					.getStatFlag()));
 
-			model.addAttribute("rid", rid);
+			model.addAttribute("id", id);
 			model.addAttribute("role", dest);
 		}
 

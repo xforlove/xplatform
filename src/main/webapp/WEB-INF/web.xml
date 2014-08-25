@@ -10,11 +10,11 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			classpath*:spring/applicationContext.xml,
-			classpath*:spring/applicationContext-jdbc.xml, 
+			classpath*:spring/applicationContext-jdbc.xml,
 			classpath*:spring/applicationContext-hibernate.xml,
-			classpath*:spring/applicationContext-shiro.xml,
 			classpath*:spring/applicationContext-springmvc.xml,
-			classpath*:spring/applicationContext-beans.xml 
+			classpath*:spring/applicationContext-shiro.xml,
+			classpath*:spring/applicationContext-activiti.xml
 		</param-value>
 	</context-param>
 

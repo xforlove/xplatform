@@ -15,6 +15,7 @@ import net.rockey.auth.support.AuthUserConverter;
 import net.rockey.auth.support.AuthUserDTO;
 import net.rockey.core.spring.MessageHelper;
 import net.rockey.core.util.CONSTANTS;
+import net.rockey.core.util.CPublic;
 import net.rockey.core.util.LogUtils;
 import net.rockey.core.util.Page;
 import net.rockey.core.util.ParamUtils;
@@ -58,7 +59,7 @@ public class UserController {
 	public String list(@ModelAttribute Page page,
 			@RequestParam Map<String, Object> parameterMap, Model model) {
 
-		String userName = ParamUtils.getString(parameterMap, "uName");
+		String name = ParamUtils.getString(parameterMap, "name");
 
 		/*
 		 * page = userManager.pagedQuery(" from AuthUser ", page.getPageNo(),
@@ -70,12 +71,12 @@ public class UserController {
 		List<AuthUserDTO> userDtos = new ArrayList<AuthUserDTO>();
 
 		List<AuthUser> users;
-		if (StringUtils.isEmpty(userName)) {
-			users = (List<AuthUser>) userManager.find(" from AuthUser");
+		if (StringUtils.isEmpty(name)) {
+			users = (List<AuthUser>) userManager.getAll();
 		} else {
 			/* 字符串两端全模糊匹配 */
 			users = (List<AuthUser>) userManager.findByLike("name", "%"
-					+ userName + "%");
+					+ name + "%");
 		}
 
 		for (AuthUser user : users) {
@@ -93,15 +94,16 @@ public class UserController {
 
 	@RequestMapping("user-input")
 	public String input(
-			@RequestParam(value = "uid", required = false) Long uid, Model model) {
+			@RequestParam(value = "id", required = false) Long id, Model model) {
 
-		if (uid != null) {
+		if (id != null) {
 
-			AuthUser user = userManager.load(uid);
+			AuthUser user = userManager.load(id);
 			AuthUserDTO userDTO = userConverter.createAuthUserDto(user);
 
-			model.addAttribute("uid", uid);
+			model.addAttribute("id", id);
 			model.addAttribute("user", userDTO);
+			
 		}
 
 		return "auth/user-input";
@@ -133,7 +135,7 @@ public class UserController {
 		userManager.save(user);
 
 		messageHelper.addFlashMessage(redirectAttributes, "保存成功");
-		
+
 		return "redirect:user-list.do";
 	}
 
@@ -174,7 +176,7 @@ public class UserController {
 			}
 			authService.configUserRole(uid, roleList, true);
 		}
-		
+
 		messageHelper.addFlashMessage(redirectAttributes, "保存成功");
 
 		return "redirect:user-list.do";
@@ -185,17 +187,17 @@ public class UserController {
 			@RequestParam Map<String, Object> parameterMap,
 			HttpServletResponse response) throws Exception {
 
-		String userName = ParamUtils.getString(parameterMap, "uName");
+		String name = ParamUtils.getString(parameterMap, "name");
 
 		List<AuthUserDTO> userDtos = new ArrayList<AuthUserDTO>();
 
 		List<AuthUser> users;
-		if (StringUtils.isEmpty(userName)) {
-			users = (List<AuthUser>) userManager.find(" from AuthUser");
+		if (StringUtils.isEmpty(name)) {
+			users = (List<AuthUser>) userManager.getAll();
 		} else {
 			/* 字符串两端全模糊匹配 */
-			users = (List<AuthUser>) userManager.findByLike("name", "%"
-					+ userName + "%");
+			users = (List<AuthUser>) userManager.findByLike("name", "%" + name
+					+ "%");
 		}
 
 		// 将查询结果导出
@@ -206,20 +208,22 @@ public class UserController {
 		exportor.export(response, tbModel);
 	}
 
-	@RequestMapping("shiro-user-info")
-	public String currentShiroUserInfo(Model model) {
-
+	@RequestMapping("user-info")
+	public String info(Model model) {
 		Subject currentUser = SecurityUtils.getSubject();
 
-		log.info("currentUser is " + currentUser.getPrincipal());
-		log.info(currentUser.hasRole("admin"));
-		log.info("functionGroup:list is "
-				+ currentUser.isPermitted("functionGroup:list"));
-		log.info("function:list is " + currentUser.isPermitted("function:list"));
-		log.info("role:list is " + currentUser.isPermitted("role:list"));
-		log.info("user:list is " + currentUser.isPermitted("user:list"));
+		AuthUser user = userManager.findUnique(
+				" from AuthUser where loginId = ?",
+				CPublic.parseStr(currentUser.getPrincipal()));
 
-		return "auth/shiro-user-info";
+		model.addAttribute("user", user);
+
+		AuthUserDTO userDTO = userConverter.createAuthUserDto(user);
+
+		model.addAttribute("uid", user.getId());
+		model.addAttribute("user", userDTO);
+
+		return "auth/user-info";
 	}
 
 }

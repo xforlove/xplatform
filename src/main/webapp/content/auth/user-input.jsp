@@ -45,7 +45,7 @@
 				</ol>
 
 				<form class="form-horizontal" action="/${scopeUrl }/auth/user-save.do" method="POST" role="form">
-					<c:if test="${uid != null}">
+					<c:if test="${id != null}">
 						<input type="hidden" id="id" name="id" value="${user.id }">
 					</c:if>
 					
