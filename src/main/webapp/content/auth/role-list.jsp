@@ -35,7 +35,7 @@
 						
 						<div class="form-group">
 							<label>角色名：</label>
-							<input type="text" class="form-control" id="name" name=""name"" value="${param."name" }">
+							<input type="text" class="form-control" id="name" name="name" value="${param.name }">
 						</div>
 						
 						<div class="btn-group">

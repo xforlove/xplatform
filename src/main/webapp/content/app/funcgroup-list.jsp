@@ -1,7 +1,7 @@
 <%@page import="org.apache.shiro.SecurityUtils"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@include file="/common/taglibs.jsp"%>
-<%pageContext.setAttribute("currentNavi", "funcgrp");%>
+<%pageContext.setAttribute("currentNavi", "funcgroup");%>
 
 <!DOCTYPE html>
 <html lang="zh-cn">
@@ -35,7 +35,7 @@
 						
 						<div class="form-group">
 							<label>功能组名：</label>
-							<input type="text" class="form-control" id="name" name="name" value="${param.fgName }">
+							<input type="text" class="form-control" id="name" name="name" value="${param.name }">
 						</div>
 						
 						<div class="btn-group">
@@ -65,7 +65,7 @@
 									<td>
 										<div class="btn-group">
 											<button type="button" class="btn btn-default btn-sm" 
-												onclick="javascript: location.href='funcgroup-input.do?fgid=${object.id }' ">编辑</button>
+												onclick="javascript: location.href='funcgroup-input.do?id=${object.id }' ">编辑</button>
 										</div>
 									</td>
 								</tr>

@@ -5,25 +5,29 @@
 		
 		<shiro:hasPermission name="user:list">
 		<li class="${currentNavi == 'user' ? 'active' : ''}">
-			<a href="/${scopeUrl }/auth/user-list.do">用户列表</a>
+			<a href="/${scopeUrl }/auth/user-list.do">
+				<i class="icon-user"></i> 用户列表</a>
 		</li>
 		</shiro:hasPermission>
 		
 		<shiro:hasPermission name="role:list">  
 		<li class="${currentNavi == 'role' ? 'active' : ''}">
-			<a href="/${scopeUrl }/auth/role-list.do">角色列表</a>
+			<a href="/${scopeUrl }/auth/role-list.do">
+				<i class="icon-user"></i> 角色列表</a>
 		</li>
 		</shiro:hasPermission>
 		
 		<shiro:hasPermission name="funcgroup:list">
-		<li class="${currentNavi == 'funcgrp' ? 'active' : ''}">
-			<a href="/${scopeUrl }/app/funcgroup-list.do">功能组列表</a>
+		<li class="${currentNavi == 'funcgroup' ? 'active' : ''}">
+			<a href="/${scopeUrl }/app/funcgroup-list.do">
+				<i class="icon-user"></i> 功能组列表</a>
 		</li>
 		</shiro:hasPermission>
 		
 		<shiro:hasPermission name="function:list">
-		<li class="${currentNavi == 'func' ? 'active' : ''}">
-			<a href="/${scopeUrl }/app/function-list.do">功能列表</a>
+		<li class="${currentNavi == 'function' ? 'active' : ''}">
+			<a href="/${scopeUrl }/app/function-list.do">
+				<i class="icon-user"></i> 功能列表</a>
 		</li>
 		</shiro:hasPermission>
 		

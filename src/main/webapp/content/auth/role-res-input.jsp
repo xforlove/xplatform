@@ -58,7 +58,7 @@
 						<div class="col-sm-4">
 							<select id="funcIds" name="funcIds" class="multiselect" multiple="multiple" >
 								<c:forEach items="${funcs }" var="object" varStatus="status">
-									<option value="${object.id }" ${object.selected ? 'selected' : ' '}>${object.code } ${object.name }</option>
+									<option value="${object.id }" ${object.selected ? 'selected' : ' '}>${object.name }/${object.code }</option>
 								</c:forEach>
 				            </select>
 						</div>

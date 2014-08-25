@@ -91,7 +91,7 @@ $(document).ready(function() {
 		includeSelectAllOption: false,
 		enableFiltering: true,
 		numberDisplayed: 3,
-		maxHeight: 200,
+		maxHeight: 280,
 		buttonText: function(options, select) {
             if (options.length == 0) {
                 return this.nonSelectedText + ' <b class="caret"></b>';

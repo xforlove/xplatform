@@ -1,3 +1,3 @@
 <%@page contentType="text/html;charset=UTF-8"%>
-<% pageContext.setAttribute("currentHeader", "bpm"); %>
+<% pageContext.setAttribute("currentHeader", "workspace"); %>
 <%@include file="/header.jsp"%>

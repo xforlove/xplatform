@@ -53,18 +53,17 @@ public class FunctionController {
 	public String list(@ModelAttribute Page page,
 			@RequestParam Map<String, Object> parameterMap, Model model) {
 
-		String funcName = ParamUtils.getString(parameterMap, "funcName");
+		String name = ParamUtils.getString(parameterMap, "name");
 
 		List<AppFunctionDTO> funcDtos = new ArrayList<AppFunctionDTO>();
 
 		List<AppFunction> funcs;
-		if (StringUtils.isEmpty(funcName)) {
-			funcs = (List<AppFunction>) functionManager
-					.find(" from AppFunction");
+		if (StringUtils.isEmpty(name)) {
+			funcs = (List<AppFunction>) functionManager.getAll();
 		} else {
 			/* 字符串两端全模糊匹配 */
-			funcs = (List<AppFunction>) functionManager.findByLike("funcName",
-					"%" + funcName + "%");
+			funcs = (List<AppFunction>) functionManager.findByLike("name", "%"
+					+ name + "%");
 		}
 
 		for (AppFunction func : funcs) {
@@ -82,16 +81,16 @@ public class FunctionController {
 	}
 
 	@RequestMapping("function-input")
-	public String input(
-			@RequestParam(value = "fid", required = false) Long fid, Model model) {
+	public String input(@RequestParam(value = "id", required = false) Long id,
+			Model model) {
 
 		List<AppFuncGroupDTO> funcGrps = new ArrayList<AppFuncGroupDTO>();
 
 		AppFunction function = null;
 
-		if (fid != null) {
+		if (id != null) {
 
-			function = functionManager.load(fid);
+			function = functionManager.load(id);
 
 			AppFunctionDTO dest = new AppFunctionDTO();
 
@@ -100,7 +99,7 @@ public class FunctionController {
 			dest.setStatFlagCn(ViewTransfer.getPairStatFlagCn(function
 					.getStatFlag()));
 
-			model.addAttribute("fid", fid);
+			model.addAttribute("id", id);
 			model.addAttribute("func", dest);
 		}
 

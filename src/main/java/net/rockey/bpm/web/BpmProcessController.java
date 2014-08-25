@@ -44,7 +44,7 @@ public class BpmProcessController {
 
 	private BeanMapper beanMapper = new BeanMapper();
 
-	@RequestMapping("bpm-process-list")
+	@RequestMapping("process-list")
 	public String list(@ModelAttribute Page page,
 			@RequestParam Map<String, Object> parameterMap, Model model) {
 
@@ -62,10 +62,10 @@ public class BpmProcessController {
 		page.setResult(processes);
 		model.addAttribute("page", page);
 
-		return "bpm/bpm-process-list";
+		return "bpm/process-list";
 	}
 
-	@RequestMapping("bpm-process-input")
+	@RequestMapping("process-input")
 	public String input(@RequestParam(value = "id", required = false) Long id,
 			Model model) {
 		if (id != null) {
@@ -76,7 +76,7 @@ public class BpmProcessController {
 		List<BpmCategory> bpmCategories = bpmCategoryManager.getAll();
 		model.addAttribute("bpmCategories", bpmCategories);
 
-		return "bpm/bpm-process-input";
+		return "bpm/process-input";
 	}
 
 }

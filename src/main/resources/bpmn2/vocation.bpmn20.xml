@@ -5,17 +5,21 @@
 	xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema"
 	expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
 	<process id="vocationRequest" name="请假流程" isExecutable="true">
-		<startEvent id="startevent1" name="Start"></startEvent>
-		<userTask id="usertask1" name="请假申请" activiti:assignee="Rockey"></userTask>
+		<startEvent id="startevent1" name="Start"
+			activiti:initiator="initiator"></startEvent>
 		<sequenceFlow id="flow1" sourceRef="startevent1"
 			targetRef="usertask1"></sequenceFlow>
-		<userTask id="usertask2" name="请假审批" activiti:assignee="Vivian"></userTask>
+		<userTask id="usertask1" name="请假申请" activiti:assignee="${initiator}"
+			activiti:formKey="1"></userTask>
 		<sequenceFlow id="flow2" sourceRef="usertask1" targetRef="usertask2"></sequenceFlow>
+		<userTask id="usertask2" name="请假审批" activiti:assignee="直接上级"
+			activiti:formKey="2"></userTask>
 		<endEvent id="endevent1" name="End"></endEvent>
 		<sequenceFlow id="flow3" sourceRef="usertask2" targetRef="endevent1"></sequenceFlow>
 	</process>
-	<bpmndi:BPMNDiagram id="BPMNDiagram_myProcess">
-		<bpmndi:BPMNPlane bpmnElement="myProcess" id="BPMNPlane_myProcess">
+	<bpmndi:BPMNDiagram id="BPMNDiagram_vocationRequest">
+		<bpmndi:BPMNPlane bpmnElement="vocationRequest"
+			id="BPMNPlane_vocationRequest">
 			<bpmndi:BPMNShape bpmnElement="startevent1"
 				id="BPMNShape_startevent1">
 				<omgdc:Bounds height="35.0" width="35.0" x="140.0" y="200.0"></omgdc:Bounds>

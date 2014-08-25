@@ -28,17 +28,10 @@
 		<div class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">
 				<li class="${currentHeader == 'dashboard' ? 'active' : ''}"><a href="/${scopeUrl }/dashboard/dashboard.do">首页</a></li>
-				<li>
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">个人事务<span class="caret"></span></a>
-					<ul class="dropdown-menu" role="menu">
-						<li><a href="#">待办任务</a></li>
-						<li><a href="#">已办任务</a></li>
-						<li class="divider"></li>
-						<li><a href="#">日程管理</a></li>
-						<li><a href="#">会议室管理</a></li>
-					</ul>
+				<li class="${currentHeader == 'workspace' ? 'active' : ''}">
+					<a href="/${scopeUrl }/workspace/workspace-home.do">个人事务 </a>
 				</li>
-				<li><a href="#">统计报表 </a></li>
+				<li class="${currentHeader == 'report' ? 'active' : ''}"><a href="#">统计报表 </a></li>
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle ${currentHeader == 'system' ? 'active' : ''}" data-toggle="dropdown">系统配置 <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
@@ -52,7 +45,7 @@
 				</li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="${ctx }/auth/user-info.do"><shiro:principal /></a></li>
+				<li><a href="#"><shiro:principal /></a></li>
 				<li><a href="${ctx }/logout.do">退出</a></li>
 			</ul>
 			<form class="navbar-form">

@@ -1,7 +1,7 @@
 <%@page import="org.apache.shiro.SecurityUtils"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@include file="/common/taglibs.jsp"%>
-<%pageContext.setAttribute("currentNavi", "func");%>
+<%pageContext.setAttribute("currentNavi", "function");%>
 
 <!DOCTYPE html>
 <html lang="zh-cn">
@@ -45,7 +45,7 @@
 				</ol>
 
 				<form class="form-horizontal" action="/${scopeUrl }/app/function-save.do" method="POST" role="form">
-					<c:if test="${fid != null}">
+					<c:if test="${id != null}">
 						<input type="hidden" id="id" name="id" value="${func.id}">
 					</c:if>
 					

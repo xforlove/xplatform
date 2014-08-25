@@ -48,18 +48,17 @@ public class FuncGroupController {
 	public String list(@ModelAttribute Page page,
 			@RequestParam Map<String, Object> parameterMap, Model model) {
 
-		String funcGrpName = ParamUtils.getString(parameterMap, "fgName");
+		String name = ParamUtils.getString(parameterMap, "name");
 
 		List<AppFuncGroupDTO> funcGrpDtos = new ArrayList<AppFuncGroupDTO>();
 
 		List<AppFuncGroup> funcGrps;
-		if (StringUtils.isEmpty(funcGrpName)) {
-			funcGrps = (List<AppFuncGroup>) funcGroupManager
-					.find(" from AppFuncGroup");
+		if (StringUtils.isEmpty(name)) {
+			funcGrps = (List<AppFuncGroup>) funcGroupManager.getAll();
 		} else {
 			/* 字符串两端全模糊匹配 */
-			funcGrps = (List<AppFuncGroup>) funcGroupManager.findByLike(
-					"funcGrpName", "%" + funcGrpName + "%");
+			funcGrps = (List<AppFuncGroup>) funcGroupManager.findByLike("name",
+					"%" + name + "%");
 		}
 
 		for (AppFuncGroup funcGrp : funcGrps) {
@@ -79,12 +78,12 @@ public class FuncGroupController {
 
 	@RequestMapping("funcgroup-input")
 	public String input(
-			@RequestParam(value = "fgid", required = false) Long fgid,
+			@RequestParam(value = "id", required = false) Long id,
 			Model model) {
 
-		if (fgid != null) {
+		if (id != null) {
 
-			AppFuncGroup funcGrp = funcGroupManager.load(fgid);
+			AppFuncGroup funcGrp = funcGroupManager.load(id);
 
 			AppFuncGroupDTO dest = new AppFuncGroupDTO();
 
@@ -93,7 +92,7 @@ public class FuncGroupController {
 			dest.setStatFlagCn(ViewTransfer.getPairStatFlagCn(funcGrp
 					.getStatFlag()));
 
-			model.addAttribute("fgid", fgid);
+			model.addAttribute("id", id);
 			model.addAttribute("funcGrp", dest);
 		}
 

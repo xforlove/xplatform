@@ -37,7 +37,7 @@ public class BpmProcess implements Serializable {
 	private String descn;
 
 	/** null. */
-	private Integer userTaskConf;
+	private Integer needTaskConf;
 
 	/** null. */
 	private String code;
@@ -53,7 +53,7 @@ public class BpmProcess implements Serializable {
 	}
 
 	public BpmProcess(BpmConfBase bpmConfBase, BpmCategory bpmCategory,
-			String name, Integer priority, String descn, Integer useTaskConf,
+			String name, Integer priority, String descn, Integer needTaskConf,
 			String code, Set<BpmTaskDef> bpmTaskDefs,
 			Set<BpmTaskDefNotice> bpmTaskDefNotices) {
 		this.bpmConfBase = bpmConfBase;
@@ -61,7 +61,7 @@ public class BpmProcess implements Serializable {
 		this.name = name;
 		this.priority = priority;
 		this.descn = descn;
-		this.userTaskConf = userTaskConf;
+		this.needTaskConf = needTaskConf;
 		this.code = code;
 		this.bpmTaskDefs = bpmTaskDefs;
 		this.bpmTaskDefNotices = bpmTaskDefNotices;
@@ -156,17 +156,13 @@ public class BpmProcess implements Serializable {
 	}
 
 	/** @return null. */
-	@Column(name = "user_task_conf")
-	public Integer getUserTaskConf() {
-		return this.userTaskConf;
+	@Column(name = "need_task_conf")
+	public Integer getNeedTaskConf() {
+		return this.needTaskConf;
 	}
 
-	/**
-	 * @param useTaskConf
-	 *            null.
-	 */
-	public void setUserTaskConf(Integer userTaskConf) {
-		this.userTaskConf = userTaskConf;
+	public void setNeedTaskConf(Integer needTaskConf) {
+		this.needTaskConf = needTaskConf;
 	}
 
 	/** @return null. */

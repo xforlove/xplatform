@@ -1,7 +1,7 @@
 <%@page import="org.apache.shiro.SecurityUtils"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@include file="/common/taglibs.jsp"%>
-<%pageContext.setAttribute("currentNavi", "func");%>
+<%pageContext.setAttribute("currentNavi", "function");%>
 
 <!DOCTYPE html>
 <html lang="zh-cn">
@@ -71,7 +71,7 @@
 									<td>
 										<div class="btn-group">
 											<button type="button" class="btn btn-default btn-sm" 
-												onclick="javascript: location.href='function-input.do?fid=${object.id }' ">编辑</button>
+												onclick="javascript: location.href='function-input.do?id=${object.id }' ">编辑</button>
 										</div>
 									</td>
 								</tr>

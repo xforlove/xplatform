@@ -40,7 +40,7 @@ public class BpmCategoryController {
 
 	private BeanMapper beanMapper = new BeanMapper();
 
-	@RequestMapping("bpm-category-list")
+	@RequestMapping("category-list")
 	public String list(@ModelAttribute Page page,
 			@RequestParam Map<String, Object> parameterMap, Model model) {
 
@@ -59,10 +59,10 @@ public class BpmCategoryController {
 		page.setResult(categories);
 		model.addAttribute("page", page);
 
-		return "bpm/bpm-category-list";
+		return "bpm/category-list";
 	}
 
-	@RequestMapping("bpm-category-input")
+	@RequestMapping("category-input")
 	public String input(@RequestParam(value = "id", required = false) Long id,
 			Model model) {
 		if (id != null) {
@@ -73,10 +73,10 @@ public class BpmCategoryController {
 			model.addAttribute("category", category);
 		}
 
-		return "bpm/bpm-category-input";
+		return "bpm/category-input";
 	}
 
-	@RequestMapping("bpm-category-save")
+	@RequestMapping("category-save")
 	public String save(@ModelAttribute BpmCategory bpmCategory,
 			RedirectAttributes redirectAttributes) {
 		BpmCategory dest = null;
@@ -93,7 +93,7 @@ public class BpmCategoryController {
 
 		messageHelper.addFlashMessage(redirectAttributes, "保存成功");
 
-		return "redirect:/bpm/bpm-category-list.do";
+		return "redirect:/bpm/category-list.do";
 	}
 
 }

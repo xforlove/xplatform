@@ -16,7 +16,7 @@ public class LogoutController {
 	private final Logger log = LogUtils.getLogger(LogoutController.class, true);
 
 	@RequestMapping("/logout")
-	public void logout(HttpServletRequest request) throws Exception {
+	public String logout(HttpServletRequest request) throws Exception {
 		Subject subject = SecurityUtils.getSubject();
 
 		if (subject != null) {
@@ -24,5 +24,7 @@ public class LogoutController {
 		}
 
 		request.getSession().invalidate();
+
+		return "redirect:/index.jsp";
 	}
 }
