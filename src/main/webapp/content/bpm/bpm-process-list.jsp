@@ -1,7 +1,7 @@
-<%@page import="org.apache.shiro.SecurityUtils"%>
+<%@ page import="org.apache.shiro.SecurityUtils"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@include file="/common/taglibs.jsp"%>
-<%pageContext.setAttribute("currentNavi", "user");%>
+<% pageContext.setAttribute("currentNavi", "process"); %>
 
 <!DOCTYPE html>
 <html lang="zh-cn">
@@ -17,32 +17,26 @@
 		
 	});
 	
-	
-	function exp() {
-		// document.searchForm.action = 'user-export.do';
-		// document.searchForm.submit();
-		return true;
-	}
 </script>
 
 </head>
 
 <body>
 
-	<%@include file="/header/auth.jsp"%>
+	<%@include file="/header/bpm.jsp"%>
 
 	<div class="container-fluid">
 
 		<div class="row">
 			
-			<%@include file="/navigation/auth.jsp"%>
+			<%@include file="/navigation/bpm.jsp"%>
 
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<div id="ROCK_DT_SEARCH">
-					<form id="searchForm" name="searchForm" class="form-inline" role="form" action="user-list.do" method="post">
+					<form id="searchForm" name="searchForm" class="form-inline" role="form" action="bpm-process-list.do" method="post">
 						
 						<div class="form-group">
-							<label for="name">用户名：</label>
+							<label for="name">流程名称：</label>
 							<input type="text" class="form-control" id="name" name="name" value="${param.name }">
 						</div>
 						
@@ -50,18 +44,12 @@
 							<button type="button" class="btn btn-default" onclick="javascript: document.searchForm.submit();">
 								<i class="glyphicon glyphicon-search"> 查询</i>
 							</button>
-							
-							<shiro:hasPermission name="user:create">							
-							<button type="button" class="btn btn-default" onclick="javascript: location.href='user-input.do'">
+							<button type="button" class="btn btn-default" onclick="javascript: location.href='bpm-process-input.do'">
 								<i class="glyphicon glyphicon-plus"> 创建</i>
 							</button>
-							</shiro:hasPermission>
-							
-							<shiro:hasPermission name="user:export">
-							<button type="button" class="btn btn-default" onclick="javascript: return exp();">
+							<button type="button" class="btn btn-default" onclick="javascript: void(0);">
 								<i class="glyphicon glyphicon-export"> 导出</i>
 							</button>
-							</shiro:hasPermission>
 						</div>
 					</form>
 				</div>
@@ -70,28 +58,28 @@
 					<table class="table table-striped" id="ROCK_DT">
 						<thead>
 							<tr>
-								<th width="50">序号</th>
-								<th>用户名</th>
-								<th>状态</th>
-								<th width="200">&nbsp;</th>
+								<td width="50">序号</td>
+								<td>名称</td>
+								<td>分类</td>
+								<td>排序</td>
+								<td width="200">&nbsp;</td>
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${users }" var="object" varStatus="status">
+							<c:forEach items="${page.result }" var="object" varStatus="status">
 								<tr>
 									<td>${status.index + 1 }</td>
 									<td>${object.name }</td>
-									<td>${object.statFlagCn }</td>
+									<td>${object.bpmCategory.name }</td>
+									<td>${object.priority }</td>
 									<td>
 										<div class="btn-group">
-											<shiro:hasPermission name="user:edit">
-											<button type="button" class="btn btn-default btn-sm" onclick="javascript: location.href='user-input.do?id=${object.id }' ">
+											<button type="button" class="btn btn-default btn-sm" 
+												onclick="javascript: location.href='process-input.do?id=${object.id }' ">
 												<i class="glyphicon glyphicon-edit"> 编辑</i>
 											</button>
-											</shiro:hasPermission>
-											
 											<button type="button" class="btn btn-default btn-sm" 
-												onclick="javascript: location.href='user-role-input.do?uid=${object.id }' ">
+												onclick="javascript: location.href='bpm-conf-node-list.do?bpmConfBaseId=${object.bpmConfBase.id }' ">
 												<i class="glyphicon glyphicon-cog"> 配置</i>
 											</button>
 										</div>

@@ -42,7 +42,9 @@
 						</div>
 						
 						<div class="btn-group">
-							<button type="button" class="btn btn-default" onclick="javascript: document.searchForm.submit();">查询</button>
+							<button type="button" class="btn btn-default" onclick="javascript: document.searchForm.submit();">
+								<i class="glyphicon glyphicon-search"> 查询</i>
+							</button>
 						</div>
 					</form>
 				</div>
@@ -70,7 +72,9 @@
 									<td>
 										<div class="btn-group">
 											<button type="button" class="btn btn-default btn-sm" 
-												onclick="javascript: location.href='/${scopeUrl }/form/form-viewStartForm.do?bpmProcessId=${object.id}' ">发起流程</button>
+												onclick="javascript: location.href='/${scopeUrl }/form/form-viewStartForm.do?bpmProcessId=${object.id}' ">
+												<i class="glyphicon glyphicon-edit"> 发起</i>
+											</button>
 										</div>
 									</td>
 								</tr>

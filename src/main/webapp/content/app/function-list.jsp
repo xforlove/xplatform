@@ -39,9 +39,15 @@
 						</div>
 						
 						<div class="btn-group">
-							<button type="button" class="btn btn-default" onclick="javascript: document.searchForm.submit();">查询</button>
-							<button type="button" class="btn btn-default" onclick="javascript: location.href='function-input.do'">创建</button>
-							<button type="button" class="btn btn-default" onclick="javascript: void(0);">导出</button>
+							<button type="button" class="btn btn-default" onclick="javascript: document.searchForm.submit();">
+								<i class="glyphicon glyphicon-search"> 查询</i>
+							</button>
+							<button type="button" class="btn btn-default" onclick="javascript: location.href='function-input.do'">
+								<i class="glyphicon glyphicon-plus"> 创建</i>
+							</button>
+							<button type="button" class="btn btn-default" onclick="javascript: void(0);">
+								<i class="glyphicon glyphicon-export"> 导出</i>
+							</button>
 						</div>
 					</form>
 				</div>
@@ -71,7 +77,9 @@
 									<td>
 										<div class="btn-group">
 											<button type="button" class="btn btn-default btn-sm" 
-												onclick="javascript: location.href='function-input.do?id=${object.id }' ">编辑</button>
+												onclick="javascript: location.href='function-input.do?id=${object.id }' ">
+												<i class="glyphicon glyphicon-edit"> 编辑</i>	
+											</button>
 										</div>
 									</td>
 								</tr>

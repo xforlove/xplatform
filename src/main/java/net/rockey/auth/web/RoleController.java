@@ -80,16 +80,8 @@ public class RoleController {
 			Model model) {
 
 		if (id != null) {
-
 			AuthRole role = roleManager.load(id);
-
-			AuthRoleDTO dest = new AuthRoleDTO();
-
-			mapper.copy(role, dest);
-			dest.setStatFlagCn(ViewTransfer.getPairStatFlagCn(role
-					.getStatFlag()));
-
-			model.addAttribute("model", dest);
+			model.addAttribute("model", role);
 		}
 
 		return "auth/role-input";
@@ -130,15 +122,10 @@ public class RoleController {
 		if (rid != null) {
 
 			AuthRole role = roleManager.get(rid);
-			AuthRoleDTO dest = new AuthRoleDTO();
-			mapper.copy(role, dest);
-			dest.setStatFlagCn(ViewTransfer.getPairStatFlagCn(role
-					.getStatFlag()));
-
 			funcs = authService.createFunctionListOnSelected(role);
 
 			model.addAttribute("rid", rid);
-			model.addAttribute("role", dest);
+			model.addAttribute("role", role);
 			model.addAttribute("funcs", funcs);
 
 		}

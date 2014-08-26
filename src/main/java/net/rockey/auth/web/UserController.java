@@ -55,8 +55,8 @@ public class UserController {
 	private Exportor exportor;
 
 	@RequestMapping("user-list")
-	public String list(@ModelAttribute Page page,
-			@RequestParam Map<String, Object> parameterMap, Model model) {
+	public String list(@RequestParam Map<String, Object> parameterMap,
+			Model model) {
 
 		String name = ParamUtils.getString(parameterMap, "name");
 
@@ -85,8 +85,7 @@ public class UserController {
 			userDtos.add(userConverter.createAuthUserDto(user, roles));
 		}
 
-		page.setResult(userDtos);
-		model.addAttribute("page", page);
+		model.addAttribute("users", userDtos);
 
 		return "auth/user-list";
 	}
@@ -96,11 +95,8 @@ public class UserController {
 			Model model) {
 
 		if (id != null) {
-
 			AuthUser user = userManager.load(id);
-			AuthUserDTO userDTO = userConverter.createAuthUserDto(user);
-
-			model.addAttribute("model", userDTO);
+			model.addAttribute("model", user);
 		}
 
 		return "auth/user-input";
@@ -145,11 +141,10 @@ public class UserController {
 		if (uid != null) {
 
 			AuthUser user = userManager.load(uid);
-			AuthUserDTO userDTO = userConverter.createAuthUserDto(user);
 			roles = authService.createRoleListOnSelected(user);
 
 			model.addAttribute("uid", uid);
-			model.addAttribute("user", userDTO);
+			model.addAttribute("user", user);
 			model.addAttribute("roles", roles);
 		}
 

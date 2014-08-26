@@ -38,7 +38,7 @@ public class BpmConfNodeController {
 
 	private BeanMapper beanMapper = new BeanMapper();
 
-	@RequestMapping("conf-node-list")
+	@RequestMapping("bpm-conf-node-list")
 	public String list(@RequestParam("bpmConfBaseId") Long bpmConfBaseId,
 			Model model) {
 		BpmConfBase bpmConfBase = bpmConfBaseManager.get(bpmConfBaseId);
@@ -48,7 +48,7 @@ public class BpmConfNodeController {
 
 		model.addAttribute("bpmConfNodes", bpmConfNodes);
 
-		return "bpm/conf-node-list";
+		return "bpm/bpm-conf-node-list";
 	}
 
 }

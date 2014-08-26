@@ -1,7 +1,7 @@
 <%@ page import="org.apache.shiro.SecurityUtils"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@include file="/common/taglibs.jsp"%>
-<% pageContext.setAttribute("currentNavi", "process"); %>
+<% pageContext.setAttribute("currentNavi", "category"); %>
 
 <!DOCTYPE html>
 <html lang="zh-cn">
@@ -33,10 +33,10 @@
 
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<div id="ROCK_DT_SEARCH">
-					<form id="searchForm" name="searchForm" class="form-inline" role="form" action="process-list.do" method="post">
+					<form id="searchForm" name="searchForm" class="form-inline" role="form" action="bpm-category-list.do" method="post">
 						
 						<div class="form-group">
-							<label for="name">流程名称：</label>
+							<label for="name">流程分类：</label>
 							<input type="text" class="form-control" id="name" name="name" value="${param.name }">
 						</div>
 						
@@ -44,7 +44,7 @@
 							<button type="button" class="btn btn-default" onclick="javascript: document.searchForm.submit();">
 								<i class="glyphicon glyphicon-search"> 查询</i>
 							</button>
-							<button type="button" class="btn btn-default" onclick="javascript: location.href='process-input.do'">
+							<button type="button" class="btn btn-default" onclick="javascript: location.href='bpm-category-input.do'">
 								<i class="glyphicon glyphicon-plus"> 创建</i>
 							</button>
 							<button type="button" class="btn btn-default" onclick="javascript: void(0);">
@@ -59,8 +59,7 @@
 						<thead>
 							<tr>
 								<td width="50">序号</td>
-								<td>名称</td>
-								<td>分类</td>
+								<td>分类名称</td>
 								<td>排序</td>
 								<td width="200">&nbsp;</td>
 							</tr>
@@ -70,17 +69,12 @@
 								<tr>
 									<td>${status.index + 1 }</td>
 									<td>${object.name }</td>
-									<td>${object.bpmCategory.name }</td>
 									<td>${object.priority }</td>
 									<td>
 										<div class="btn-group">
 											<button type="button" class="btn btn-default btn-sm" 
-												onclick="javascript: location.href='process-input.do?id=${object.id }' ">
-												<i class="glyphicon glyphicon-edit"> 编辑</i>
-											</button>
-											<button type="button" class="btn btn-default btn-sm" 
-												onclick="javascript: location.href='conf-node-list.do?bpmConfBaseId=${object.bpmConfBase.id }' ">
-												<i class="glyphicon glyphicon-cog"> 配置</i>
+												onclick="javascript: location.href='bpm-category-input.do?id=${object.id }' ">
+												<i class="glyphicon glyphicon-edit"> 编辑</i>	
 											</button>
 										</div>
 									</td>

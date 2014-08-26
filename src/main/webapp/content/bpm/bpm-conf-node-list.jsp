@@ -57,12 +57,12 @@
 									<td>${object.name }</td>
 									<td>
 										<c:if test="${object.confUser == 0 }">
-											<button type="button" class="btn btn-default btn-sm" onclick="javascript: location.href='conf-user-list.do?bpmConfNodeId=${object.id}' ">
+											<button type="button" class="btn btn-default btn-sm" onclick="javascript: location.href='bpm-conf-user-list.do?bpmConfNodeId=${object.id}' ">
 												<i class="glyphicon glyphicon-edit"></i>
 											</button>
 										</c:if>
 										<c:if test="${object.confUser == 1 }">
-											<button type="button" class="btn btn-primary btn-sm" onclick="javascript: location.href='conf-user-list.do?bpmConfNodeId=${object.id}' ">
+											<button type="button" class="btn btn-primary btn-sm" onclick="javascript: location.href='bpm-conf-user-list.do?bpmConfNodeId=${object.id}' ">
 												<i class="glyphicon glyphicon-edit"></i>
 											</button>
 										</c:if>
@@ -71,12 +71,12 @@
 									<td>&nbsp;</td>
 									<td>
 										<c:if test="${object.confForm == 0 }">
-											<button type="button" class="btn btn-default btn-sm" onclick="javascript: location.href='conf-form-list.do?bpmConfNodeId=${object.id}' ">
+											<button type="button" class="btn btn-default btn-sm" onclick="javascript: location.href='bpm-conf-form-list.do?bpmConfNodeId=${object.id}' ">
 												<i class="glyphicon glyphicon-edit"></i>
 											</button>
 										</c:if>
 										<c:if test="${object.confForm == 1 }">
-											<button type="button" class="btn btn-primary btn-sm" onclick="javascript: location.href='conf-form-list.do?bpmConfNodeId=${object.id}' ">
+											<button type="button" class="btn btn-primary btn-sm" onclick="javascript: location.href='bpm-conf-form-list.do?bpmConfNodeId=${object.id}' ">
 												<i class="glyphicon glyphicon-edit"></i>
 											</button>
 										</c:if>

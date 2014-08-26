@@ -50,7 +50,7 @@ public class BpmProcessController {
 
 	private BeanMapper beanMapper = new BeanMapper();
 
-	@RequestMapping("process-list")
+	@RequestMapping("bpm-process-list")
 	public String list(@ModelAttribute Page page,
 			@RequestParam Map<String, Object> parameterMap, Model model) {
 
@@ -68,10 +68,10 @@ public class BpmProcessController {
 		page.setResult(processes);
 		model.addAttribute("page", page);
 
-		return "bpm/process-list";
+		return "bpm/bpm-process-list";
 	}
 
-	@RequestMapping("process-input")
+	@RequestMapping("bpm-process-input")
 	public String input(@RequestParam(value = "id", required = false) Long id,
 			Model model) {
 		if (id != null) {
@@ -84,10 +84,10 @@ public class BpmProcessController {
 		model.addAttribute("bpmCategories", bpmCategories);
 		model.addAttribute("bpmConfBases", bpmConfBases);
 
-		return "bpm/process-input";
+		return "bpm/bpm-process-input";
 	}
 
-	@RequestMapping("process-save")
+	@RequestMapping("bpm-process-save")
 	public String save(@ModelAttribute BpmProcess bpmProcess,
 			@RequestParam("bpmCategoryId") Long bpmCategoryId,
 			@RequestParam("bpmConfBaseId") Long bpmConfBaseId,
@@ -108,7 +108,7 @@ public class BpmProcessController {
 
 		messageHelper.addFlashMessage(redirectAttributes, "保存成功");
 
-		return "redirect:/bpm/process-list.do";
+		return "redirect:/bpm/bpm-process-list.do";
 	}
 
 }

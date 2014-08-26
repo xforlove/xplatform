@@ -40,7 +40,7 @@ public class BpmCategoryController {
 
 	private BeanMapper beanMapper = new BeanMapper();
 
-	@RequestMapping("category-list")
+	@RequestMapping("bpm-category-list")
 	public String list(@ModelAttribute Page page,
 			@RequestParam Map<String, Object> parameterMap, Model model) {
 
@@ -59,10 +59,10 @@ public class BpmCategoryController {
 		page.setResult(categories);
 		model.addAttribute("page", page);
 
-		return "bpm/category-list";
+		return "bpm/bpm-category-list";
 	}
 
-	@RequestMapping("category-input")
+	@RequestMapping("bpm-category-input")
 	public String input(@RequestParam(value = "id", required = false) Long id,
 			Model model) {
 		if (id != null) {
@@ -72,7 +72,7 @@ public class BpmCategoryController {
 			model.addAttribute("model", category);
 		}
 
-		return "bpm/category-input";
+		return "bpm/bpm-category-input";
 	}
 
 	@RequestMapping("category-save")

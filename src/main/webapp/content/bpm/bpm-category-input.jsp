@@ -34,11 +34,11 @@
 
 				<ol class="breadcrumb">
 					<li><a href="javascript: void(0);">流程管理</a></li>
-					<li><a href="javascript: location.href='category-list.do'">流程分类</a></li>
+					<li><a href="javascript: location.href='bpm-category-list.do'">流程分类</a></li>
 					<li class="active">编辑流程分类</li>
 				</ol>
 
-				<form class="form-horizontal" action="/${scopeUrl }/bpm/category-save.do" method="POST" role="form">
+				<form class="form-horizontal" action="/${scopeUrl }/bpm/bpm-category-save.do" method="POST" role="form">
 					<c:if test="${model != null}">
 						<input type="hidden" id="id" name="id" value="${model.id}">
 					</c:if>
