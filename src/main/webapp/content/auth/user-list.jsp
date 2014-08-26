@@ -47,14 +47,20 @@
 						</div>
 						
 						<div class="btn-group">
-							<button type="button" class="btn btn-default" onclick="javascript: document.searchForm.submit();">查询</button>
+							<button type="button" class="btn btn-default" onclick="javascript: document.searchForm.submit();">
+								<i class="glyphicon glyphicon-search"> 查询</i>
+							</button>
 							
 							<shiro:hasPermission name="user:create">							
-							<button type="button" class="btn btn-default" onclick="javascript: location.href='user-input.do'">创建</button>
+							<button type="button" class="btn btn-default" onclick="javascript: location.href='user-input.do'">
+								<i class="glyphicon glyphicon-plus"> 创建</i>
+							</button>
 							</shiro:hasPermission>
 							
 							<shiro:hasPermission name="user:export">
-							<button type="button" class="btn btn-default" onclick="javascript: return exp();">导出</button>
+							<button type="button" class="btn btn-default" onclick="javascript: return exp();">
+								<i class="glyphicon glyphicon-export"> 导出</i>
+							</button>
 							</shiro:hasPermission>
 						</div>
 					</form>
@@ -64,10 +70,10 @@
 					<table class="table table-striped" id="ROCK_DT">
 						<thead>
 							<tr>
-								<td>序号</td>
-								<td>用户名</td>
-								<td>状态</td>
-								<td>&nbsp;</td>
+								<th width="50">序号</th>
+								<th>用户名</th>
+								<th>状态</th>
+								<th width="200">&nbsp;</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -79,14 +85,15 @@
 									<td>
 										<div class="btn-group">
 											<shiro:hasPermission name="user:edit">
-											<button type="button" class="btn btn-default btn-sm" 
-												onclick="javascript: location.href='user-input.do?id=${object.id }' ">编辑</button>
+											<button type="button" class="btn btn-default btn-sm" onclick="javascript: location.href='user-input.do?id=${object.id }' ">
+												<i class="glyphicon glyphicon-edit"> 编辑</i>
+											</button>
 											</shiro:hasPermission>
 											
-											<shiro:hasPermission name="user:configRole">
 											<button type="button" class="btn btn-default btn-sm" 
-												onclick="javascript: location.href='user-role-input.do?uid=${object.id }' ">设定角色</button>
-											</shiro:hasPermission>
+												onclick="javascript: location.href='user-role-input.do?uid=${object.id }' ">
+												<i class="glyphicon glyphicon-cog"> 配置</i>
+											</button>
 										</div>
 									</td>
 								</tr>

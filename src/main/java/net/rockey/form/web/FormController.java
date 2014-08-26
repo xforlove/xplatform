@@ -11,8 +11,6 @@ import net.rockey.bpm.manager.BpmTaskConfManager;
 import net.rockey.bpm.model.BpmConfForm;
 import net.rockey.bpm.model.BpmProcess;
 import net.rockey.core.util.LogUtils;
-import net.rockey.form.manager.FormTemplateManager;
-import net.rockey.form.model.FormTemplate;
 
 import org.activiti.engine.ProcessEngine;
 import org.apache.log4j.Logger;
@@ -44,9 +42,6 @@ public class FormController {
 
 	@Autowired
 	private BpmConfFormManager bpmConfFormManager;
-
-	@Autowired
-	private FormTemplateManager formTemplateManager;
 
 	/**
 	 * 显示启动流程的表单.
@@ -96,9 +91,7 @@ public class FormController {
 				}
 			}
 
-			FormTemplate formTemplate = formTemplateManager.get(Long
-					.parseLong(formInfo.getFormKey()));
-			String redirectUrl = formTemplate.getContent()
+			String redirectUrl = formInfo.getFormKey()
 					+ "?processDefinitionId="
 					+ formInfo.getProcessDefinitionId();
 

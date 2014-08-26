@@ -1,7 +1,7 @@
 <%@ page import="org.apache.shiro.SecurityUtils"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@include file="/common/taglibs.jsp"%>
-<% pageContext.setAttribute("currentNavi", "bpm-category"); %>
+<% pageContext.setAttribute("currentNavi", "category"); %>
 
 <!DOCTYPE html>
 <html lang="zh-cn">
@@ -29,11 +29,11 @@
 
 		<div class="row">
 			
-			<%@include file="/navigation/auth.jsp"%>
+			<%@include file="/navigation/bpm.jsp"%>
 
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<div id="ROCK_DT_SEARCH">
-					<form id="searchForm" name="searchForm" class="form-inline" role="form" action="user-list.do" method="post">
+					<form id="searchForm" name="searchForm" class="form-inline" role="form" action="category-list.do" method="post">
 						
 						<div class="form-group">
 							<label for="name">流程分类：</label>
@@ -41,9 +41,15 @@
 						</div>
 						
 						<div class="btn-group">
-							<button type="button" class="btn btn-default" onclick="javascript: document.searchForm.submit();">查询</button>
-							<button type="button" class="btn btn-default" onclick="javascript: location.href='bpm-category-input.do'">创建</button>
-							<button type="button" class="btn btn-default" onclick="javascript: void(0);">导出</button>
+							<button type="button" class="btn btn-default" onclick="javascript: document.searchForm.submit();">
+								<i class="glyphicon glyphicon-search"> 查询</i>
+							</button>
+							<button type="button" class="btn btn-default" onclick="javascript: location.href='category-input.do'">
+								<i class="glyphicon glyphicon-plus"> 创建</i>
+							</button>
+							<button type="button" class="btn btn-default" onclick="javascript: void(0);">
+								<i class="glyphicon glyphicon-export"> 导出</i>
+							</button>
 						</div>
 					</form>
 				</div>
@@ -52,10 +58,10 @@
 					<table class="table table-striped" id="ROCK_DT">
 						<thead>
 							<tr>
-								<td>序号</td>
+								<td width="50">序号</td>
 								<td>分类名称</td>
 								<td>排序</td>
-								<td>&nbsp;</td>
+								<td width="200">&nbsp;</td>
 							</tr>
 						</thead>
 						<tbody>
@@ -67,7 +73,9 @@
 									<td>
 										<div class="btn-group">
 											<button type="button" class="btn btn-default btn-sm" 
-												onclick="javascript: location.href='bpm-category-input.do?id=${object.id }' ">编辑</button>
+												onclick="javascript: location.href='category-input.do?id=${object.id }' ">
+												<i class="glyphicon glyphicon-edit"> 编辑</i>	
+											</button>
 										</div>
 									</td>
 								</tr>

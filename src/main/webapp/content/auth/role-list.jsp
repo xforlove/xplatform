@@ -39,9 +39,15 @@
 						</div>
 						
 						<div class="btn-group">
-							<button type="button" class="btn btn-default" onclick="javascript: document.searchForm.submit();">查询</button>
-							<button type="button" class="btn btn-default" onclick="javascript: location.href='role-input.do'">创建</button>
-							<button type="button" class="btn btn-default" onclick="javascript: void(0);">导出</button>
+							<button type="button" class="btn btn-default" onclick="javascript: document.searchForm.submit();">
+								<i class="glyphicon glyphicon-search"> 查询</i>
+							</button>
+							<button type="button" class="btn btn-default" onclick="javascript: location.href='role-input.do'">
+								<i class="glyphicon glyphicon-plus"> 创建</i>
+							</button>
+							<button type="button" class="btn btn-default" onclick="javascript: void(0);">
+								<i class="glyphicon glyphicon-export"> 导出</i>
+							</button>
 						</div>
 					</form>
 				</div>
@@ -50,11 +56,11 @@
 					<table class="table table-striped" id="ROCK_DT">
 						<thead>
 							<tr>
-								<td>序号</td>
-								<td>角色代号</td>
-								<td>角色名</td>
-								<td>状态</td>
-								<td>&nbsp;</td>
+								<td width="50">序号</th>
+								<th>角色代号</th>
+								<th>角色名</th>
+								<th>状态</th>
+								<th width="200">&nbsp;</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -67,9 +73,13 @@
 									<td>
 										<div class="btn-group">
 											<button type="button" class="btn btn-default btn-sm" 
-												onclick="javascript: location.href='role-input.do?id=${object.id }' ">编辑</button>
+												onclick="javascript: location.href='role-input.do?id=${object.id }' ">
+												<i class="glyphicon glyphicon-edit"> 编辑</i>	
+											</button>
 											<button type="button" class="btn btn-default btn-sm" 
-												onclick="javascript: location.href='role-res-input.do?rid=${object.id }' ">权限分配</button>
+												onclick="javascript: location.href='role-res-input.do?rid=${object.id }' ">
+												<i class="glyphicon glyphicon-cog"> 配置</i>
+											</button>
 										</div>
 									</td>
 								</tr>

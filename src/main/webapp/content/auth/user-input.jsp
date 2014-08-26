@@ -45,26 +45,26 @@
 				</ol>
 
 				<form class="form-horizontal" action="/${scopeUrl }/auth/user-save.do" method="POST" role="form">
-					<c:if test="${id != null}">
-						<input type="hidden" id="id" name="id" value="${user.id }">
+					<c:if test="${model != null}">
+						<input type="hidden" id="id" name="id" value="${model.id }">
 					</c:if>
 					
 					<div class="form-group">
 						<label for="loginId" class="col-sm-2 control-label">账号</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control" id="loginId" name="loginId" value="${user.loginId }">
+							<input type="text" class="form-control" id="loginId" name="loginId" value="${model.loginId }">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="name" class="col-sm-2 control-label">用户名</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control" id="name" name="name" value="${user.name }">
+							<input type="text" class="form-control" id="name" name="name" value="${model.name }">
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="checkbox col-sm-offset-2 col-sm-4">
 							<label>
-								<input type="checkbox" id="statFlag" name="statFlag" value="${user.statFlag }"> 启用
+								<input type="checkbox" id="statFlag" name="statFlag" value="${model.statFlag }"> 启用
 							</label>
 						</div>
 					</div>

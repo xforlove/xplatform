@@ -69,8 +69,7 @@ public class BpmCategoryController {
 
 			BpmCategory category = bpmCategoryManager.load(id);
 
-			model.addAttribute("id", id);
-			model.addAttribute("category", category);
+			model.addAttribute("model", category);
 		}
 
 		return "bpm/category-input";

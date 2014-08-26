@@ -57,8 +57,8 @@ public class RoleController {
 			roles = (List<AuthRole>) roleManager.getAll();
 		} else {
 			/* 字符串两端全模糊匹配 */
-			roles = (List<AuthRole>) roleManager.findByLike("name", "%"
-					+ name + "%");
+			roles = (List<AuthRole>) roleManager.findByLike("name", "%" + name
+					+ "%");
 		}
 
 		for (AuthRole role : roles) {
@@ -89,8 +89,7 @@ public class RoleController {
 			dest.setStatFlagCn(ViewTransfer.getPairStatFlagCn(role
 					.getStatFlag()));
 
-			model.addAttribute("id", id);
-			model.addAttribute("role", dest);
+			model.addAttribute("model", dest);
 		}
 
 		return "auth/role-input";

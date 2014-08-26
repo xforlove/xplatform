@@ -75,8 +75,8 @@ public class UserController {
 			users = (List<AuthUser>) userManager.getAll();
 		} else {
 			/* 字符串两端全模糊匹配 */
-			users = (List<AuthUser>) userManager.findByLike("name", "%"
-					+ name + "%");
+			users = (List<AuthUser>) userManager.findByLike("name", "%" + name
+					+ "%");
 		}
 
 		for (AuthUser user : users) {
@@ -93,17 +93,15 @@ public class UserController {
 	}
 
 	@RequestMapping("user-input")
-	public String input(
-			@RequestParam(value = "id", required = false) Long id, Model model) {
+	public String input(@RequestParam(value = "id", required = false) Long id,
+			Model model) {
 
 		if (id != null) {
 
 			AuthUser user = userManager.load(id);
 			AuthUserDTO userDTO = userConverter.createAuthUserDto(user);
 
-			model.addAttribute("id", id);
-			model.addAttribute("user", userDTO);
-			
+			model.addAttribute("model", userDTO);
 		}
 
 		return "auth/user-input";

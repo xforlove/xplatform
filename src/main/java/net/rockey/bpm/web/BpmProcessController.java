@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import net.rockey.bpm.manager.BpmCategoryManager;
+import net.rockey.bpm.manager.BpmConfBaseManager;
 import net.rockey.bpm.manager.BpmProcessManager;
 import net.rockey.bpm.model.BpmCategory;
+import net.rockey.bpm.model.BpmConfBase;
 import net.rockey.bpm.model.BpmProcess;
 import net.rockey.core.mapper.BeanMapper;
 import net.rockey.core.spring.MessageHelper;
@@ -22,6 +24,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("bpm")
@@ -32,6 +35,9 @@ public class BpmProcessController {
 
 	@Autowired
 	private BpmCategoryManager bpmCategoryManager;
+
+	@Autowired
+	private BpmConfBaseManager bpmConfBaseManager;
 
 	@Autowired
 	private BpmProcessManager bpmProcessManager;
@@ -48,15 +54,15 @@ public class BpmProcessController {
 	public String list(@ModelAttribute Page page,
 			@RequestParam Map<String, Object> parameterMap, Model model) {
 
-		String procName = ParamUtils.getString(parameterMap, "pName");
+		String name = ParamUtils.getString(parameterMap, "name");
 
 		List<BpmProcess> processes;
-		if (StringUtils.isEmpty(procName)) {
+		if (StringUtils.isEmpty(name)) {
 			processes = (List<BpmProcess>) bpmProcessManager.getAll();
 		} else {
 			/* 字符串两端全模糊匹配 */
 			processes = (List<BpmProcess>) bpmProcessManager.findByLike("name",
-					"%" + procName + "%");
+					"%" + name + "%");
 		}
 
 		page.setResult(processes);
@@ -74,9 +80,35 @@ public class BpmProcessController {
 		}
 
 		List<BpmCategory> bpmCategories = bpmCategoryManager.getAll();
+		List<BpmConfBase> bpmConfBases = bpmConfBaseManager.getAll();
 		model.addAttribute("bpmCategories", bpmCategories);
+		model.addAttribute("bpmConfBases", bpmConfBases);
 
 		return "bpm/process-input";
+	}
+
+	@RequestMapping("process-save")
+	public String save(@ModelAttribute BpmProcess bpmProcess,
+			@RequestParam("bpmCategoryId") Long bpmCategoryId,
+			@RequestParam("bpmConfBaseId") Long bpmConfBaseId,
+			RedirectAttributes redirectAttributes) {
+		BpmProcess dest = null;
+		Long id = bpmProcess.getId();
+
+		if (id != null) {
+			dest = bpmProcessManager.get(id);
+			beanMapper.copy(bpmProcess, dest);
+		} else {
+			dest = bpmProcess;
+		}
+
+		dest.setBpmCategory(bpmCategoryManager.get(bpmCategoryId));
+		dest.setBpmConfBase(bpmConfBaseManager.get(bpmConfBaseId));
+		bpmProcessManager.save(dest);
+
+		messageHelper.addFlashMessage(redirectAttributes, "保存成功");
+
+		return "redirect:/bpm/process-list.do";
 	}
 
 }

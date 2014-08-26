@@ -84,6 +84,25 @@ $(document).ready(function() {
 	$("div.searchPanel").html($("#ROCK_DT_SEARCH").innerHTML);
 	$("div.space").html("<br />");
 	
+	$("#ROCK_SDT").dataTable({
+		"dom" : "<t>",
+		"pagingType": "simple_numbers", /* simple_numbers, full_numbers */
+		"pageLength": 1000,
+		"language": {
+			"search": "搜索",
+            "lengthMenu": "每页显示 _MENU_ 条记录",
+            "zeroRecords": "抱歉，查询结果为空",
+            "paginate": {
+            	"first": "首页",
+            	"previous": "上一页",
+            	"next": "下一页",
+            	"last": "末页"
+            },
+            "info": "当前显示第 _PAGE_ / _PAGES_ 页",
+            "infoEmpty": "无数据",
+            "infoFiltered": "(filtered from _MAX_ total records)"
+        }
+	});
 	
 	window.prettyPrint() && prettyPrint();
 	

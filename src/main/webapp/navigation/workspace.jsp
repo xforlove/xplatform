@@ -5,19 +5,19 @@
 		
 		<li class="${currentNavi == 'bpm-process' ? 'active' : ''}">
 			<a href="/${scopeUrl }/workspace/workspace-home.do">
-				<i class="icon-user"></i> 发起流程
+				<i class="glyphicon glyphicon-list"></i> 发起流程
 			</a>
 		</li>
 		
 		<li class="${currentNavi == 'task-todo' ? 'active' : ''}">
 			<a href="#">
-				<i class="icon-user"></i> 待办任务
+				<i class="glyphicon glyphicon-list"></i> 待办任务
 			</a>
 		</li>
 		
 		<li class="${currentNavi == 'task-done' ? 'active' : ''}">
 			<a href="#">
-				<i class="icon-user"></i> 已办任务
+				<i class="glyphicon glyphicon-list"></i> 已办任务
 			</a>
 		</li>
 		
@@ -25,13 +25,13 @@
 		
 		<li class="${currentNavi == 'calendar' ? 'active' : ''}">
 			<a href="#">
-				<i class="icon-user"></i> 日程管理
+				<i class="glyphicon glyphicon-calendar"></i> 日程管理
 			</a>
 		</li>
 		
 		<li class="${currentNavi == 'meeting' ? 'active' : ''}">
 			<a href="#">
-				<i class="icon-user"></i> 会议室管理
+				<i class="glyphicon glyphicon-calendar"></i> 会议室管理
 			</a>
 		</li>
 		
