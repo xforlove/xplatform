@@ -1,6 +1,7 @@
 package net.rockey.form.web;
 
 import java.util.List;
+import java.util.Map;
 
 import net.rockey.bpm.FormInfo;
 import net.rockey.bpm.cmd.FindStartFormCmd;
@@ -10,7 +11,9 @@ import net.rockey.bpm.manager.BpmProcessManager;
 import net.rockey.bpm.manager.BpmTaskConfManager;
 import net.rockey.bpm.model.BpmConfForm;
 import net.rockey.bpm.model.BpmProcess;
+import net.rockey.core.spring.MessageHelper;
 import net.rockey.core.util.LogUtils;
+import net.rockey.form.operation.StartProcessOperation;
 
 import org.activiti.engine.ProcessEngine;
 import org.apache.log4j.Logger;
@@ -19,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("form")
@@ -43,6 +47,9 @@ public class FormController {
 	@Autowired
 	private BpmConfFormManager bpmConfFormManager;
 
+	@Autowired
+	private MessageHelper messageHelper;
+
 	/**
 	 * 显示启动流程的表单.
 	 */
@@ -50,9 +57,9 @@ public class FormController {
 	public String viewStartForm(
 			@RequestParam(value = "bpmProcessId", required = true) Long bpmProcessId,
 			@RequestParam(value = "businessKey", required = false) String businessKey,
-			Model model) {
-		model.addAttribute("bpmProcessId", bpmProcessId);
-		model.addAttribute("businessKey", businessKey);
+			RedirectAttributes redirectAttributes, Model model) {
+		redirectAttributes.addAttribute("bpmProcessId", bpmProcessId);
+		redirectAttributes.addAttribute("businessKey", businessKey);
 
 		BpmProcess bpmProcess = bpmProcessManager.get(bpmProcessId);
 		String processDefinitionId = bpmProcess.getBpmConfBase()
@@ -61,7 +68,10 @@ public class FormController {
 		FormInfo formInfo = processEngine.getManagementService()
 				.executeCommand(new FindStartFormCmd(processDefinitionId));
 
-		model.addAttribute("formInfo", formInfo);
+		redirectAttributes.addAttribute("processDefinitionId",
+				formInfo.getProcessDefinitionId());
+		redirectAttributes.addAttribute("autoCompleteFirstTask",
+				formInfo.isAutoCompleteFirstTask());
 
 		String nextStep = null;
 
@@ -71,10 +81,10 @@ public class FormController {
 				// 如果需要配置负责人
 				nextStep = "taskConf";
 			} else {
-				nextStep = "confirmStartProcess";
+				nextStep = "startProcessInstance";
 			}
 
-			model.addAttribute("nextStep", nextStep);
+			redirectAttributes.addAttribute("nextStep", nextStep);
 
 			List<BpmConfForm> bpmConfForms = bpmConfFormManager
 					.find("from BpmConfForm where bpmConfNode.bpmConfBase.processDefinitionId=? and bpmConfNode.code=?",
@@ -95,14 +105,34 @@ public class FormController {
 					+ "?processDefinitionId="
 					+ formInfo.getProcessDefinitionId();
 
-			// TODO
+			return "redirect:" + redirectUrl;
 
-			return "form/form-viewStartForm";
-
+			// TODO - return "form/form-viewStartForm";
 		} else {
 			// TODO - 如果没找到form，就判断是否配置负责人
 			return null;
 		}
+	}
+	
 
+	/**
+	 * 发起流程
+	 * 
+	 * @param multiValueMap
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("form-startProcessInstance")
+	public String startProcessInstance(
+			@RequestParam Map<String, Object> parameterMap,
+			RedirectAttributes redirectAttributes, Model model)
+			throws Exception {
+
+		new StartProcessOperation().execute(parameterMap);
+
+		messageHelper.addFlashMessage(redirectAttributes, "流程已发起");
+
+		return "redirect:/workspace/workspace-home.do";
 	}
 }

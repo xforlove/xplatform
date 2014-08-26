@@ -15,7 +15,6 @@ import net.rockey.auth.support.AuthUserConverter;
 import net.rockey.auth.support.AuthUserDTO;
 import net.rockey.core.spring.MessageHelper;
 import net.rockey.core.util.CONSTANTS;
-import net.rockey.core.util.CPublic;
 import net.rockey.core.util.LogUtils;
 import net.rockey.core.util.Page;
 import net.rockey.core.util.ParamUtils;
@@ -210,16 +209,12 @@ public class UserController {
 	public String info(Model model) {
 		Subject currentUser = SecurityUtils.getSubject();
 
-		AuthUser user = userManager.findUnique(
-				" from AuthUser where loginId = ?",
-				CPublic.parseStr(currentUser.getPrincipal()));
-
-		model.addAttribute("user", user);
+		AuthUser user = userManager.get((Long) currentUser.getSession()
+				.getAttribute("user_id"));
 
 		AuthUserDTO userDTO = userConverter.createAuthUserDto(user);
 
-		model.addAttribute("uid", user.getId());
-		model.addAttribute("user", userDTO);
+		model.addAttribute("model", userDTO);
 
 		return "auth/user-info";
 	}

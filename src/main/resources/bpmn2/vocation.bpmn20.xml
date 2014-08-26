@@ -10,10 +10,10 @@
 		<sequenceFlow id="flow1" sourceRef="startevent1"
 			targetRef="usertask1"></sequenceFlow>
 		<userTask id="usertask1" name="请假申请" activiti:assignee="${initiator}"
-			activiti:formKey="1"></userTask>
+			activiti:formKey="/content/bpm/vocation-request.jsp"></userTask>
 		<sequenceFlow id="flow2" sourceRef="usertask1" targetRef="usertask2"></sequenceFlow>
 		<userTask id="usertask2" name="请假审批" activiti:assignee="直接上级"
-			activiti:formKey="2"></userTask>
+			activiti:formKey="/content/bpm/vocation-approve.jsp"></userTask>
 		<endEvent id="endevent1" name="End"></endEvent>
 		<sequenceFlow id="flow3" sourceRef="usertask2" targetRef="endevent1"></sequenceFlow>
 	</process>

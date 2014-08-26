@@ -3,7 +3,7 @@
 <div class="col-sm-3 col-md-2 sidebar">
 	<ul class="nav nav-sidebar">
 		
-		<li class="${currentNavi == 'bpm-process' ? 'active' : ''}">
+		<li class="${currentNavi == 'process' ? 'active' : ''}">
 			<a href="/${scopeUrl }/workspace/workspace-home.do">
 				<i class="glyphicon glyphicon-list"></i> 发起流程
 			</a>

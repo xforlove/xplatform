@@ -1,6 +1,7 @@
 package net.rockey.auth.web;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import net.rockey.auth.manager.UserManager;
 import net.rockey.auth.model.AuthUser;
@@ -9,6 +10,7 @@ import net.rockey.core.util.LogUtils;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,6 +41,11 @@ public class LoginController {
 						loginId, loginPass);
 				token.setRememberMe(true);
 				currentUser.login(token);
+
+				Session session = currentUser.getSession();
+				session.setAttribute("user_id", user.getId());
+				session.setAttribute("user_name", user.getName());
+
 				return "redirect:/dashboard/dashboard.do";
 			} else {
 
@@ -50,5 +57,4 @@ public class LoginController {
 			return "redirect:/common/noAuth.jsp";
 		}
 	}
-
 }

@@ -9,7 +9,8 @@
 				net.rockey.auth.model, 
 				net.rockey.app.model,
 				net.rockey.system.model,
-				net.rockey.bpm.model" />
+				net.rockey.bpm.model,
+				net.rockey.form.model" />
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
