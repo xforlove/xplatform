@@ -105,17 +105,19 @@
 	</bean>
 	-->
 
-	<!-- 在记录history之后执行的TaskListener 
-	<bean id="postTaskListener" class="com.mossle.bpm.listener.ProxyTaskListener">
+	<!-- 在记录history之后执行的TaskListener -->
+	<bean id="postTaskListener" class="net.rockey.bpm.listener.ProxyTaskListener">
 		<property name="taskListeners">
 			<list>
-				<bean class="com.mossle.bpm.listener.AutoCompleteFirstTaskListener"/>
-				<bean class="com.mossle.bpm.listener.SkipTaskListener"/>
-				<bean class="com.mossle.bpm.listener.NoticeTaskListener"/>
+				<bean class="net.rockey.bpm.listener.AutoCompleteFirstTaskListener" />
+				<!-- 
+				<bean class="com.mossle.bpm.listener.SkipTaskListener" />
+				<bean class="com.mossle.bpm.listener.NoticeTaskListener" />
+				 -->
 			</list>
 		</property>
 	</bean>
-	-->
+	
 
 	<!-- 工作日历 
 	<bean id="businessCalendarManager" class="com.mossle.bpm.calendar.AdvancedBusinessCalendarManagerFactoryBean">
