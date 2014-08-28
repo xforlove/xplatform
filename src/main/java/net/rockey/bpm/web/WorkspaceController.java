@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("workspace")
+@RequestMapping("bpm")
 public class WorkspaceController {
 
 	private final Logger log = LogUtils.getLogger(WorkspaceController.class,

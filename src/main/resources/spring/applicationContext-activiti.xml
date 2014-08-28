@@ -12,16 +12,24 @@
 
 		<property name="history" value="audit" />
 		
-		<!-- 添加的自定义监听器 
+		<!-- 添加的自定义监听器 -->
  		<property name="customDefaultBpmnParseHandlers">
     	 	<list>
-				<bean class="com.mossle.bpm.listener.ProxyUserTaskBpmnParseHandler">
+				<bean class="net.rockey.bpm.listener.ProxyUserTaskBpmnParseHandler">
 					<property name="taskListenerId" value="customTaskListener"/>
 					<property name="useDefaultUserTaskParser" value="true"/>
 				</bean>
     	 	</list>
 		</property>
-		-->
+		<property name="postBpmnParseHandlers">
+    	 	<list>
+				<bean class="net.rockey.bpm.listener.ProxyUserTaskBpmnParseHandler">
+					<property name="taskListenerId" value="postTaskListener"/>
+				</bean>
+    	 	</list>
+		</property>
+		
+		
 
 		<property name="bpmnParser">
 			<bean class="net.rockey.bpm.support.CustomBpmnParser" />
@@ -91,19 +99,21 @@
 		</property>
 	</bean>
 	
-	<!-- 在记录history之前执行的TaskListener 
-	<bean id="customTaskListener" class="com.mossle.bpm.listener.ProxyTaskListener">
+	<!-- 在记录history之前执行的TaskListener --> 
+	<bean id="customTaskListener" class="net.rockey.bpm.listener.ProxyTaskListener">
 		<property name="taskListeners">
 			<list>
-				<bean class="com.mossle.bpm.listener.ConfUserTaskListener"/>
+				<bean class="net.rockey.bpm.listener.ConfUserTaskListener"/>
+				<!-- 
 				<bean class="com.mossle.bpm.listener.TaskConfTaskListener"/>
 				<bean class="com.mossle.bpm.listener.AssigneeAliasTaskListener"/>
 				<bean class="com.mossle.bpm.listener.DelegateTaskListener"/>
 				<bean class="com.mossle.bpm.listener.CopyTaskListener"/>
+				 -->
 			</list>
 		</property>
 	</bean>
-	-->
+	
 
 	<!-- 在记录history之后执行的TaskListener -->
 	<bean id="postTaskListener" class="net.rockey.bpm.listener.ProxyTaskListener">

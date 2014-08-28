@@ -24,13 +24,13 @@
 
 <body>
 
-	<%@include file="/header/bpm.jsp"%>
+	<%@include file="/header/bpm-console.jsp"%>
 
 	<div class="container-fluid">
 
 		<div class="row">
 
-			<%@include file="/navigation/auth.jsp"%>
+			<%@include file="/navigation/bpm-console.jsp"%>
 
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 

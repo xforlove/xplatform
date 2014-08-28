@@ -1,9 +1,7 @@
 <%@page import="org.apache.shiro.SecurityUtils"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@include file="/common/taglibs.jsp"%>
-<%
-	pageContext.setAttribute("currentNavi", "process");
-%>
+<% pageContext.setAttribute("currentNavi", "bpm-process"); %>
 
 <!DOCTYPE html>
 <html lang="zh-cn">

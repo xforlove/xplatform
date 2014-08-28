@@ -37,12 +37,12 @@
 					<a href="#"><i class="glyphicon glyphicon-list-alt"></i> 统计报表 </a>
 				</li>
 				<li class="dropdown">
-					<a href="#" class="dropdown-toggle ${currentHeader == 'system' ? 'active' : ''}" data-toggle="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="glyphicon glyphicon-cog"></i> 系统配置 <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
 						<li><a href="#">组织结构</a></li>
-						<li><a href="/${scopeUrl }/auth/index.do">权限体系</a></li>
-						<li><a href="/${scopeUrl }/bpm/category-list.do"">流程管理</a></li>
+						<li class="${currentHeader == 'auth' ? 'active' : ''}"><a href="/${scopeUrl }/auth/index.do">权限体系</a></li>
+						<li class="${currentHeader == 'bpm-console' ? 'active' : ''}"><a href="/${scopeUrl }/bpm/category-list.do"">流程管理</a></li>
 						<li class="divider"></li>
 						<li><a href="#">系统日志</a></li>
 						<li><a href="#">参数设置</a></li>

@@ -1,7 +1,7 @@
 <%@ page import="org.apache.shiro.SecurityUtils"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@include file="/common/taglibs.jsp"%>
-<% pageContext.setAttribute("currentNavi", "task-todo"); %>
+<% pageContext.setAttribute("currentNavi", "bpm-process"); %>
 
 <!DOCTYPE html>
 <html lang="zh-cn">
@@ -23,20 +23,20 @@
 
 <body>
 
-	<%@include file="/header/workspace.jsp"%>
+	<%@include file="/header/bpm-console.jsp"%>
 
 	<div class="container-fluid">
 
 		<div class="row">
 			
-			<%@include file="/navigation/workspace.jsp"%>
+			<%@include file="/navigation/bpm-console.jsp"%>
 
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<div id="ROCK_DT_SEARCH">
-					<form id="searchForm" name="searchForm" class="form-inline" role="form" action="workspace-listPersonalTasks.do" method="post">
+					<form id="searchForm" name="searchForm" class="form-inline" role="form" action="bpm-conf-form-list.do" method="post">
 						
 						<div class="form-group">
-							<label for="name">流程名称：</label>
+							<label for="name">流程分类：</label>
 							<input type="text" class="form-control" id="name" name="name" value="${param.name }">
 						</div>
 						
@@ -44,7 +44,7 @@
 							<button type="button" class="btn btn-default" onclick="javascript: document.searchForm.submit();">
 								<i class="glyphicon glyphicon-search"> 查询</i>
 							</button>
-							<button type="button" class="btn btn-default" onclick="javascript: location.href='process-input.do'">
+							<button type="button" class="btn btn-default" onclick="javascript: location.href='bpm-category-input.do'">
 								<i class="glyphicon glyphicon-plus"> 创建</i>
 							</button>
 							<button type="button" class="btn btn-default" onclick="javascript: void(0);">
@@ -60,25 +60,21 @@
 							<tr>
 								<td width="50">序号</td>
 								<td>名称</td>
-								<td>创建时间</td>
-								<td>负责人</td>
-								<td>状态</td>
+								<td>类型</td>
 								<td width="200">&nbsp;</td>
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${tasks }" var="object" varStatus="status">
+							<c:forEach items="${bpmConfForms }" var="object" varStatus="status">
 								<tr>
 									<td>${status.index + 1 }</td>
-									<td>${object.name }</td>
-									<td><fmt:formatDate value="${object.createTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-									<td>${object.assignee}</td>
-									<td>${object.suspended ? '挂起' : '激活'}</td>
+									<td>${object.value }</td>
+									<td>${object.type == 0 ? '电子表单' : '外部表单' }</td>
 									<td>
 										<div class="btn-group">
 											<button type="button" class="btn btn-default btn-sm" 
-												onclick="javascript: location.href='form/form-viewTaskForm.do?taskId=${object.id }' ">
-												<i class="glyphicon glyphicon-edit"> 处理</i>
+												onclick="javascript: location.href='bpm-conf-form-remove.do?id=${object.id }' ">
+												<i class="glyphicon glyphicon-trash"> 删除</i>	
 											</button>
 										</div>
 									</td>
