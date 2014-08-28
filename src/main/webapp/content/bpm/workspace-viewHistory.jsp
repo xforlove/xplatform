@@ -48,7 +48,6 @@
 								<td>结束时间</td>
 								<td>负责人</td>
 								<td>处理结果</td>
-								<td width="200">&nbsp;</td>
 							</tr>
 						</thead>
 						<tbody>
@@ -60,14 +59,6 @@
 									<td><fmt:formatDate value="${object.endTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 									<td>${object.assignee}</td>
 									<td>${object.deleteReason}</td>
-									<td>
-										<div class="btn-group">
-											<button type="button" class="btn btn-default btn-sm" 
-												onclick="javascript: location.href='workspace-viewHistory.do?processInstanceId=${object.processInstanceId}' ">
-												<i class="glyphicon glyphicon-edit"> 查看</i>
-											</button>
-										</div>
-									</td>
 								</tr>
 							</c:forEach>
 						</tbody>

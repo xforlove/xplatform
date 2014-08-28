@@ -29,8 +29,6 @@
     	 	</list>
 		</property>
 		
-		
-
 		<property name="bpmnParser">
 			<bean class="net.rockey.bpm.support.CustomBpmnParser" />
 		</property>
@@ -138,4 +136,5 @@
 	<!-- 
 	<bean id="workCalendarService" class="com.mossle.workcal.service.WorkCalendarService"/>
 	 -->
+	 
 </beans>

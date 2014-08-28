@@ -13,6 +13,11 @@ import net.rockey.form.model.Record;
  */
 public class RecordBuilder {
 
+	/** 可存入字段列表 */
+	public static final String[] ALLOW_LIST = { "processDefinitionId",
+			"bpmProcessId", "businessKey", "businessType",
+			"autoCompleteFirstTask", "approver" };
+
 	/**
 	 * 把status和parameters更新到record里.
 	 */
@@ -24,16 +29,18 @@ public class RecordBuilder {
 			String key = entry.getKey();
 			Object value = entry.getValue();
 
-			if ((value == null)) {
+			if (!CPublic.isExists(ALLOW_LIST, key))
 				continue;
-			}
+
+			if ((value == null))
+				continue;
 
 			Prop prop = new Prop();
 			prop.setCode(key);
 			prop.setType(0);
 			prop.setValue(CPublic.parseStr(value));
 			prop.setRecord(record);
-			
+
 			record.getProps().add(prop);
 		}
 
@@ -44,10 +51,10 @@ public class RecordBuilder {
 	 * 创建一个新record
 	 */
 	public Record build(String category, String statFlag,
-			Map<String, Object> parameters, Long uid) {
+			Map<String, Object> parameters, Long userId) {
 		Record record = new Record();
 		record.setCategory(category);
-		record.setCreator(uid);
+		record.setCreator(userId);
 		return build(record, statFlag, parameters);
 	}
 
@@ -56,7 +63,7 @@ public class RecordBuilder {
 	 */
 	public Record build(Record record, String statFlag, String ref) {
 		record.setRef(ref);
-		
+
 		return build(record, statFlag, Collections.EMPTY_MAP);
 	}
 

@@ -15,6 +15,24 @@ public class RecordManager extends HibernateEntityDao<Record> {
 	private final Logger log = LogUtils.getLogger(RecordManager.class, true);
 
 	/**
+	 * 根据ref获得记录.
+	 */
+	public Record findByRef(String ref) {
+		if (isBlank(ref)) {
+			return null;
+		}
+
+		Record record = null;
+		try {
+			record = this.findUniqueBy("ref", ref);
+		} catch (Exception ex) {
+			log.error(ex.getMessage(), ex);
+		}
+
+		return record;
+	}
+
+	/**
 	 * 获得string值.
 	 */
 	public String getStringValue(Map<String, Object> map, String name) {

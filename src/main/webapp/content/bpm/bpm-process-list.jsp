@@ -59,6 +59,7 @@
 						<thead>
 							<tr>
 								<td width="50">序号</td>
+								<td>代号</td>
 								<td>名称</td>
 								<td>分类</td>
 								<td>排序</td>
@@ -69,6 +70,7 @@
 							<c:forEach items="${page.result }" var="object" varStatus="status">
 								<tr>
 									<td>${status.index + 1 }</td>
+									<td>${object.code }</td>
 									<td>${object.name }</td>
 									<td>${object.bpmCategory.name }</td>
 									<td>${object.priority }</td>

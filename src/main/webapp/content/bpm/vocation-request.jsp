@@ -41,12 +41,18 @@
 					<input type="hidden" id="bpmProcessId" name="bpmProcessId" value="${param.bpmProcessId}">
 					<input type="hidden" id="autoCompleteFirstTask" name="autoCompleteFirstTask" value="${param.autoCompleteFirstTask}">
 					<input type="hidden" id="businessKey" name="businessKey" value="${param.businessKey}">
+					<input type="hidden" id="businessType" name="businessType" value="vocationRequest">
 
 					<div class="form-group">
-						<label for="name" class="col-sm-2 control-label">请假类型</label>
+						<label for="approver" class="col-sm-2 control-label">审核人ID</label>
 						<div class="col-sm-4">
-							<select id="type" name="type" class="singleselect"
-								multiple="multiple">
+							<input type="text" class="form-control" id="approver" name="approver" >
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="type" class="col-sm-2 control-label">请假类型</label>
+						<div class="col-sm-4">
+							<select id="type" name="type" class="singleselect" multiple="multiple">
 								<option value="1">年假</option>
 								<option value="2">事假</option>
 								<option value="3">病假</option>
@@ -56,13 +62,13 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="name" class="col-sm-2 control-label">请假天数</label>
+						<label for="duration" class="col-sm-2 control-label">请假天数</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control" id="days" name="days" >
+							<input type="text" class="form-control" id="duration" name="duration" >
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="name" class="col-sm-2 control-label">请假原因</label>
+						<label for="descn" class="col-sm-2 control-label">请假原因</label>
 						<div class="col-sm-4">
 							<textarea rows="3" class="form-control" id="descn" name="descn"></textarea>
 						</div>

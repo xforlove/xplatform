@@ -8,8 +8,10 @@ import net.rockey.bpm.manager.BpmProcessManager;
 import net.rockey.bpm.manager.BpmTaskConfManager;
 import net.rockey.bpm.model.BpmProcess;
 import net.rockey.core.spring.ApplicationContextHelper;
+import net.rockey.core.util.CPublic;
 import net.rockey.core.util.LogUtils;
 import net.rockey.form.manager.RecordManager;
+import net.rockey.form.model.Prop;
 import net.rockey.form.model.Record;
 import net.rockey.form.support.RecordBuilder;
 
@@ -24,6 +26,7 @@ public class StartProcessOperation extends AbstractOperation<Void> {
 	private final Logger log = LogUtils.getLogger(StartProcessOperation.class,
 			true);
 
+	public static final String OPERATION_BUSINESS_KEY = "businessKey";
 	public static final String OPERATION_BPM_PROCESS_ID = "bpmProcessId";
 	public static final String OPERATION_TASK_ID = "taskId";
 	public static final String STATUS_RUNNING = "RUNNING";
@@ -36,8 +39,8 @@ public class StartProcessOperation extends AbstractOperation<Void> {
 		BpmProcess bpmProcess = getBpmProcessManager().get(
 				Long.parseLong(bpmProcessId));
 
-		String processDefinitionId = bpmProcess.getBpmConfBase()
-				.getProcessDefinitionId();
+		String processDefinitionKey = bpmProcess.getBpmConfBase()
+				.getProcessDefinitionKey();
 
 		// 先保存草稿
 		String businessKey = new SaveDraftOperation().execute(this
@@ -53,8 +56,15 @@ public class StartProcessOperation extends AbstractOperation<Void> {
 
 		Map<String, Object> processParameters = new HashMap<String, Object>();
 
+		for (Prop prop : record.getProps()) {
+			if (OPERATION_BUSINESS_KEY.equals(prop.getCode())) {
+				prop.setValue(record.getId().toString());
+			}
+			processParameters.put(prop.getCode(), prop.getValue());
+		}
+
 		ProcessInstance processInstance = processEngine.getRuntimeService()
-				.startProcessInstanceById(processDefinitionId, businessKey,
+				.startProcessInstanceByKey(processDefinitionKey, businessKey,
 						processParameters);
 
 		record = new RecordBuilder().build(record, STATUS_RUNNING,

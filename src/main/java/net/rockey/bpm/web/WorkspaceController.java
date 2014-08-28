@@ -54,7 +54,7 @@ public class WorkspaceController {
 
 		return "bpm/workspace-home";
 	}
-	
+
 	@RequestMapping("workspace-graphProcessDefinition")
 	public void graphProcessDefinition(
 			@RequestParam("bpmProcessId") Long bpmProcessId,
@@ -72,30 +72,30 @@ public class WorkspaceController {
 
 		IOUtils.copy(is, response.getOutputStream());
 	}
-	
+
 	/**
-     * 流程跟踪
-     * 
-     * @throws Exception
-     */
-    @RequestMapping("workspace-graphHistoryProcessInstance")
-    public void graphHistoryProcessInstance(
-            @RequestParam("processInstanceId") String processInstanceId,
-            HttpServletResponse response) throws Exception {
-        Command<InputStream> cmd = new HistoryProcessInstanceDiagramCmd(
-                processInstanceId);
+	 * 流程跟踪
+	 * 
+	 * @throws Exception
+	 */
+	@RequestMapping("workspace-graphHistoryProcessInstance")
+	public void graphHistoryProcessInstance(
+			@RequestParam("processInstanceId") String processInstanceId,
+			HttpServletResponse response) throws Exception {
+		Command<InputStream> cmd = new HistoryProcessInstanceDiagramCmd(
+				processInstanceId);
 
-        InputStream is = processEngine.getManagementService().executeCommand(
-                cmd);
-        response.setContentType("image/png");
+		InputStream is = processEngine.getManagementService().executeCommand(
+				cmd);
+		response.setContentType("image/png");
 
-        int len = 0;
-        byte[] b = new byte[1024];
+		int len = 0;
+		byte[] b = new byte[1024];
 
-        while ((len = is.read(b, 0, 1024)) != -1) {
-            response.getOutputStream().write(b, 0, len);
-        }
-    }
+		while ((len = is.read(b, 0, 1024)) != -1) {
+			response.getOutputStream().write(b, 0, len);
+		}
+	}
 
 	/**
 	 * 待办任务（个人任务）
@@ -109,7 +109,7 @@ public class WorkspaceController {
 				.getAttribute("user_id").toString();
 
 		List<Task> tasks = taskService.createTaskQuery().taskAssignee(userId)
-				.active().list();
+				.active().orderByProcessInstanceId().list();
 		model.addAttribute("tasks", tasks);
 
 		return "bpm/workspace-listPersonalTasks";
@@ -127,7 +127,7 @@ public class WorkspaceController {
 				.getAttribute("user_id").toString();
 		List<HistoricTaskInstance> historicTasks = historyService
 				.createHistoricTaskInstanceQuery().taskAssignee(userId)
-				.finished().list();
+				.finished().orderByProcessInstanceId().list();
 		model.addAttribute("historicTasks", historicTasks);
 
 		return "bpm/workspace-listHistoryTasks";
@@ -148,7 +148,7 @@ public class WorkspaceController {
 				.processInstanceId(processInstanceId).list();
 		List<HistoricVariableInstance> historicVariableInstances = historyService
 				.createHistoricVariableInstanceQuery()
-				.processInstanceId(processInstanceId).list();
+				.processInstanceId(processInstanceId).orderByVariableName().list();
 		model.addAttribute("historicTasks", historicTasks);
 		model.addAttribute("historicVariableInstances",
 				historicVariableInstances);

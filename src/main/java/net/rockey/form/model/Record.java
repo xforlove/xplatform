@@ -18,6 +18,7 @@ public class Record {
 	private Long id;
 	private String category;
 	private String ref;
+	private Long applySeqId;
 	private String statFlag;
 	private Long creator;
 	private String createTime;
@@ -51,6 +52,15 @@ public class Record {
 
 	public void setRef(String ref) {
 		this.ref = ref;
+	}
+
+	@Column(name = "apply_seq_id", length = 20)
+	public Long getApplySeqId() {
+		return applySeqId;
+	}
+
+	public void setApplySeqId(Long applySeqId) {
+		this.applySeqId = applySeqId;
 	}
 
 	@Column(name = "stat_flag", length = 64)

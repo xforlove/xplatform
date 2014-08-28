@@ -43,8 +43,9 @@ public class LoginController {
 				currentUser.login(token);
 
 				Session session = currentUser.getSession();
-				session.setAttribute("user_id", user.getId());
-				session.setAttribute("user_name", user.getName());
+				session.setAttribute("user_id", user.getId()); // 用户ID
+				session.setAttribute("user_name", user.getName()); // 用户姓名
+				session.setAttribute("login_id", user.getLoginId()); // 登录账号
 
 				return "redirect:/dashboard/dashboard.do";
 			} else {

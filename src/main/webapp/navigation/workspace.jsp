@@ -4,19 +4,19 @@
 	<ul class="nav nav-sidebar">
 		
 		<li class="${currentNavi == 'bpm-process' ? 'active' : ''}">
-			<a href="/${scopeUrl }/workspace/workspace-home.do">
+			<a href="/${scopeUrl }/bpm/workspace-home.do">
 				<i class="glyphicon glyphicon-list"></i> 发起流程
 			</a>
 		</li>
 		
 		<li class="${currentNavi == 'task-todo' ? 'active' : ''}">
-			<a href="/${scopeUrl }/workspace/workspace-listPersonalTasks.do">
+			<a href="/${scopeUrl }/bpm/workspace-listPersonalTasks.do">
 				<i class="glyphicon glyphicon-list"></i> 待办任务
 			</a>
 		</li>
 		
 		<li class="${currentNavi == 'task-done' ? 'active' : ''}">
-			<a href="/${scopeUrl }/workspace/workspace-listHistoryTasks.do">
+			<a href="/${scopeUrl }/bpm/workspace-listHistoryTasks.do">
 				<i class="glyphicon glyphicon-list"></i> 已办任务
 			</a>
 		</li>

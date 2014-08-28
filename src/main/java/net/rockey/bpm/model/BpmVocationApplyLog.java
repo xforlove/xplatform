@@ -1,9 +1,14 @@
 package net.rockey.bpm.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -11,10 +16,16 @@ import javax.persistence.Table;
 public class BpmVocationApplyLog implements java.io.Serializable {
 
 	private Long id;
-	private String name;
+	private String applyTime;
 	private String type;
-	private double days;
+	private String beginDate;
+	private String beginTime;
+	private String endDate;
+	private String endTime;
+	private double duration;
 	private String descn;
+
+	private List<BpmVocationProcDtl> procDtls = new ArrayList<BpmVocationProcDtl>();
 
 	@Id
 	@GeneratedValue
@@ -26,16 +37,16 @@ public class BpmVocationApplyLog implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "name", length = 64)
-	public String getName() {
-		return name;
+	@Column(name = "apply_time", length = 14, nullable = false)
+	public String getApplyTime() {
+		return applyTime;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setApplyTime(String applyTime) {
+		this.applyTime = applyTime;
 	}
 
-	@Column(name = "type", length = 64)
+	@Column(name = "type", length = 3, nullable = false)
 	public String getType() {
 		return type;
 	}
@@ -44,22 +55,67 @@ public class BpmVocationApplyLog implements java.io.Serializable {
 		this.type = type;
 	}
 
-	@Column(name = "days")
-	public double getDays() {
-		return days;
+	@Column(name = "begin_date", length = 8)
+	public String getBeginDate() {
+		return beginDate;
 	}
 
-	public void setDays(double days) {
-		this.days = days;
+	public void setBeginDate(String beginDate) {
+		this.beginDate = beginDate;
 	}
 
-	@Column(name = "descn", length = 64)
+	@Column(name = "begin_time", length = 6)
+	public String getBeginTime() {
+		return beginTime;
+	}
+
+	public void setBeginTime(String beginTime) {
+		this.beginTime = beginTime;
+	}
+
+	@Column(name = "end_date", length = 8)
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	@Column(name = "end_time", length = 6)
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+
+	@Column(name = "duration", nullable = false)
+	public double getDuration() {
+		return duration;
+	}
+
+	public void setDuration(double duration) {
+		this.duration = duration;
+	}
+
+	@Column(name = "descn", length = 255)
 	public String getDescn() {
 		return descn;
 	}
 
 	public void setDescn(String descn) {
 		this.descn = descn;
+	}
+
+	@OneToMany(mappedBy = "applyLog", cascade = CascadeType.ALL)
+	public List<BpmVocationProcDtl> getProcDtls() {
+		return procDtls;
+	}
+
+	public void setProcDtls(List<BpmVocationProcDtl> procDtls) {
+		this.procDtls = procDtls;
 	}
 
 }
