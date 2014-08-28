@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import net.rockey.bpm.cmd.HistoryProcessInstanceDiagramCmd;
 import net.rockey.bpm.cmd.ProcessDefinitionDiagramCmd;
 import net.rockey.bpm.manager.BpmCategoryManager;
 import net.rockey.bpm.manager.BpmProcessManager;
@@ -53,7 +54,7 @@ public class WorkspaceController {
 
 		return "bpm/workspace-home";
 	}
-
+	
 	@RequestMapping("workspace-graphProcessDefinition")
 	public void graphProcessDefinition(
 			@RequestParam("bpmProcessId") Long bpmProcessId,
@@ -71,6 +72,30 @@ public class WorkspaceController {
 
 		IOUtils.copy(is, response.getOutputStream());
 	}
+	
+	/**
+     * 流程跟踪
+     * 
+     * @throws Exception
+     */
+    @RequestMapping("workspace-graphHistoryProcessInstance")
+    public void graphHistoryProcessInstance(
+            @RequestParam("processInstanceId") String processInstanceId,
+            HttpServletResponse response) throws Exception {
+        Command<InputStream> cmd = new HistoryProcessInstanceDiagramCmd(
+                processInstanceId);
+
+        InputStream is = processEngine.getManagementService().executeCommand(
+                cmd);
+        response.setContentType("image/png");
+
+        int len = 0;
+        byte[] b = new byte[1024];
+
+        while ((len = is.read(b, 0, 1024)) != -1) {
+            response.getOutputStream().write(b, 0, len);
+        }
+    }
 
 	/**
 	 * 待办任务（个人任务）

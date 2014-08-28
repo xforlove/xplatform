@@ -133,6 +133,6 @@ public class FormController {
 
 		messageHelper.addFlashMessage(redirectAttributes, "流程已发起");
 
-		return "redirect:/workspace/workspace-home.do";
+		return "redirect:/bpm/workspace-home.do";
 	}
 }

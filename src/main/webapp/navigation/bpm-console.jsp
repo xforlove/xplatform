@@ -14,12 +14,12 @@
 		</li>
 		
 		<li class="${currentNavi == 'bpm-processInstance' ? 'active' : ''}">
-			<a href="/${scopeUrl }/bpm/bpm-processInstance-list.do">
+			<a href="/${scopeUrl }/bpm/console-listProcessInstances.do">
 				<i class="glyphicon glyphicon-list"></i> 流程实例</a>
 		</li>
 		
 		<li class="${currentNavi == 'bpm-historicProcessInstance' ? 'active' : ''}">
-			<a href="/${scopeUrl }/bpm/bpm-historicProcessInstance-list.do">
+			<a href="/${scopeUrl }/bpm/console-listHistoricProcessInstances.do">
 				<i class="glyphicon glyphicon-list"></i> 历史流程实例</a>
 		</li>
 		

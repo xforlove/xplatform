@@ -28,13 +28,16 @@
 		<div class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">
 				<li class="${currentHeader == 'dashboard' ? 'active' : ''}">
-					<a href="/${scopeUrl }/dashboard/dashboard.do"><i class="glyphicon glyphicon-home"></i> 首页</a>
+					<a href="/${scopeUrl }/dashboard/dashboard.do">
+						<i class="glyphicon glyphicon-home"></i> 首页</a>
 				</li>
 				<li class="${currentHeader == 'workspace' ? 'active' : ''}">
-					<a href="/${scopeUrl }/workspace/workspace-home.do">个人事务 </a>
+					<a href="/${scopeUrl }/bpm/workspace-home.do">
+						<i class="glyphicon glyphicon-user"></i> 个人事务 </a>
 				</li>
 				<li class="${currentHeader == 'report' ? 'active' : ''}">
-					<a href="#"><i class="glyphicon glyphicon-list-alt"></i> 统计报表 </a>
+					<a href="#">
+						<i class="glyphicon glyphicon-list-alt"></i> 统计报表 </a>
 				</li>
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -42,7 +45,7 @@
 					<ul class="dropdown-menu" role="menu">
 						<li><a href="#">组织结构</a></li>
 						<li class="${currentHeader == 'auth' ? 'active' : ''}"><a href="/${scopeUrl }/auth/index.do">权限体系</a></li>
-						<li class="${currentHeader == 'bpm-console' ? 'active' : ''}"><a href="/${scopeUrl }/bpm/category-list.do"">流程管理</a></li>
+						<li class="${currentHeader == 'bpm-console' ? 'active' : ''}"><a href="/${scopeUrl }/bpm/bpm-category-list.do"">流程管理</a></li>
 						<li class="divider"></li>
 						<li><a href="#">系统日志</a></li>
 						<li><a href="#">参数设置</a></li>

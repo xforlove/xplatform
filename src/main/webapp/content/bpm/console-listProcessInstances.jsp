@@ -1,7 +1,7 @@
 <%@ page import="org.apache.shiro.SecurityUtils"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@include file="/common/taglibs.jsp"%>
-<% pageContext.setAttribute("currentNavi", "bpm-process"); %>
+<% pageContext.setAttribute("currentNavi", "bpm-processInstance"); %>
 
 <!DOCTYPE html>
 <html lang="zh-cn">
@@ -33,7 +33,7 @@
 
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<div class="table-responsive">
-					<table class="table table-striped" id="ROCK_SDT">
+					<table class="table table-striped" id="ROCK_DT">
 						<thead>
 							<tr>
 								<td width="50">序号</td>
@@ -61,7 +61,7 @@
 										<div class="btn-group">
 											<button type="button" class="btn btn-default btn-sm" 
 												onclick="javascript: location.href='workspace-viewHistory.do?processInstanceId=${object.id}' ">
-												<i class="glyphicon glyphicon-edit"> 历史</i>
+												<i class="glyphicon glyphicon-file"> 历史</i>
 											</button>
 										</div>
 									</td>
