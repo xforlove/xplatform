@@ -109,7 +109,7 @@ public class WorkspaceController {
 				.getAttribute("user_id").toString();
 
 		List<Task> tasks = taskService.createTaskQuery().taskAssignee(userId)
-				.active().orderByProcessInstanceId().list();
+				.active().orderByProcessInstanceId().asc().list();
 		model.addAttribute("tasks", tasks);
 
 		return "bpm/workspace-listPersonalTasks";
@@ -127,7 +127,7 @@ public class WorkspaceController {
 				.getAttribute("user_id").toString();
 		List<HistoricTaskInstance> historicTasks = historyService
 				.createHistoricTaskInstanceQuery().taskAssignee(userId)
-				.finished().orderByProcessInstanceId().list();
+				.finished().orderByProcessInstanceId().asc().list();
 		model.addAttribute("historicTasks", historicTasks);
 
 		return "bpm/workspace-listHistoryTasks";
@@ -148,7 +148,7 @@ public class WorkspaceController {
 				.processInstanceId(processInstanceId).list();
 		List<HistoricVariableInstance> historicVariableInstances = historyService
 				.createHistoricVariableInstanceQuery()
-				.processInstanceId(processInstanceId).orderByVariableName().list();
+				.processInstanceId(processInstanceId).orderByVariableName().asc().list();
 		model.addAttribute("historicTasks", historicTasks);
 		model.addAttribute("historicVariableInstances",
 				historicVariableInstances);
