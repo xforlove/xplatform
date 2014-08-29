@@ -19,20 +19,12 @@ public class SaveDraftOperation extends AbstractOperation<String> {
 	private final Logger log = LogUtils.getLogger(SaveDraftOperation.class,
 			true);
 
-	public static final String OPERATION_BUSINESS_TYPE = "businessType";
-	public static final String OPERATION_BUSINESS_KEY = "businessKey";
-	public static final String OPERATION_TASK_ID = "taskId";
-	public static final String OPERATION_BPM_DEFINITION_ID = "processDefinitionId";
-	public static final String OPERATION_BPM_PROCESS_ID = "bpmProcessId";
-	public static final String STATUS_DRAFT_PROCESS = "DRAFT_PROCESS";
-	public static final String STATUS_TASK_PROCESS = "DRAFT_TASK";
-
 	@Override
 	public String execute(CommandContext commandContext) {
-		String taskId = getParamValue(OPERATION_TASK_ID);
-		String businessType = getParamValue(OPERATION_BUSINESS_TYPE);
-		String businessKey = getParamValue(OPERATION_BUSINESS_KEY);
-		String bpmProcessId = getParamValue(OPERATION_BPM_PROCESS_ID);
+		String taskId = getParamValue(CONSTANTS.OPERATION_TASK_ID);
+		String businessType = getParamValue(CONSTANTS.OPERATION_BUSINESS_TYPE);
+		String businessKey = getParamValue(CONSTANTS.OPERATION_BUSINESS_KEY);
+		String bpmProcessId = getParamValue(CONSTANTS.OPERATION_BPM_PROCESS_ID);
 		Long userId = this.getCurrentUserId();
 
 		if (this.notEmpty(taskId)) {
@@ -53,13 +45,14 @@ public class SaveDraftOperation extends AbstractOperation<String> {
 				applyLog.setType(getParamValue("type"));
 				applyLog.setDuration(Double
 						.parseDouble((String) getParamValue("duration")));
+				applyLog.setStatFlag(CONSTANTS.BUSINESS_APPLY_LOG_STAT_FLAG_INIT);
 
 				BpmVocationProcDtl procDtl = new BpmVocationProcDtl();
 				procDtl.setApplyLog(applyLog);
 				procDtl.setProcDate(CPublic.getDate());
 				procDtl.setProcTime(CPublic.getTime());
 				procDtl.setUserId(userId);
-				procDtl.setDescn("发起流程");
+				procDtl.setAction("发起流程");
 
 				applyLog.getProcDtls().add(procDtl);
 
@@ -73,7 +66,7 @@ public class SaveDraftOperation extends AbstractOperation<String> {
 			log.info(applySeqId);
 
 			Record record = new RecordBuilder().build(bpmProcessId,
-					STATUS_DRAFT_PROCESS, getParameters(), userId);
+					CONSTANTS.PROCESS_STATUS_DRAFT, getParameters(), userId);
 			record.setApplySeqId(applySeqId);
 			this.getRecordManager().save(record);
 

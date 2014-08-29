@@ -19,6 +19,7 @@ public class BpmVocationProcDtl implements java.io.Serializable {
 	private String procDate;
 	private String procTime;
 	private Long userId;
+	private String action;
 	private String descn;
 
 	@Id
@@ -75,6 +76,15 @@ public class BpmVocationProcDtl implements java.io.Serializable {
 
 	public void setDescn(String descn) {
 		this.descn = descn;
+	}
+
+	@Column(name = "action", length = 100)
+	public String getAction() {
+		return action;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
 	}
 
 }

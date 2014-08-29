@@ -1,7 +1,7 @@
 <%@ page import="org.apache.shiro.SecurityUtils"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@include file="/common/taglibs.jsp"%>
-<% pageContext.setAttribute("currentNavi", "bpm-processInstance"); %>
+<% pageContext.setAttribute("currentNavi", "task-done"); %>
 
 <!DOCTYPE html>
 <html lang="zh-cn">
@@ -23,13 +23,13 @@
 
 <body>
 
-	<%@include file="/header/bpm-console.jsp"%>
+	<%@include file="/header/workspace.jsp"%>
 
 	<div class="container-fluid">
 
 		<div class="row">
 			
-			<%@include file="/navigation/bpm-console.jsp"%>
+			<%@include file="/navigation/workspace.jsp"%>
 
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<div id="ROCK_DT_SEARCH">

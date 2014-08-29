@@ -77,7 +77,7 @@
 									<td>
 										<div class="btn-group">
 											<button type="button" class="btn btn-default btn-sm" 
-												onclick="javascript: location.href='form/form-viewTaskForm.do?taskId=${object.id }' ">
+												onclick="javascript: location.href='../form/form-viewTaskForm.do?taskId=${object.id }' ">
 												<i class="glyphicon glyphicon-edit"> 处理</i>
 											</button>
 										</div>

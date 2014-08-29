@@ -14,7 +14,26 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		// TODO
+		loadApproves();
+		
 	});
+	
+	function loadApproves(){
+		
+		$.ajax({
+			type: "POST",
+			url: "/xplatform/auth/user-list-text.do",
+			data: "idName=approver&isSingle=true",
+			success: function(str){
+				document.getElementById("approverDiv").innerHTML = str;
+				$("#approver").multiselect('refresh');
+			},
+			error: function(xmlHttpRequest, errorMsg, e){
+				alert(errorMsg);
+			}
+		});
+		
+	}
 </script>
 </head>
 
@@ -45,7 +64,7 @@
 
 					<div class="form-group">
 						<label for="approver" class="col-sm-2 control-label">审核人ID</label>
-						<div class="col-sm-4">
+						<div id="approverDiv" class="col-sm-4">
 							<input type="text" class="form-control" id="approver" name="approver" >
 						</div>
 					</div>

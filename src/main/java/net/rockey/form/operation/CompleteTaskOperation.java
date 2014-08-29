@@ -6,7 +6,12 @@ import java.util.Map;
 import net.rockey.bpm.FormInfo;
 import net.rockey.bpm.cmd.CompleteTaskWithCommentCmd;
 import net.rockey.bpm.manager.BpmProcessManager;
+import net.rockey.bpm.manager.BpmVocationApplyLogManager;
+import net.rockey.bpm.model.BpmVocationApplyLog;
+import net.rockey.bpm.model.BpmVocationProcDtl;
 import net.rockey.core.spring.ApplicationContextHelper;
+import net.rockey.core.util.CONSTANTS;
+import net.rockey.core.util.CPublic;
 import net.rockey.core.util.LogUtils;
 import net.rockey.form.manager.RecordManager;
 import net.rockey.form.model.Prop;
@@ -27,14 +32,12 @@ public class CompleteTaskOperation extends AbstractOperation<Void> {
 	private final Logger log = LogUtils.getLogger(CompleteTaskOperation.class,
 			true);
 
-	public static final String OPERATION_TASK_ID = "taskId";
-	public static final String OPERATION_COMMENT = "完成";
-	public static final String STATUS_RUNNING = "RUNNING";
-
 	@Override
 	public Void execute(CommandContext commandContext) {
 		ProcessEngine processEngine = getProcessEngine();
-		String taskId = getParamValue(OPERATION_TASK_ID);
+		String taskId = getParamValue(CONSTANTS.OPERATION_TASK_ID);
+		String businessType = getParamValue(CONSTANTS.OPERATION_BUSINESS_TYPE);
+		Long userId = this.getCurrentUserId();
 
 		TaskService taskService = processEngine.getTaskService();
 		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
@@ -51,8 +54,8 @@ public class CompleteTaskOperation extends AbstractOperation<Void> {
 
 		// 先设置登录用户
 		IdentityService identityService = processEngine.getIdentityService();
-		identityService.setAuthenticatedUserId((String) SecurityUtils
-				.getSubject().getSession().getAttribute("user_id"));
+		identityService.setAuthenticatedUserId(String.valueOf(SecurityUtils
+				.getSubject().getSession().getAttribute("user_id")));
 
 		if (task == null) {
 			throw new IllegalStateException("任务不存在");
@@ -82,16 +85,6 @@ public class CompleteTaskOperation extends AbstractOperation<Void> {
 		// taskId = task.getParentTaskId();
 		// }
 
-		FormService formService = processEngine.getFormService();
-		String taskFormKey = formService.getTaskFormKey(
-				task.getProcessDefinitionId(), task.getTaskDefinitionKey());
-		FormInfo formInfo = new FormInfo();
-		formInfo.setTaskId(taskId);
-		formInfo.setFormKey(taskFormKey);
-
-		// 尝试根据表单里字段的类型，进行转换
-		Map<String, String> formTypeMap = new HashMap<String, String>();
-
 		String processInstanceId = task.getProcessInstanceId();
 		Record record = getRecordManager().findByRef(processInstanceId);
 
@@ -99,7 +92,8 @@ public class CompleteTaskOperation extends AbstractOperation<Void> {
 
 		if (record == null) {
 			new CompleteTaskWithCommentCmd(taskId, processParameters,
-					OPERATION_COMMENT).execute(commandContext);
+					CONSTANTS.OPERATION_COMMENT_COMPLETE)
+					.execute(commandContext);
 
 			return null;
 		}
@@ -113,10 +107,33 @@ public class CompleteTaskOperation extends AbstractOperation<Void> {
 		}
 
 		new CompleteTaskWithCommentCmd(taskId, processParameters,
-				OPERATION_COMMENT).execute(commandContext);
-		record = new RecordBuilder().build(record, STATUS_RUNNING,
-				processInstanceId);
+				CONSTANTS.OPERATION_COMMENT_COMPLETE).execute(commandContext);
+		record = new RecordBuilder().build(record,
+				CONSTANTS.PROCESS_STATUS_RUNNING, processInstanceId);
 		this.getRecordManager().save(record);
+
+		log.info("业务类型 := " + businessType);
+
+		if (CONSTANTS.BPM_BUSINESS_TYPE_VOCATION_REQUEST.equals(businessType)) {
+
+			BpmVocationApplyLog applyLog = this.getBpmVocationApplyLogManager()
+					.get(record.getApplySeqId());
+
+			applyLog.setStatFlag(CONSTANTS.BUSINESS_APPLY_LOG_STAT_FLAG_NORMAL);
+
+			BpmVocationProcDtl procDtl = new BpmVocationProcDtl();
+			procDtl.setApplyLog(applyLog);
+			procDtl.setProcDate(CPublic.getDate());
+			procDtl.setProcTime(CPublic.getTime());
+			procDtl.setUserId(userId);
+
+			applyLog.getProcDtls().add(procDtl);
+
+			this.getBpmVocationApplyLogManager().save(applyLog);
+
+		} else {
+			log.error("businessType is unknown.");
+		}
 
 		return null;
 	}
@@ -127,6 +144,11 @@ public class CompleteTaskOperation extends AbstractOperation<Void> {
 
 	public RecordManager getRecordManager() {
 		return ApplicationContextHelper.getBean(RecordManager.class);
+	}
+
+	public BpmVocationApplyLogManager getBpmVocationApplyLogManager() {
+		return ApplicationContextHelper
+				.getBean(BpmVocationApplyLogManager.class);
 	}
 
 }

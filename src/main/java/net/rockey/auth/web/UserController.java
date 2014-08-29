@@ -1,9 +1,11 @@
 package net.rockey.auth.web;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.rockey.auth.manager.UserManager;
@@ -22,6 +24,7 @@ import net.rockey.core.util.StringUtils;
 import net.rockey.ext.export.Exportor;
 import net.rockey.ext.export.TableModel;
 
+import org.apache.ibatis.scripting.xmltags.ForEachSqlNode;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -32,6 +35,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.alibaba.fastjson.JSON;
 
 @Controller
 @RequestMapping("auth")
@@ -212,6 +217,39 @@ public class UserController {
 		model.addAttribute("model", userDTO);
 
 		return "auth/user-info";
+	}
+
+	@RequestMapping("user-list-text")
+	public void ajaxText(HttpServletRequest request, PrintWriter printWriter) {
+		String idName = request.getParameter("idName");
+		String isSingle = request.getParameter("isSingle");
+
+		StringBuffer html = new StringBuffer(1000);
+		List<AuthUser> users = (List<AuthUser>) userManager.getAll();
+
+		String className = Boolean.valueOf(isSingle) ? "singleselect"
+				: "multiselect";
+
+		html.append("<select id=\"").append(idName).append("\" name=\"")
+				.append(idName).append("\" class=\"").append(className)
+				.append("\" multiple=\"multiple\">");
+		for (AuthUser user : users) {
+			html.append("<option value=\"").append(user.getId()).append("\">")
+					.append(user.getName()).append("</option>");
+		}
+		html.append("</select>");
+
+		printWriter.write(html.toString());
+		printWriter.flush();
+		printWriter.close();
+	}
+	
+	@RequestMapping("user-list-json")
+	public void ajaxJson(PrintWriter printWriter) {
+		String json = JSON.toJSONString((List<AuthUser>) userManager.getAll());
+		printWriter.write(json);
+		printWriter.flush();
+		printWriter.close();
 	}
 
 }

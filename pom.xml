@@ -39,6 +39,7 @@
 		<jstl.version>1.2</jstl.version>
 		<orika.version>1.4.4</orika.version>
 		<mail.version>1.4.7</mail.version>
+		<fastjson.version>1.1.28</fastjson.version>
 	</properties>
 
 	<dependencies>
@@ -272,6 +273,11 @@
 					<artifactId>activation</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>${fastjson.version}</version>
 		</dependency>
 	</dependencies>
 

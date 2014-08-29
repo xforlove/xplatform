@@ -1,6 +1,5 @@
 package net.rockey.form.web;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +29,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -40,8 +38,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class FormController {
 
 	private final Logger log = LogUtils.getLogger(FormController.class, true);
-
-	public static final int STATUS_RUNNING = 2;
 
 	@Autowired
 	private ProcessEngine processEngine;
@@ -112,22 +108,15 @@ public class FormController {
 
 			if (!bpmConfForms.isEmpty()) {
 				if (Integer.valueOf(1).equals(bpmConfForms.get(0).getType())) {
-					String redirectUrl = bpmConfForms.get(0).getValue()
-							+ "?processDefinitionId="
-							+ formInfo.getProcessDefinitionId();
-
-					return "redirect:" + redirectUrl;
+					return "redirect:" + bpmConfForms.get(0).getValue();
 				}
 			}
 
-			String redirectUrl = formInfo.getFormKey()
-					+ "?processDefinitionId="
-					+ formInfo.getProcessDefinitionId();
-
-			return "redirect:" + redirectUrl;
+			return "redirect:" + formInfo.getFormKey();
 
 			// TODO - return "form/form-viewStartForm";
 		} else {
+
 			// TODO - 如果没找到form，就判断是否配置负责人
 			return null;
 		}
@@ -151,7 +140,7 @@ public class FormController {
 
 		messageHelper.addFlashMessage(redirectAttributes, "流程已发起");
 
-		return "redirect:/bpm/workspace-home.do";
+		return "redirect:../bpm/workspace-home.do";
 	}
 
 	/**
@@ -192,8 +181,7 @@ public class FormController {
 
 		if (!bpmConfForms.isEmpty()) {
 			if (Integer.valueOf(1).equals(bpmConfForms.get(0).getType())) {
-				String redirectUrl = bpmConfForms.get(0).getValue()
-						+ "?taskId=" + taskId;
+				String redirectUrl = bpmConfForms.get(0).getValue();
 
 				return "redirect:" + redirectUrl;
 			}
@@ -205,14 +193,20 @@ public class FormController {
 
 		String businessKey = processInstance.getBusinessKey();
 
-		Record record = (Record) recordManager.find(businessKey);
+		redirectAttributes.addAttribute("businessKey", businessKey);
 
+		Record record = (Record) recordManager.get(Long.parseLong(businessKey));
+
+		// TODO - 以后考虑通过Ajax直接加载至页面
 		BpmVocationApplyLog applyLog = bpmVocationApplyLogManager.get(record
 				.getApplySeqId());
 
-		redirectAttributes.addAttribute("applyLog", applyLog);
+		redirectAttributes.addAttribute("creator", 1);
+		redirectAttributes.addAttribute("type", applyLog.getType());
+		redirectAttributes.addAttribute("duration", applyLog.getDuration());
+		redirectAttributes.addAttribute("descn", applyLog.getDescn());
 
-		String redirectUrl = taskFormKey + "?taskId=" + taskId;
+		String redirectUrl = taskFormKey;
 
 		return "redirect:" + redirectUrl;
 
@@ -228,13 +222,14 @@ public class FormController {
 
 		try {
 			new CompleteTaskOperation().execute(parameterMap);
+			messageHelper.addFlashMessage(redirectAttributes, "操作成功");
 		} catch (IllegalStateException ex) {
 			log.error(ex.getMessage(), ex);
 			messageHelper.addFlashMessage(redirectAttributes, ex.getMessage());
-
-			return "redirect:/bpm/workspace-listPersonalTasks.do";
 		}
 
-		return "form/form-completeTask";
+		return "redirect:../bpm/workspace-listPersonalTasks.do";
+
+		// TODO - return "form/form-completeTask";
 	}
 }

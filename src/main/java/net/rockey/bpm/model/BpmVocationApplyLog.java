@@ -16,6 +16,7 @@ import javax.persistence.Table;
 public class BpmVocationApplyLog implements java.io.Serializable {
 
 	private Long id;
+	private Long creator;
 	private String applyTime;
 	private String type;
 	private String beginDate;
@@ -23,6 +24,7 @@ public class BpmVocationApplyLog implements java.io.Serializable {
 	private String endDate;
 	private String endTime;
 	private double duration;
+	private String statFlag;
 	private String descn;
 
 	private List<BpmVocationProcDtl> procDtls = new ArrayList<BpmVocationProcDtl>();
@@ -116,6 +118,24 @@ public class BpmVocationApplyLog implements java.io.Serializable {
 
 	public void setProcDtls(List<BpmVocationProcDtl> procDtls) {
 		this.procDtls = procDtls;
+	}
+
+	@Column(name = "creator")
+	public Long getCreator() {
+		return creator;
+	}
+
+	public void setCreator(Long creator) {
+		this.creator = creator;
+	}
+
+	@Column(name = "stat_flag", nullable = false, length = 20)
+	public String getStatFlag() {
+		return statFlag;
+	}
+
+	public void setStatFlag(String statFlag) {
+		this.statFlag = statFlag;
 	}
 
 }
