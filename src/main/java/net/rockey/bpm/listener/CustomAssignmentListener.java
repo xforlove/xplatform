@@ -18,7 +18,7 @@ public class CustomAssignmentListener extends DefaultTaskListener {
 		// TODO
 		Map<String, Object> parameters = delegateTask.getVariables();
 
-		log.info(parameters.get("approver").toString());
+		log.info(parameters.toString());
 		
 		delegateTask.setAssignee("2");
 	}

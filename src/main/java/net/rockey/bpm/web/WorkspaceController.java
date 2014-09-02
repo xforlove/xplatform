@@ -11,6 +11,7 @@ import net.rockey.bpm.manager.BpmCategoryManager;
 import net.rockey.bpm.manager.BpmProcessManager;
 import net.rockey.bpm.model.BpmProcess;
 import net.rockey.core.util.LogUtils;
+import net.rockey.core.util.ShiroUtils;
 
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.ProcessEngine;
@@ -105,8 +106,7 @@ public class WorkspaceController {
 	@RequestMapping("workspace-listPersonalTasks")
 	public String listPersonalTasks(Model model) {
 		TaskService taskService = processEngine.getTaskService();
-		String userId = SecurityUtils.getSubject().getSession()
-				.getAttribute("user_id").toString();
+		String userId = (String) ShiroUtils.getAttribute("user_id");
 
 		List<Task> tasks = taskService.createTaskQuery().taskAssignee(userId)
 				.active().orderByProcessInstanceId().asc().list();
@@ -123,8 +123,7 @@ public class WorkspaceController {
 	@RequestMapping("workspace-listHistoryTasks")
 	public String listHistoryTasks(Model model) {
 		HistoryService historyService = processEngine.getHistoryService();
-		String userId = SecurityUtils.getSubject().getSession()
-				.getAttribute("user_id").toString();
+		String userId = (String) ShiroUtils.getAttribute("user_id");
 		List<HistoricTaskInstance> historicTasks = historyService
 				.createHistoricTaskInstanceQuery().taskAssignee(userId)
 				.finished().orderByProcessInstanceId().asc().list();

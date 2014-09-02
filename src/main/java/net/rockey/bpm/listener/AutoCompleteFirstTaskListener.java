@@ -3,6 +3,7 @@ package net.rockey.bpm.listener;
 import net.rockey.bpm.cmd.CompleteTaskWithCommentCmd;
 import net.rockey.bpm.support.DefaultTaskListener;
 import net.rockey.core.util.LogUtils;
+import net.rockey.core.util.ShiroUtils;
 
 import org.activiti.engine.delegate.DelegateTask;
 import org.activiti.engine.impl.context.Context;
@@ -22,8 +23,7 @@ public class AutoCompleteFirstTaskListener extends DefaultTaskListener {
 	public void onCreate(DelegateTask delegateTask) throws Exception {
 		super.onCreate(delegateTask);
 
-		String userId = ((Long) SecurityUtils.getSubject().getSession()
-				.getAttribute("user_id")).toString();
+		String userId = (String) ShiroUtils.getAttribute("user_id");
 		String assignee = delegateTask.getAssignee();
 
 		ProcessDefinitionEntity processDefinitionEntity = Context

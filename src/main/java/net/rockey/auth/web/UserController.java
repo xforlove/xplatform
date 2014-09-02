@@ -24,7 +24,6 @@ import net.rockey.core.util.StringUtils;
 import net.rockey.ext.export.Exportor;
 import net.rockey.ext.export.TableModel;
 
-import org.apache.ibatis.scripting.xmltags.ForEachSqlNode;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -203,20 +202,6 @@ public class UserController {
 		tbModel.addHeaders("id", "name", "statFlag");
 		tbModel.setData(users);
 		exportor.export(response, tbModel);
-	}
-
-	@RequestMapping("user-info")
-	public String info(Model model) {
-		Subject currentUser = SecurityUtils.getSubject();
-
-		AuthUser user = userManager.get((Long) currentUser.getSession()
-				.getAttribute("user_id"));
-
-		AuthUserDTO userDTO = userConverter.createAuthUserDto(user);
-
-		model.addAttribute("model", userDTO);
-
-		return "auth/user-info";
 	}
 
 	@RequestMapping("user-list-text")

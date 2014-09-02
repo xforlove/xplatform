@@ -65,13 +65,13 @@
 					<div class="form-group">
 						<label for="approver" class="col-sm-2 control-label">审核人ID</label>
 						<div id="approverDiv" class="col-sm-4">
-							<input type="text" class="form-control" id="approver" name="approver" >
+							<input type="text" class="form-control" id="approver" name="pp_approver" >
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="type" class="col-sm-2 control-label">请假类型</label>
 						<div class="col-sm-4">
-							<select id="type" name="type" class="singleselect" multiple="multiple">
+							<select id="type" name="pp_type" class="singleselect" multiple="multiple">
 								<option value="1">年假</option>
 								<option value="2">事假</option>
 								<option value="3">病假</option>
@@ -83,13 +83,13 @@
 					<div class="form-group">
 						<label for="duration" class="col-sm-2 control-label">请假天数</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control" id="duration" name="duration" >
+							<input type="text" class="form-control" id="duration" name="pp_duration" >
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="descn" class="col-sm-2 control-label">请假原因</label>
+						<label for="reason" class="col-sm-2 control-label">请假原因</label>
 						<div class="col-sm-4">
-							<textarea rows="3" class="form-control" id="descn" name="descn"></textarea>
+							<textarea rows="3" class="form-control" id="reason" name="pp_reason"></textarea>
 						</div>
 					</div>
 					<div class="form-group">

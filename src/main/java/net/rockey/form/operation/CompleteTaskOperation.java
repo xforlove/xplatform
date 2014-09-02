@@ -2,30 +2,23 @@ package net.rockey.form.operation;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
-import net.rockey.bpm.FormInfo;
 import net.rockey.bpm.cmd.CompleteTaskWithCommentCmd;
+import net.rockey.bpm.manager.BpmLeaveApplyLogManager;
 import net.rockey.bpm.manager.BpmProcessManager;
-import net.rockey.bpm.manager.BpmVocationApplyLogManager;
-import net.rockey.bpm.model.BpmVocationApplyLog;
-import net.rockey.bpm.model.BpmVocationProcDtl;
+import net.rockey.bpm.model.BpmLeaveApplyLog;
 import net.rockey.core.spring.ApplicationContextHelper;
 import net.rockey.core.util.CONSTANTS;
-import net.rockey.core.util.CPublic;
 import net.rockey.core.util.LogUtils;
-import net.rockey.form.manager.RecordManager;
-import net.rockey.form.model.Prop;
-import net.rockey.form.model.Record;
-import net.rockey.form.support.RecordBuilder;
+import net.rockey.core.util.ShiroUtils;
 
-import org.activiti.engine.FormService;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.impl.interceptor.CommandContext;
 import org.activiti.engine.task.Task;
 import org.apache.log4j.Logger;
-import org.apache.shiro.SecurityUtils;
 
 public class CompleteTaskOperation extends AbstractOperation<Void> {
 
@@ -37,7 +30,6 @@ public class CompleteTaskOperation extends AbstractOperation<Void> {
 		ProcessEngine processEngine = getProcessEngine();
 		String taskId = getParamValue(CONSTANTS.OPERATION_TASK_ID);
 		String businessType = getParamValue(CONSTANTS.OPERATION_BUSINESS_TYPE);
-		Long userId = this.getCurrentUserId();
 
 		TaskService taskService = processEngine.getTaskService();
 		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
@@ -54,8 +46,8 @@ public class CompleteTaskOperation extends AbstractOperation<Void> {
 
 		// 先设置登录用户
 		IdentityService identityService = processEngine.getIdentityService();
-		identityService.setAuthenticatedUserId(String.valueOf(SecurityUtils
-				.getSubject().getSession().getAttribute("user_id")));
+		identityService.setAuthenticatedUserId((String) ShiroUtils
+				.getAttribute("user_id"));
 
 		if (task == null) {
 			throw new IllegalStateException("任务不存在");
@@ -86,54 +78,37 @@ public class CompleteTaskOperation extends AbstractOperation<Void> {
 		// }
 
 		String processInstanceId = task.getProcessInstanceId();
-		Record record = getRecordManager().findByRef(processInstanceId);
+
+		// 通过流程实例号获得业务对象
+		BpmLeaveApplyLog applyLog = this.getBpmLeaveApplyLogManager()
+				.findUniqueBy("processInstanceId", processInstanceId);
 
 		Map<String, Object> processParameters = new HashMap<String, Object>();
 
-		if (record == null) {
-			new CompleteTaskWithCommentCmd(taskId, processParameters,
-					CONSTANTS.OPERATION_COMMENT_COMPLETE)
-					.execute(commandContext);
+		// 构建流程参数
+		Map<String, Object> parameters = this.getParameters();
+		for (Entry<String, Object> entry : parameters.entrySet()) {
+			String key = entry.getKey();
 
-			return null;
-		}
+			/*
+			 * 参数结构：pp_reason 前缀 pp_ 的意思是 process parameter, 后面是属性名称
+			 */
+			if (key.startsWith("pp_")) {
+				String[] params = key.split("_");
+				processParameters.put(params[1], entry.getValue());
+			}
 
-		// 如果有表单，就从数据库获取数据
-		for (Prop prop : record.getProps()) {
-			String key = prop.getCode();
-			String value = prop.getValue();
-
-			processParameters.put(key, value);
 		}
 
 		new CompleteTaskWithCommentCmd(taskId, processParameters,
 				CONSTANTS.OPERATION_COMMENT_COMPLETE).execute(commandContext);
-		record = new RecordBuilder().build(record,
-				CONSTANTS.PROCESS_STATUS_RUNNING, processInstanceId);
-		this.getRecordManager().save(record);
 
 		log.info("业务类型 := " + businessType);
 
-		if (CONSTANTS.BPM_BUSINESS_TYPE_VOCATION_REQUEST.equals(businessType)) {
+		applyLog.setStatFlag(CONSTANTS.BUSINESS_APPLY_LOG_STAT_FLAG_NORMAL);
+		applyLog.setProcessStatFlag(CONSTANTS.PROCESS_STATUS_RUNNING);
 
-			BpmVocationApplyLog applyLog = this.getBpmVocationApplyLogManager()
-					.get(record.getApplySeqId());
-
-			applyLog.setStatFlag(CONSTANTS.BUSINESS_APPLY_LOG_STAT_FLAG_NORMAL);
-
-			BpmVocationProcDtl procDtl = new BpmVocationProcDtl();
-			procDtl.setApplyLog(applyLog);
-			procDtl.setProcDate(CPublic.getDate());
-			procDtl.setProcTime(CPublic.getTime());
-			procDtl.setUserId(userId);
-
-			applyLog.getProcDtls().add(procDtl);
-
-			this.getBpmVocationApplyLogManager().save(applyLog);
-
-		} else {
-			log.error("businessType is unknown.");
-		}
+		this.getBpmLeaveApplyLogManager().save(applyLog);
 
 		return null;
 	}
@@ -142,13 +117,8 @@ public class CompleteTaskOperation extends AbstractOperation<Void> {
 		return ApplicationContextHelper.getBean(BpmProcessManager.class);
 	}
 
-	public RecordManager getRecordManager() {
-		return ApplicationContextHelper.getBean(RecordManager.class);
-	}
-
-	public BpmVocationApplyLogManager getBpmVocationApplyLogManager() {
-		return ApplicationContextHelper
-				.getBean(BpmVocationApplyLogManager.class);
+	public BpmLeaveApplyLogManager getBpmLeaveApplyLogManager() {
+		return ApplicationContextHelper.getBean(BpmLeaveApplyLogManager.class);
 	}
 
 }

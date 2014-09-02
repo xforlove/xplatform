@@ -1,15 +1,12 @@
 package net.rockey.bpm;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class FormInfo {
+
 	private String formKey;
 	private String processDefinitionId;
 	private String taskId;
 	private boolean autoCompleteFirstTask;
 	private String activityId;
-	private List<String> buttons = new ArrayList<String>();
 
 	public String getFormKey() {
 		return formKey;
@@ -71,11 +68,4 @@ public class FormInfo {
 		return formKey != null;
 	}
 
-	public List<String> getButtons() {
-		return buttons;
-	}
-
-	public void setButtons(List<String> buttons) {
-		this.buttons = buttons;
-	}
 }

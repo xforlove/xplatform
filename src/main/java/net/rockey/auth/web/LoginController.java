@@ -1,16 +1,13 @@
 package net.rockey.auth.web;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import net.rockey.auth.manager.UserManager;
 import net.rockey.auth.model.AuthUser;
 import net.rockey.core.util.LogUtils;
+import net.rockey.core.util.ShiroUtils;
 
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,8 +30,6 @@ public class LoginController {
 
 		AuthUser user = userManager.findUniqueBy("loginId", loginId);
 		if (user != null) {
-			log.debug(loginPass + ", " + user.getLoginPass());
-
 			Subject currentUser = SecurityUtils.getSubject();
 			if (loginPass.equals(user.getLoginPass())) {
 				UsernamePasswordToken token = new UsernamePasswordToken(
@@ -42,10 +37,10 @@ public class LoginController {
 				token.setRememberMe(true);
 				currentUser.login(token);
 
-				Session session = currentUser.getSession();
-				session.setAttribute("user_id", user.getId()); // 用户ID
-				session.setAttribute("user_name", user.getName()); // 用户姓名
-				session.setAttribute("login_id", user.getLoginId()); // 登录账号
+				ShiroUtils
+						.setAttribute("user_id", String.valueOf(user.getId()));
+				ShiroUtils.setAttribute("user_name", user.getName());
+				ShiroUtils.setAttribute("login_id", user.getLoginId());
 
 				return "redirect:/dashboard/dashboard.do";
 			} else {

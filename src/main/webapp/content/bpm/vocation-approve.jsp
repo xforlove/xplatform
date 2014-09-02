@@ -17,15 +17,6 @@
 		
 	});
 
-	function agree(){
-		$('#approveResult').val('1');
-		$('#businessForm').submit();
-	}
-	
-	function reject(){
-		$('#approveResult').val('0');
-		$('#businessForm').submit();
-	}
 </script>
 </head>
 
@@ -51,7 +42,6 @@
 					<input type="hidden" id="taskId" name="taskId" value="${param.taskId}">
 					<input type="hidden" id="businessKey" name="businessKey" value="${param.businessKey}">
 					<input type="hidden" id="businessType" name="businessType" value="vocationRequest">
-					<input type="hidden" id="approveResult" name="approveResult">
 
 					<div class="form-group">
 						<label for="duration" class="col-sm-2 control-label">申请人ID</label>
@@ -88,14 +78,21 @@
 					<div class="form-group">
 						<label for="descn" class="col-sm-2 control-label">请假原因</label>
 						<div class="col-sm-4">
-							<textarea rows="3" class="form-control" id="descn" name="descn" readonly="readonly">${param.descn }</textarea>
+							<textarea rows="3" class="form-control" id="descn" name="descn" readonly="readonly">${param.reason }</textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="descn" class="col-sm-2 control-label">审批结果</label>
+						<div class="col-sm-4">
+							<select id="auditPass" name="pp_auditPass" >
+								<option value="true">同意</option>
+								<option value="false">驳回</option>
+							</select>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-4">
-							<button type="submit" class="btn btn-primary" onclick="javascript: return agree();">通过</button>
-							<button type="button" class="btn btn-danger" onclick="javascript: return reject();">拒绝</button>
-							<button type="button" class="btn btn-default" onclick="javascript: history.back();">返回</button>
+							<button type="submit" class="btn btn-primary">完成</button>
 						</div>
 					</div>
 				</form>

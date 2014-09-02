@@ -2,26 +2,25 @@ package net.rockey.form.operation;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
-import net.rockey.auth.manager.UserManager;
+import net.rockey.bpm.manager.BpmLeaveApplyLogManager;
 import net.rockey.bpm.manager.BpmProcessManager;
-import net.rockey.bpm.manager.BpmTaskConfManager;
+import net.rockey.bpm.model.BpmLeaveApplyLog;
 import net.rockey.bpm.model.BpmProcess;
 import net.rockey.core.spring.ApplicationContextHelper;
-import net.rockey.core.util.CPublic;
+import net.rockey.core.util.CONSTANTS;
 import net.rockey.core.util.LogUtils;
-import net.rockey.form.manager.RecordManager;
-import net.rockey.form.model.Prop;
-import net.rockey.form.model.Record;
-import net.rockey.form.support.RecordBuilder;
+import net.rockey.core.util.ShiroUtils;
 
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.impl.interceptor.CommandContext;
+import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.apache.log4j.Logger;
 
-public class StartProcessOperation extends AbstractOperation<Void> {
+public class StartProcessOperation extends AbstractOperation<String> {
 
 	private final Logger log = LogUtils.getLogger(StartProcessOperation.class,
 			true);
@@ -32,7 +31,7 @@ public class StartProcessOperation extends AbstractOperation<Void> {
 	public static final String STATUS_RUNNING = "RUNNING";
 
 	@Override
-	public Void execute(CommandContext commandContext) {
+	public String execute(CommandContext commandContext) {
 		ProcessEngine processEngine = getProcessEngine();
 		String bpmProcessId = getParamValue(OPERATION_BPM_PROCESS_ID);
 
@@ -48,46 +47,52 @@ public class StartProcessOperation extends AbstractOperation<Void> {
 
 		// 先设置登录用户
 		IdentityService identityService = processEngine.getIdentityService();
-		identityService.setAuthenticatedUserId(this.getCurrentUserId()
-				.toString());
-
-		Record record = this.getRecordManager()
-				.get(Long.parseLong(businessKey));
+		identityService.setAuthenticatedUserId((String) ShiroUtils
+				.getAttribute("user_id"));
 
 		Map<String, Object> processParameters = new HashMap<String, Object>();
 
-		for (Prop prop : record.getProps()) {
-			if (OPERATION_BUSINESS_KEY.equals(prop.getCode())) {
-				prop.setValue(record.getId().toString());
+		// 构建流程参数
+		Map<String, Object> parameters = this.getParameters();
+		for (Entry<String, Object> entry : parameters.entrySet()) {
+			String key = entry.getKey();
+
+			/*
+			 * 参数结构：pp_reason 前缀 pp_ 的意思是 process parameter, 后面是属性名称
+			 */
+			if (key.startsWith("pp_")) {
+				String[] params = key.split("_");
+				processParameters.put(params[1], entry.getValue());
 			}
-			processParameters.put(prop.getCode(), prop.getValue());
+
 		}
 
+		// 启动流程
 		ProcessInstance processInstance = processEngine.getRuntimeService()
 				.startProcessInstanceByKey(processDefinitionKey, businessKey,
 						processParameters);
 
-		record = new RecordBuilder().build(record, STATUS_RUNNING,
-				processInstance.getId());
+		String processInstanceId = processInstance.getProcessInstanceId();
 
-		this.getRecordManager().save(record);
+		log.debug("businessKey : " + businessKey + ", processInstanceId : "
+				+ processInstanceId);
 
-		return null;
-	}
+		// 将流程实例号提交给业务实体
+		BpmLeaveApplyLog applyLog = this.getBpmLeaveApplyLogManager().get(
+				Long.parseLong(businessKey));
+		applyLog.setProcessInstanceId(processInstanceId);
+		applyLog.setProcessStatFlag(CONSTANTS.PROCESS_STATUS_RUNNING);
+		
+		this.getBpmLeaveApplyLogManager().save(applyLog);
 
-	public BpmTaskConfManager getBpmTaskConfManager() {
-		return ApplicationContextHelper.getBean(BpmTaskConfManager.class);
+		return processInstanceId;
 	}
 
 	public BpmProcessManager getBpmProcessManager() {
 		return ApplicationContextHelper.getBean(BpmProcessManager.class);
 	}
 
-	public UserManager getUserManager() {
-		return ApplicationContextHelper.getBean(UserManager.class);
-	}
-
-	public RecordManager getRecordManager() {
-		return ApplicationContextHelper.getBean(RecordManager.class);
+	public BpmLeaveApplyLogManager getBpmLeaveApplyLogManager() {
+		return ApplicationContextHelper.getBean(BpmLeaveApplyLogManager.class);
 	}
 }

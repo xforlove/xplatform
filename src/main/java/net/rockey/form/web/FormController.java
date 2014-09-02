@@ -1,22 +1,15 @@
 package net.rockey.form.web;
 
-import java.util.List;
 import java.util.Map;
 
 import net.rockey.bpm.FormInfo;
 import net.rockey.bpm.cmd.FindStartFormCmd;
-import net.rockey.bpm.manager.BpmConfFormManager;
-import net.rockey.bpm.manager.BpmConfOperationManager;
+import net.rockey.bpm.manager.BpmLeaveApplyLogManager;
 import net.rockey.bpm.manager.BpmProcessManager;
-import net.rockey.bpm.manager.BpmTaskConfManager;
-import net.rockey.bpm.manager.BpmVocationApplyLogManager;
-import net.rockey.bpm.model.BpmConfForm;
+import net.rockey.bpm.model.BpmLeaveApplyLog;
 import net.rockey.bpm.model.BpmProcess;
-import net.rockey.bpm.model.BpmVocationApplyLog;
 import net.rockey.core.spring.MessageHelper;
 import net.rockey.core.util.LogUtils;
-import net.rockey.form.manager.RecordManager;
-import net.rockey.form.model.Record;
 import net.rockey.form.operation.CompleteTaskOperation;
 import net.rockey.form.operation.StartProcessOperation;
 
@@ -46,19 +39,7 @@ public class FormController {
 	private BpmProcessManager bpmProcessManager;
 
 	@Autowired
-	private BpmTaskConfManager bpmTaskConfManager;
-
-	@Autowired
-	private BpmConfOperationManager bpmConfOperationManager;
-
-	@Autowired
-	private BpmConfFormManager bpmConfFormManager;
-
-	@Autowired
-	private RecordManager recordManager;
-
-	@Autowired
-	private BpmVocationApplyLogManager bpmVocationApplyLogManager;
+	private BpmLeaveApplyLogManager bpmLeaveApplyLogManager;
 
 	@Autowired
 	private MessageHelper messageHelper;
@@ -88,37 +69,14 @@ public class FormController {
 		redirectAttributes.addAttribute("autoCompleteFirstTask",
 				formInfo.isAutoCompleteFirstTask());
 
-		String nextStep = null;
-
 		if (formInfo.isFormExists()) {
-			// 如果找到了form，就显示表单
-			if (Integer.valueOf(1).equals(bpmProcess.getNeedTaskConf())) {
-				// 如果需要配置负责人
-				nextStep = "taskConf";
-			} else {
-				nextStep = "startProcessInstance";
-			}
-
-			redirectAttributes.addAttribute("nextStep", nextStep);
-
-			List<BpmConfForm> bpmConfForms = bpmConfFormManager
-					.find("from BpmConfForm where bpmConfNode.bpmConfBase.processDefinitionId=? and bpmConfNode.code=?",
-							formInfo.getProcessDefinitionId(),
-							formInfo.getActivityId());
-
-			if (!bpmConfForms.isEmpty()) {
-				if (Integer.valueOf(1).equals(bpmConfForms.get(0).getType())) {
-					return "redirect:" + bpmConfForms.get(0).getValue();
-				}
-			}
 
 			return "redirect:" + formInfo.getFormKey();
-
 			// TODO - return "form/form-viewStartForm";
 		} else {
-
-			// TODO - 如果没找到form，就判断是否配置负责人
+			// TODO
 			return null;
+
 		}
 	}
 
@@ -136,9 +94,11 @@ public class FormController {
 			RedirectAttributes redirectAttributes, Model model)
 			throws Exception {
 
-		new StartProcessOperation().execute(parameterMap);
+		String processInstanceId = new StartProcessOperation()
+				.execute(parameterMap);
 
-		messageHelper.addFlashMessage(redirectAttributes, "流程已发起");
+		messageHelper.addFlashMessage(redirectAttributes, "流程已发起，流程实例号["
+				+ processInstanceId + "]");
 
 		return "redirect:../bpm/workspace-home.do";
 	}
@@ -157,55 +117,33 @@ public class FormController {
 			messageHelper.addFlashMessage(redirectAttributes, "任务不存在");
 			return "redirect:/bpm/workspace-listPersonalTasks.do";
 		}
+		
+		redirectAttributes.addAttribute("taskId", task.getId());
 
+		// 获得流程定义时配置的taskFormKey
 		FormService formService = processEngine.getFormService();
 		String taskFormKey = formService.getTaskFormKey(
 				task.getProcessDefinitionId(), task.getTaskDefinitionKey());
 
-		redirectAttributes.addAttribute("taskId", taskId);
-
-		// List<BpmConfOperation> bpmConfOperations = bpmConfOperationManager
-		// .find("from BpmConfOperation where bpmConfNode.bpmConfBase.processDefinitionId=? and bpmConfNode.code=?",
-		// task.getProcessDefinitionId(),
-		// task.getTaskDefinitionKey());
-		//
-		// for (BpmConfOperation bpmConfOperation : bpmConfOperations) {
-		// formInfo.getButtons().add(bpmConfOperation.getValue());
-		// }
-
-		String processDefinitionId = task.getProcessDefinitionId();
-		String activitiyId = task.getTaskDefinitionKey();
-		List<BpmConfForm> bpmConfForms = bpmConfFormManager
-				.find("from BpmConfForm where bpmConfNode.bpmConfBase.processDefinitionId=? and bpmConfNode.code=?",
-						processDefinitionId, activitiyId);
-
-		if (!bpmConfForms.isEmpty()) {
-			if (Integer.valueOf(1).equals(bpmConfForms.get(0).getType())) {
-				String redirectUrl = bpmConfForms.get(0).getValue();
-
-				return "redirect:" + redirectUrl;
-			}
-		}
-
+		log.debug("taskFormKey : " + taskFormKey);
+		
 		ProcessInstance processInstance = processEngine.getRuntimeService()
 				.createProcessInstanceQuery()
 				.processInstanceId(task.getProcessInstanceId()).singleResult();
 
 		String businessKey = processInstance.getBusinessKey();
-
+		
 		redirectAttributes.addAttribute("businessKey", businessKey);
 
-		Record record = (Record) recordManager.get(Long.parseLong(businessKey));
+		BpmLeaveApplyLog applyLog = bpmLeaveApplyLogManager.get(Long
+				.parseLong(businessKey));
 
 		// TODO - 以后考虑通过Ajax直接加载至页面
-		BpmVocationApplyLog applyLog = bpmVocationApplyLogManager.get(record
-				.getApplySeqId());
-
-		redirectAttributes.addAttribute("creator", 1);
 		redirectAttributes.addAttribute("type", applyLog.getType());
-		redirectAttributes.addAttribute("duration", applyLog.getDuration());
-		redirectAttributes.addAttribute("descn", applyLog.getDescn());
-
+		redirectAttributes.addAttribute("creator", applyLog.getCreator());
+		
+		redirectAttributes.addAttribute("applySeqId", applyLog.getId());
+		
 		String redirectUrl = taskFormKey;
 
 		return "redirect:" + redirectUrl;

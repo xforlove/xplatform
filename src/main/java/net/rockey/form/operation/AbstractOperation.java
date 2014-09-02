@@ -2,13 +2,10 @@ package net.rockey.form.operation;
 
 import java.util.Map;
 
-import net.rockey.auth.manager.UserManager;
 import net.rockey.core.spring.ApplicationContextHelper;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.impl.interceptor.Command;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 
 public abstract class AbstractOperation<T> implements Operation<T>, Command<T> {
 
@@ -37,17 +34,8 @@ public abstract class AbstractOperation<T> implements Operation<T>, Command<T> {
 		return this.parameters;
 	}
 
-	public Long getCurrentUserId() {
-		return (Long) SecurityUtils.getSubject().getSession()
-				.getAttribute("user_id");
-	}
-
 	public ProcessEngine getProcessEngine() {
 		return ApplicationContextHelper.getBean(ProcessEngine.class);
-	}
-
-	public UserManager getUserManager() {
-		return ApplicationContextHelper.getBean(UserManager.class);
 	}
 
 }

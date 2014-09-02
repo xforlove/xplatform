@@ -101,7 +101,9 @@
 	<bean id="customTaskListener" class="net.rockey.bpm.listener.ProxyTaskListener">
 		<property name="taskListeners">
 			<list>
-				<bean class="net.rockey.bpm.listener.ConfUserTaskListener"/>
+				<!--
+				<bean class="net.rockey.bpm.listener.ConfUserTaskListener"/> 
+				 -->
 				<!-- 
 				<bean class="com.mossle.bpm.listener.TaskConfTaskListener"/>
 				<bean class="com.mossle.bpm.listener.AssigneeAliasTaskListener"/>
