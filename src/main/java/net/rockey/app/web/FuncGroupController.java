@@ -1,6 +1,5 @@
 package net.rockey.app.web;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,12 +9,10 @@ import net.rockey.app.service.AppService;
 import net.rockey.app.support.AppFuncGroupDTO;
 import net.rockey.core.mapper.BeanMapper;
 import net.rockey.core.spring.MessageHelper;
-import net.rockey.core.util.CONSTANTS;
 import net.rockey.core.util.LogUtils;
 import net.rockey.core.util.Page;
 import net.rockey.core.util.ParamUtils;
 import net.rockey.core.util.StringUtils;
-import net.rockey.core.util.ViewTransfer;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +47,6 @@ public class FuncGroupController {
 
 		String name = ParamUtils.getString(parameterMap, "name");
 
-		List<AppFuncGroupDTO> funcGrpDtos = new ArrayList<AppFuncGroupDTO>();
-
 		List<AppFuncGroup> funcGrps;
 		if (StringUtils.isEmpty(name)) {
 			funcGrps = (List<AppFuncGroup>) funcGroupManager.getAll();
@@ -61,39 +56,18 @@ public class FuncGroupController {
 					"%" + name + "%");
 		}
 
-		for (AppFuncGroup funcGrp : funcGrps) {
-
-			AppFuncGroupDTO dest = new AppFuncGroupDTO();
-			mapper.copy(funcGrp, dest);
-			dest.setStatFlagCn(ViewTransfer.getPairStatFlagCn(funcGrp
-					.getStatFlag()));
-			funcGrpDtos.add(dest);
-		}
-
-		page.setResult(funcGrpDtos);
-		model.addAttribute("page", page);
+		model.addAttribute("funcGrps", funcGrps);
 
 		return "app/funcgroup-list";
 	}
 
 	@RequestMapping("funcgroup-input")
-	public String input(
-			@RequestParam(value = "id", required = false) Long id,
+	public String input(@RequestParam(value = "id", required = false) Long id,
 			Model model) {
 
 		if (id != null) {
-
 			AppFuncGroup funcGrp = funcGroupManager.load(id);
-
-			AppFuncGroupDTO dest = new AppFuncGroupDTO();
-
-			mapper.copy(funcGrp, dest);
-
-			dest.setStatFlagCn(ViewTransfer.getPairStatFlagCn(funcGrp
-					.getStatFlag()));
-
-			model.addAttribute("id", id);
-			model.addAttribute("funcGrp", dest);
+			model.addAttribute("model", funcGrp);
 		}
 
 		return "app/funcgroup-input";
@@ -104,15 +78,13 @@ public class FuncGroupController {
 			RedirectAttributes redirectAttributes, Model model) {
 		Long funcGrpId = funcGrpDTO.getId();
 		String funcGrpName = funcGrpDTO.getName();
-		String statFlag = funcGrpDTO.getStatFlag();
-
-		statFlag = statFlag == null ? CONSTANTS.STAT_FLAG_CLOSE : statFlag;
+		String descn = funcGrpDTO.getDescn();
 
 		AppFuncGroup funcGrp = (funcGrpId == null) ? (new AppFuncGroup())
 				: (funcGroupManager.get(funcGrpId));
 
 		funcGrp.setName(funcGrpName);
-		funcGrp.setStatFlag(statFlag);
+		funcGrp.setDescn(descn);
 
 		funcGroupManager.save(funcGrp);
 

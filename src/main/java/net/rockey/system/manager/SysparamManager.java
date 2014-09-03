@@ -1,11 +1,11 @@
 package net.rockey.system.manager;
 
 import net.rockey.core.hibernate.HibernateEntityDao;
-import net.rockey.system.model.SystemParam;
+import net.rockey.system.model.Sysparam;
 
 import org.springframework.stereotype.Service;
 
 @Service
-public class SystemParamManager extends HibernateEntityDao<SystemParam> {
+public class SysparamManager extends HibernateEntityDao<Sysparam> {
 
 }

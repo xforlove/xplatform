@@ -9,13 +9,11 @@ import net.rockey.auth.manager.RoleManager;
 import net.rockey.auth.model.AuthRole;
 import net.rockey.auth.service.AuthService;
 import net.rockey.auth.support.AuthRoleDTO;
-import net.rockey.core.mapper.BeanMapper;
 import net.rockey.core.spring.MessageHelper;
 import net.rockey.core.util.CONSTANTS;
 import net.rockey.core.util.LogUtils;
 import net.rockey.core.util.Page;
 import net.rockey.core.util.ParamUtils;
-import net.rockey.core.util.ViewTransfer;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -42,15 +40,11 @@ public class RoleController {
 	@Autowired
 	private MessageHelper messageHelper;
 
-	private BeanMapper mapper = new BeanMapper();
-
 	@RequestMapping("role-list")
 	public String list(@ModelAttribute Page page,
 			@RequestParam Map<String, Object> parameterMap, Model model) {
 
 		String name = ParamUtils.getString(parameterMap, "name");
-
-		List<AuthRoleDTO> roleDTOs = new ArrayList<AuthRoleDTO>();
 
 		List<AuthRole> roles;
 		if (StringUtils.isEmpty(name)) {
@@ -61,16 +55,7 @@ public class RoleController {
 					+ "%");
 		}
 
-		for (AuthRole role : roles) {
-			AuthRoleDTO dest = new AuthRoleDTO();
-			mapper.copy(role, dest);
-			dest.setStatFlagCn(ViewTransfer.getPairStatFlagCn(role
-					.getStatFlag()));
-			roleDTOs.add(dest);
-		}
-
-		page.setResult(roleDTOs);
-		model.addAttribute("page", page);
+		model.addAttribute("roles", roles);
 
 		return "auth/role-list";
 	}
@@ -93,9 +78,9 @@ public class RoleController {
 		Long roleId = roleDTO.getId();
 		String roleCode = roleDTO.getCode();
 		String roleName = roleDTO.getName();
-		String roleDesc = roleDTO.getDescn();
 		String statFlag = roleDTO.getStatFlag();
-
+		String roleDesc = roleDTO.getDescn();
+		
 		statFlag = statFlag == null ? CONSTANTS.STAT_FLAG_CLOSE : statFlag;
 
 		AuthRole role = (roleId == null) ? (new AuthRole()) : (roleManager
@@ -103,8 +88,8 @@ public class RoleController {
 
 		role.setCode(roleCode);
 		role.setName(roleName);
-		role.setDescn(roleDesc);
 		role.setStatFlag(statFlag);
+		role.setDescn(roleDesc);
 
 		roleManager.save(role);
 

@@ -59,17 +59,19 @@
 								<td width="50">序号</th>
 								<th>角色代号</th>
 								<th>角色名</th>
+								<th>描述</th>
 								<th>状态</th>
 								<th width="200">&nbsp;</th>
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${page.result }" var="object" varStatus="status">
+							<c:forEach items="${roles }" var="object" varStatus="status">
 								<tr>
 									<td>${status.index + 1 }</td>
 									<td>${object.code }</td>
 									<td>${object.name }</td>
-									<td>${object.statFlagCn }</td>
+									<td>${object.descn }</td>
+									<td>${object.statFlag == 'NORMAL' ? '启用' : '禁用' }</td>									
 									<td>
 										<div class="btn-group">
 											<button type="button" class="btn btn-default btn-sm" 

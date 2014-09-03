@@ -22,18 +22,30 @@ import net.rockey.auth.model.AuthRole;
 public class AppFunction {
 
 	private Long id;
+
+	/** 功能代号 */
 	private String code;
+
+	/** 功能名称 */
 	private String name;
+
+	/** 级别 */
 	private int level;
+
+	/** 动作 */
 	private String action;
+
+	/** 所属功能组 */
 	private AppFuncGroup group;
+
+	/** 上级节点 */
 	private AppFunction parent;
-	private String descn;
+
+	/** 状态标志 */
 	private String statFlag;
-	private Long creator;
-	private String createTime;
-	private Long updator;
-	private String updateTime;
+
+	/** 描述 */
+	private String descn;
 
 	private List<AppFunction> children = new ArrayList<AppFunction>(0);
 	private List<AuthRole> roles = new ArrayList<AuthRole>(0);
@@ -49,7 +61,7 @@ public class AppFunction {
 		this.id = id;
 	}
 
-	@Column(name = "code", nullable = false, length = 100)
+	@Column(name = "code", nullable = false, length = 64)
 	public String getCode() {
 		return code;
 	}
@@ -58,7 +70,7 @@ public class AppFunction {
 		this.code = code;
 	}
 
-	@Column(name = "name", nullable = false, length = 200)
+	@Column(name = "name", nullable = false, length = 64)
 	public String getName() {
 		return name;
 	}
@@ -67,7 +79,7 @@ public class AppFunction {
 		this.name = name;
 	}
 
-	@Column(name = "action", nullable = true, length = 200)
+	@Column(name = "action", nullable = true, length = 256)
 	public String getAction() {
 		return action;
 	}
@@ -86,7 +98,7 @@ public class AppFunction {
 		this.group = group;
 	}
 
-	@Column(name = "descn", nullable = true, length = 200)
+	@Column(name = "descn", nullable = true, length = 256)
 	public String getDescn() {
 		return descn;
 	}
@@ -95,7 +107,7 @@ public class AppFunction {
 		this.descn = descn;
 	}
 
-	@Column(name = "stat_flag", nullable = false, length = 50)
+	@Column(name = "stat_flag", nullable = false, length = 64)
 	public String getStatFlag() {
 		return statFlag;
 	}
@@ -104,7 +116,7 @@ public class AppFunction {
 		this.statFlag = statFlag;
 	}
 
-	@Column(name = "level", nullable = false, length = 2)
+	@Column(name = "level")
 	public int getLevel() {
 		return level;
 	}
@@ -139,42 +151,6 @@ public class AppFunction {
 
 	public void setRoles(List<AuthRole> roles) {
 		this.roles = roles;
-	}
-
-	@Column(name = "creator", length = 19)
-	public Long getCreator() {
-		return creator;
-	}
-
-	public void setCreator(Long creator) {
-		this.creator = creator;
-	}
-
-	@Column(name = "create_time", length = 14)
-	public String getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(String createTime) {
-		this.createTime = createTime;
-	}
-
-	@Column(name = "updator", length = 19)
-	public Long getUpdator() {
-		return updator;
-	}
-
-	public void setUpdator(Long updator) {
-		this.updator = updator;
-	}
-
-	@Column(name = "update_time", length = 14)
-	public String getUpdateTime() {
-		return updateTime;
-	}
-
-	public void setUpdateTime(String updateTime) {
-		this.updateTime = updateTime;
 	}
 
 }

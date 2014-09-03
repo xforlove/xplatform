@@ -25,8 +25,6 @@ import net.rockey.ext.export.Exportor;
 import net.rockey.ext.export.TableModel;
 
 import org.apache.log4j.Logger;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -124,10 +122,10 @@ public class UserController {
 		user.setId(userId);
 		user.setName(userName);
 		user.setLoginId(loginId);
-		user.setLoginPass(CONSTANTS.USER_PASSWORD_DEFAULT);
+		user.setLoginPass(CONSTANTS.DEFAULT_VALUE_PASSWORD);
 		user.setStatFlag(statFlag);
-		user.setEmail(CONSTANTS.USER_EMAIL_DEFAULT);
-		user.setPhone(CONSTANTS.USER_PHONE_DEFAULT);
+		user.setEmail(CONSTANTS.DEFAULT_VALUE_EMAIL);
+		user.setPhone(CONSTANTS.DEFAULT_VALUE_CELLPHONE);
 
 		userManager.save(user);
 
@@ -185,8 +183,6 @@ public class UserController {
 
 		String name = ParamUtils.getString(parameterMap, "name");
 
-		List<AuthUserDTO> userDtos = new ArrayList<AuthUserDTO>();
-
 		List<AuthUser> users;
 		if (StringUtils.isEmpty(name)) {
 			users = (List<AuthUser>) userManager.getAll();
@@ -228,7 +224,7 @@ public class UserController {
 		printWriter.flush();
 		printWriter.close();
 	}
-	
+
 	@RequestMapping("user-list-json")
 	public void ajaxJson(PrintWriter printWriter) {
 		String json = JSON.toJSONString((List<AuthUser>) userManager.getAll());

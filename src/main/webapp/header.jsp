@@ -46,6 +46,7 @@
 						<li><a href="#">组织结构</a></li>
 						<li class="${currentHeader == 'auth' ? 'active' : ''}"><a href="/${scopeUrl }/auth/index.do">权限体系</a></li>
 						<li class="${currentHeader == 'bpm-console' ? 'active' : ''}"><a href="/${scopeUrl }/bpm/bpm-category-list.do"">流程管理</a></li>
+						<li class="${currentHeader == 'form' ? 'active' : ''}"><a href="/${scopeUrl }/form-template/form-template-list.do"">表单管理</a></li>
 						<li class="divider"></li>
 						<li><a href="#">系统日志</a></li>
 						<li><a href="#">参数设置</a></li>

@@ -1,7 +1,7 @@
-<%@ page import="org.apache.shiro.SecurityUtils"%>
+<%@page import="org.apache.shiro.SecurityUtils"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@include file="/common/taglibs.jsp"%>
-<% pageContext.setAttribute("currentNavi", "bpm-process"); %>
+<%pageContext.setAttribute("currentNavi", "form-template");%>
 
 <!DOCTYPE html>
 <html lang="zh-cn">
@@ -14,29 +14,27 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		// TODO
-		
 	});
-	
 </script>
 
 </head>
 
 <body>
 
-	<%@include file="/header/bpm-console.jsp"%>
+	<%@include file="/header/form.jsp"%>
 
 	<div class="container-fluid">
 
 		<div class="row">
 			
-			<%@include file="/navigation/bpm-console.jsp"%>
+			<%@include file="/navigation/form.jsp"%>
 
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<div id="ROCK_DT_SEARCH">
-					<form id="searchForm" name="searchForm" class="form-inline" role="form" action="bpm-process-list.do" method="post">
+					<form id="searchForm" name="searchForm" class="form-inline" role="form" action="/${scopeUrl }/form-template/form-template-list.do" method="post">
 						
 						<div class="form-group">
-							<label for="name">流程名称：</label>
+							<label>表单名称：</label>
 							<input type="text" class="form-control" id="name" name="name" value="${param.name }">
 						</div>
 						
@@ -44,7 +42,7 @@
 							<button type="button" class="btn btn-default" onclick="javascript: document.searchForm.submit();">
 								<i class="glyphicon glyphicon-search"> 查询</i>
 							</button>
-							<button type="button" class="btn btn-default" onclick="javascript: location.href='bpm-process-input.do'">
+							<button type="button" class="btn btn-default" onclick="javascript: location.href='form-template-input.do'">
 								<i class="glyphicon glyphicon-plus"> 创建</i>
 							</button>
 							<button type="button" class="btn btn-default" onclick="javascript: void(0);">
@@ -58,31 +56,27 @@
 					<table class="table table-striped" id="ROCK_DT">
 						<thead>
 							<tr>
-								<td width="50">序号</td>
-								<td>代号</td>
-								<td>名称</td>
-								<td>分类</td>
-								<td>排序</td>
-								<td width="200">&nbsp;</td>
+								<th width="50">序号</th>
+								<th>代号</th>
+								<th>名称</th>
+								<th>URL</th>
+								<th>描述</th>
+								<th width="200">&nbsp;</th>
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${page.result }" var="object" varStatus="status">
+							<c:forEach items="${forms }" var="object" varStatus="status">
 								<tr>
 									<td>${status.index + 1 }</td>
 									<td>${object.code }</td>
 									<td>${object.name }</td>
-									<td>${object.bpmCategory.name }</td>
-									<td>${object.priority }</td>
+									<td>${object.url }</td>
+									<td>${object.descn }</td>
 									<td>
 										<div class="btn-group">
 											<button type="button" class="btn btn-default btn-sm" 
-												onclick="javascript: location.href='bpm-process-input.do?id=${object.id }' ">
-												<i class="glyphicon glyphicon-edit"> 编辑</i>
-											</button>
-											<button type="button" class="btn btn-default btn-sm" 
-												onclick="javascript: location.href='bpm-conf-node-list.do?bpmConfBaseId=${object.bpmConfBase.id }' ">
-												<i class="glyphicon glyphicon-cog"> 配置</i>
+												onclick="javascript: location.href='form-template-input.do?id=${object.id }' ">
+												<i class="glyphicon glyphicon-edit"> 编辑</i>	
 											</button>
 										</div>
 									</td>

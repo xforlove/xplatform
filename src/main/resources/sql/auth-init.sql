@@ -9,18 +9,18 @@ drop table auth_user;
 */
 
 
-insert into auth_user(id, name, login_id, login_pass,  stat_flag, email, phone, pass_error_cnt) 
- values(1, '系统管理员', 'sysadmin', '000000', 'NORMAL', 'admin@xplatform.com', '15221464792', 0);
-insert into auth_user(id, name, login_id, login_pass,  stat_flag, email, phone, pass_error_cnt) 
- values(2, '西域春秋', 'rockey', '000000', 'NORMAL', '8765046@qq.com', '15200000000', 0);
+insert into auth_user(id, name, login_id, login_pass,  stat_flag, email, phone) 
+ values(1, '系统管理员', 'sysadmin', '000000', 'NORMAL', 'admin@xplatform.com', '15221464792');
+insert into auth_user(id, name, login_id, login_pass,  stat_flag, email, phone) 
+ values(2, '西域春秋', 'rockey', '000000', 'NORMAL', '8765046@qq.com', '15200000000');
 
 insert into auth_role(id, code, name, stat_flag, descn)  values(1, 'admin', '管理员', 'NORMAL', '拥有平台所有权限');
 
 insert into auth_user_role(user_id, role_id)  values(1, 1);
 
-insert into app_func_group(id, name, stat_flag) values(1, '系统', 'NORMAL');
-insert into app_func_group(id, name, stat_flag) values(2, '权限', 'NORMAL');
-insert into app_func_group(id, name, stat_flag) values(3, '流程', 'NORMAL');
+insert into app_func_group(id, name) values(1, '系统');
+insert into app_func_group(id, name) values(2, '权限');
+insert into app_func_group(id, name) values(3, '流程');
  
 
 insert into app_function(id, code, name, level, action, stat_flag, parent_id, group_id) values(1, 'user:list', '用户列表', 1, '/auth/user-list', 'NORMAL', NULL, 2);

@@ -81,7 +81,7 @@
 								<tr>
 									<td>${status.index + 1 }</td>
 									<td>${object.name }</td>
-									<td>${object.statFlagCn }</td>
+									<td>${object.statFlag == 'NORMAL' ? '启用' : '禁用' }</td>
 									<td>
 										<div class="btn-group">
 											<shiro:hasPermission name="user:edit">

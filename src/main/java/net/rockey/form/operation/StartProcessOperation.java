@@ -16,7 +16,6 @@ import net.rockey.core.util.ShiroUtils;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.impl.interceptor.CommandContext;
-import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.apache.log4j.Logger;
 

@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "sys_param")
-public class SystemParam {
+public class Sysparam {
 
 	private String sparamCode;
 	private String sparamName;

@@ -66,14 +66,14 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${page.result }" var="object" varStatus="status">
+							<c:forEach items="${funcs }" var="object" varStatus="status">
 								<tr>
 									<td>${status.index + 1 }</td>
 									<td>${object.code }</td>
 									<td>${object.name }</td>
 									<td>${object.action }</td>
 									<td>${object.group.name }</td>
-									<td>${object.statFlagCn }</td>
+									<td>${object.statFlag == 'NORMAL' ? '启用' : '禁用' }</td>
 									<td>
 										<div class="btn-group">
 											<button type="button" class="btn btn-default btn-sm" 

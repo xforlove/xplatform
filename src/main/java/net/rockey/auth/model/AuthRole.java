@@ -19,10 +19,19 @@ import net.rockey.app.model.AppFunction;
 public class AuthRole {
 
 	private Long id;
+	
+	/** 角色代号 */
 	private String code;
+	
+	/** 角色名称 */
 	private String name;
+	
+	/** 角色描述 */
 	private String descn;
+	
+	/** 状态标志 */
 	private String statFlag;
+	
 	private Long creator;
 	private String createTime;
 	private Long updator;
@@ -42,7 +51,7 @@ public class AuthRole {
 		this.id = id;
 	}
 
-	@Column(name = "code", nullable = false, length = 50)
+	@Column(name = "code", nullable = false, length = 64)
 	public String getCode() {
 		return code;
 	}
@@ -51,7 +60,7 @@ public class AuthRole {
 		this.code = code;
 	}
 
-	@Column(name = "name", nullable = false, length = 200)
+	@Column(name = "name", nullable = false, length = 64)
 	public String getName() {
 		return name;
 	}
@@ -60,7 +69,7 @@ public class AuthRole {
 		this.name = name;
 	}
 
-	@Column(name = "descn", length = 200)
+	@Column(name = "descn", length = 256)
 	public String getDescn() {
 		return descn;
 	}
@@ -69,7 +78,7 @@ public class AuthRole {
 		this.descn = descn;
 	}
 
-	@Column(name = "stat_flag", nullable = false, length = 50)
+	@Column(name = "stat_flag", nullable = false, length = 64)
 	public String getStatFlag() {
 		return statFlag;
 	}
@@ -97,7 +106,7 @@ public class AuthRole {
 		this.users = users;
 	}
 
-	@Column(name = "creator", length = 19)
+	@Column(name = "creator")
 	public Long getCreator() {
 		return creator;
 	}
@@ -106,7 +115,7 @@ public class AuthRole {
 		this.creator = creator;
 	}
 
-	@Column(name = "create_time", length = 14)
+	@Column(name = "create_time", length = 64)
 	public String getCreateTime() {
 		return createTime;
 	}
@@ -115,7 +124,7 @@ public class AuthRole {
 		this.createTime = createTime;
 	}
 
-	@Column(name = "updator", length = 19)
+	@Column(name = "updator")
 	public Long getUpdator() {
 		return updator;
 	}
@@ -124,7 +133,7 @@ public class AuthRole {
 		this.updator = updator;
 	}
 
-	@Column(name = "update_time", length = 14)
+	@Column(name = "update_time", length = 64)
 	public String getUpdateTime() {
 		return updateTime;
 	}

@@ -2,15 +2,14 @@ package net.rockey.core.util;
 
 public interface CONSTANTS {
 
-	public static final String USER_PASSWORD_DEFAULT = "000000";
+	/** 属性默认值 */
+	public static final String DEFAULT_VALUE_PASSWORD = "000000";
+	public static final String DEFAULT_VALUE_EMAIL = "test@qq.com";
+	public static final String DEFAULT_VALUE_CELLPHONE = "13888888888";
 
-	public static final String STAT_FLAG_NORMARL = "NORMAL";
-
-	public static final String STAT_FLAG_CLOSE = "CLOSE";
-
-	public static final String USER_EMAIL_DEFAULT = "test@163.com";
-
-	public static final String USER_PHONE_DEFAULT = "13888888888";
+	/** 状态标志 */
+	public static final String STAT_FLAG_NORMARL = "N";
+	public static final String STAT_FLAG_CLOSE = "C";
 
 	/** 流程业务类型：请假申请 */
 	public static final String BPM_BUSINESS_TYPE_VOCATION_REQUEST = "vocationRequest";
@@ -33,11 +32,11 @@ public interface CONSTANTS {
 	/** 业务申请单通用状态：C-关闭(取消) */
 	public static final String BUSINESS_APPLY_LOG_STAT_FLAG_CLOSE = "C";
 
-	public static final String OPERATION_BPM_DEFINITION_ID = "processDefinitionId";
-	public static final String OPERATION_BPM_PROCESS_ID = "bpmProcessId";
-	public static final String OPERATION_TASK_ID = "taskId";
-	public static final String OPERATION_BUSINESS_TYPE = "businessType";
-	public static final String OPERATION_BUSINESS_KEY = "businessKey";
+	public static final String PROCESS_PARAMETER_BPM_DEFINITION_ID = "processDefinitionId";
+	public static final String PROCESS_PARAMETER_BPM_PROCESS_ID = "bpmProcessId";
+	public static final String PROCESS_PARAMETER_TASK_ID = "taskId";
+	public static final String PROCESS_PARAMETER_BUSINESS_TYPE = "businessType";
+	public static final String PROCESS_PARAMETER_BUSINESS_KEY = "businessKey";
 
 	public static final String OPERATION_COMMENT_COMPLETE = "完成";
 	public static final String OPERATION_COMMENT_AGREE = "同意";

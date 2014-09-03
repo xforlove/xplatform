@@ -6,6 +6,7 @@ import java.util.Map;
 
 import net.rockey.app.manager.FuncGroupManager;
 import net.rockey.app.manager.FunctionManager;
+import net.rockey.app.model.AppFuncGroup;
 import net.rockey.app.model.AppFunction;
 import net.rockey.app.service.AppService;
 import net.rockey.app.support.AppFuncGroupDTO;
@@ -17,7 +18,6 @@ import net.rockey.core.util.LogUtils;
 import net.rockey.core.util.Page;
 import net.rockey.core.util.ParamUtils;
 import net.rockey.core.util.StringUtils;
-import net.rockey.core.util.ViewTransfer;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,15 +47,11 @@ public class FunctionController {
 	@Autowired
 	private MessageHelper messageHelper;
 
-	private BeanMapper mapper = new BeanMapper();
-
 	@RequestMapping("function-list")
 	public String list(@ModelAttribute Page page,
 			@RequestParam Map<String, Object> parameterMap, Model model) {
 
 		String name = ParamUtils.getString(parameterMap, "name");
-
-		List<AppFunctionDTO> funcDtos = new ArrayList<AppFunctionDTO>();
 
 		List<AppFunction> funcs;
 		if (StringUtils.isEmpty(name)) {
@@ -66,16 +62,7 @@ public class FunctionController {
 					+ name + "%");
 		}
 
-		for (AppFunction func : funcs) {
-			AppFunctionDTO dest = new AppFunctionDTO();
-			mapper.copy(func, dest);
-			dest.setStatFlagCn(ViewTransfer.getPairStatFlagCn(dest
-					.getStatFlag()));
-			funcDtos.add(dest);
-		}
-
-		page.setResult(funcDtos);
-		model.addAttribute("page", page);
+		model.addAttribute("funcs", funcs);
 
 		return "app/function-list";
 	}
@@ -84,28 +71,14 @@ public class FunctionController {
 	public String input(@RequestParam(value = "id", required = false) Long id,
 			Model model) {
 
-		List<AppFuncGroupDTO> funcGrps = new ArrayList<AppFuncGroupDTO>();
-
 		AppFunction function = null;
 
 		if (id != null) {
-
 			function = functionManager.load(id);
-
-			AppFunctionDTO dest = new AppFunctionDTO();
-
-			mapper.copy(function, dest);
-
-			dest.setStatFlagCn(ViewTransfer.getPairStatFlagCn(function
-					.getStatFlag()));
-
-			model.addAttribute("id", id);
-			model.addAttribute("func", dest);
+			model.addAttribute("model", function);
 		}
 
-		funcGrps = appService
-				.createFuncGroupListOnSelected(function == null ? null
-						: function);
+		List<AppFuncGroup> funcGrps = funcGrpManager.getAll();
 		model.addAttribute("funcGrps", funcGrps);
 
 		return "app/function-input";

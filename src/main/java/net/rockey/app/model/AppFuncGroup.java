@@ -17,12 +17,12 @@ import javax.persistence.Table;
 public class AppFuncGroup {
 
 	private Long id;
+
+	/** 功能组名称 */
 	private String name;
-	private String statFlag;
-	private Long creator;
-	private String createTime;
-	private Long updator;
-	private String updateTime;
+
+	/** 描述 */
+	private String descn;
 
 	private List<AppFunction> functions = new ArrayList<AppFunction>(0);
 
@@ -37,7 +37,7 @@ public class AppFuncGroup {
 		this.id = id;
 	}
 
-	@Column(name = "name", nullable = false, length = 50)
+	@Column(name = "name", nullable = false, length = 64)
 	public String getName() {
 		return name;
 	}
@@ -46,13 +46,13 @@ public class AppFuncGroup {
 		this.name = name;
 	}
 
-	@Column(name = "stat_flag", nullable = false, length = 50)
-	public String getStatFlag() {
-		return statFlag;
+	@Column(name = "descn", length = 256)
+	public String getDescn() {
+		return descn;
 	}
 
-	public void setStatFlag(String statFlag) {
-		this.statFlag = statFlag;
+	public void setDescn(String descn) {
+		this.descn = descn;
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "group")
@@ -62,42 +62,6 @@ public class AppFuncGroup {
 
 	public void setFunctions(List<AppFunction> functions) {
 		this.functions = functions;
-	}
-
-	@Column(name = "creator", length = 19)
-	public Long getCreator() {
-		return creator;
-	}
-
-	public void setCreator(Long creator) {
-		this.creator = creator;
-	}
-
-	@Column(name = "create_time", length = 14)
-	public String getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(String createTime) {
-		this.createTime = createTime;
-	}
-
-	@Column(name = "updator", length = 19)
-	public Long getUpdator() {
-		return updator;
-	}
-
-	public void setUpdator(Long updator) {
-		this.updator = updator;
-	}
-
-	@Column(name = "update_time", length = 14)
-	public String getUpdateTime() {
-		return updateTime;
-	}
-
-	public void setUpdateTime(String updateTime) {
-		this.updateTime = updateTime;
 	}
 
 }

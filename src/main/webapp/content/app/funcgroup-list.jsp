@@ -57,17 +57,17 @@
 						<thead>
 							<tr>
 								<td>序号</td>
-								<td>功能组</td>
-								<td>状态</td>
+								<td>名称</td>
+								<td>描述</td>
 								<td>&nbsp;</td>
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${page.result }" var="object" varStatus="status">
+							<c:forEach items="${funcGrps }" var="object" varStatus="status">
 								<tr>
 									<td>${status.index + 1 }</td>
 									<td>${object.name }</td>
-									<td>${object.statFlagCn }</td>
+									<td>${object.descn }</td>
 									<td>
 										<div class="btn-group">
 											<button type="button" class="btn btn-default btn-sm" 

@@ -10,6 +10,9 @@ import net.rockey.bpm.model.BpmLeaveApplyLog;
 import net.rockey.bpm.model.BpmProcess;
 import net.rockey.core.spring.MessageHelper;
 import net.rockey.core.util.LogUtils;
+import net.rockey.form.manager.FormTemplateManager;
+import net.rockey.form.manager.RecordManager;
+import net.rockey.form.model.FormTemplate;
 import net.rockey.form.operation.CompleteTaskOperation;
 import net.rockey.form.operation.StartProcessOperation;
 
@@ -40,6 +43,12 @@ public class FormController {
 
 	@Autowired
 	private BpmLeaveApplyLogManager bpmLeaveApplyLogManager;
+	
+	@Autowired
+	private RecordManager recordManager;
+	
+	@Autowired
+	private FormTemplateManager formTemplateManager;
 
 	@Autowired
 	private MessageHelper messageHelper;
@@ -66,12 +75,18 @@ public class FormController {
 
 		redirectAttributes.addAttribute("processDefinitionId",
 				formInfo.getProcessDefinitionId());
+		
 		redirectAttributes.addAttribute("autoCompleteFirstTask",
 				formInfo.isAutoCompleteFirstTask());
 
 		if (formInfo.isFormExists()) {
 
-			return "redirect:" + formInfo.getFormKey();
+			// 如果存在表单，则从FormTemplate中获取URL
+			FormTemplate formTemplate = formTemplateManager.findUniqueBy(
+					"code", formInfo.getFormKey());
+			
+			return "redirect:" + formTemplate.getUrl();
+			
 			// TODO - return "form/form-viewStartForm";
 		} else {
 			// TODO
@@ -135,6 +150,8 @@ public class FormController {
 		
 		redirectAttributes.addAttribute("businessKey", businessKey);
 
+		
+		
 		BpmLeaveApplyLog applyLog = bpmLeaveApplyLogManager.get(Long
 				.parseLong(businessKey));
 
@@ -144,9 +161,9 @@ public class FormController {
 		
 		redirectAttributes.addAttribute("applySeqId", applyLog.getId());
 		
-		String redirectUrl = taskFormKey;
+		FormTemplate form = formTemplateManager.findUniqueBy("code", taskFormKey);
 
-		return "redirect:" + redirectUrl;
+		return "redirect:" + form.getUrl();
 
 		// TODO - return "form/form-viewTaskForm";
 	}

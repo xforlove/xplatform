@@ -7,6 +7,9 @@ import net.rockey.core.util.CONSTANTS;
 import net.rockey.core.util.CPublic;
 import net.rockey.core.util.LogUtils;
 import net.rockey.core.util.ShiroUtils;
+import net.rockey.form.manager.RecordManager;
+import net.rockey.form.model.Record;
+import net.rockey.form.support.RecordBuilder;
 
 import org.activiti.engine.impl.interceptor.CommandContext;
 import org.apache.log4j.Logger;
@@ -18,9 +21,10 @@ public class SaveDraftOperation extends AbstractOperation<String> {
 
 	@Override
 	public String execute(CommandContext commandContext) {
-		String taskId = getParamValue(CONSTANTS.OPERATION_TASK_ID);
-		String businessType = getParamValue(CONSTANTS.OPERATION_BUSINESS_TYPE);
-		String businessKey = getParamValue(CONSTANTS.OPERATION_BUSINESS_KEY);
+		String taskId = getParamValue(CONSTANTS.PROCESS_PARAMETER_TASK_ID);
+		String bpmProcessId = getParamValue(CONSTANTS.PROCESS_PARAMETER_BPM_PROCESS_ID);
+		String businessType = getParamValue(CONSTANTS.PROCESS_PARAMETER_BUSINESS_TYPE);
+		String businessKey = getParamValue(CONSTANTS.PROCESS_PARAMETER_BUSINESS_KEY);
 		
 		if (this.notEmpty(taskId)) {
 			// TODO - 如果是任务草稿，直接通过processInstanceId获得record，更新数据
@@ -30,6 +34,17 @@ public class SaveDraftOperation extends AbstractOperation<String> {
 
 		} else {
 			// 如果是第一次保存草稿，肯定是流程草稿，先初始化record，再保存数据
+			
+			// TODO - 抽象业务实体
+			
+			Record record = new RecordBuilder()
+					.build(bpmProcessId, CONSTANTS.PROCESS_STATUS_DRAFT, this
+							.getFilteredParameters(), Long
+							.parseLong((String) ShiroUtils
+									.getAttribute("user_id")));
+			
+			
+			
 			if (CONSTANTS.BPM_BUSINESS_TYPE_VOCATION_REQUEST
 					.equals(businessType)) {
 				// 构建业务模型
@@ -62,5 +77,10 @@ public class SaveDraftOperation extends AbstractOperation<String> {
 	public BpmLeaveApplyLogManager getBpmLeaveApplyLogManager() {
 		return ApplicationContextHelper
 				.getBean(BpmLeaveApplyLogManager.class);
+	}
+	
+	public RecordManager getRecordManager(){
+		return ApplicationContextHelper
+				.getBean(RecordManager.class);
 	}
 }

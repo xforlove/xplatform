@@ -28,8 +28,8 @@ public class CompleteTaskOperation extends AbstractOperation<Void> {
 	@Override
 	public Void execute(CommandContext commandContext) {
 		ProcessEngine processEngine = getProcessEngine();
-		String taskId = getParamValue(CONSTANTS.OPERATION_TASK_ID);
-		String businessType = getParamValue(CONSTANTS.OPERATION_BUSINESS_TYPE);
+		String taskId = getParamValue(CONSTANTS.PROCESS_PARAMETER_TASK_ID);
+		String businessType = getParamValue(CONSTANTS.PROCESS_PARAMETER_BUSINESS_TYPE);
 
 		TaskService taskService = processEngine.getTaskService();
 		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();

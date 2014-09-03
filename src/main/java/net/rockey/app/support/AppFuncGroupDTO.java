@@ -3,13 +3,12 @@ package net.rockey.app.support;
 public class AppFuncGroupDTO {
 
 	private Long id;
+
+	/** 功能组名称 */
 	private String name;
-	private String statFlag;
-	private String statFlagCn;
-	private Long creator;
-	private String createTime;
-	private Long updator;
-	private String updateTime;
+
+	/** 描述 */
+	private String descn;
 
 	private boolean selected;
 
@@ -37,52 +36,12 @@ public class AppFuncGroupDTO {
 		this.name = name;
 	}
 
-	public String getStatFlag() {
-		return statFlag;
+	public String getDescn() {
+		return descn;
 	}
 
-	public void setStatFlag(String statFlag) {
-		this.statFlag = statFlag;
-	}
-
-	public String getStatFlagCn() {
-		return statFlagCn;
-	}
-
-	public void setStatFlagCn(String statFlagCn) {
-		this.statFlagCn = statFlagCn;
-	}
-
-	public Long getCreator() {
-		return creator;
-	}
-
-	public void setCreator(Long creator) {
-		this.creator = creator;
-	}
-
-	public String getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(String createTime) {
-		this.createTime = createTime;
-	}
-
-	public Long getUpdator() {
-		return updator;
-	}
-
-	public void setUpdator(Long updator) {
-		this.updator = updator;
-	}
-
-	public String getUpdateTime() {
-		return updateTime;
-	}
-
-	public void setUpdateTime(String updateTime) {
-		this.updateTime = updateTime;
+	public void setDescn(String descn) {
+		this.descn = descn;
 	}
 
 }

@@ -6,21 +6,35 @@ import net.rockey.app.model.AppFunction;
 public class AppFunctionDTO {
 
 	private Long id;
+
+	/** 功能代号 */
 	private String code;
+
+	/** 功能名称 */
 	private String name;
+
+	/** 级别 */
 	private int level;
+
+	/** 动作 */
 	private String action;
-	private boolean isMenu;
-	private Long groupId;
+
+	/** 所属功能组 */
 	private AppFuncGroup group;
+
+	private Long groupId;
+
+	/** 上级节点 */
 	private AppFunction parent;
-	private String descn;
+
+	private Long parentId;
+
+	/** 状态标志 */
 	private String statFlag;
-	private String statFlagCn;
-	private Long creator;
-	private String createTime;
-	private Long updator;
-	private String updateTime;
+
+	/** 描述 */
+	private String descn;
+
 	private boolean selected;
 
 	public boolean isSelected() {
@@ -71,14 +85,6 @@ public class AppFunctionDTO {
 		this.action = action;
 	}
 
-	public boolean isMenu() {
-		return isMenu;
-	}
-
-	public void setMenu(boolean isMenu) {
-		this.isMenu = isMenu;
-	}
-
 	public AppFuncGroup getGroup() {
 		return group;
 	}
@@ -111,52 +117,20 @@ public class AppFunctionDTO {
 		this.statFlag = statFlag;
 	}
 
-	public String getStatFlagCn() {
-		return statFlagCn;
-	}
-
-	public void setStatFlagCn(String statFlagCn) {
-		this.statFlagCn = statFlagCn;
-	}
-
-	public Long getCreator() {
-		return creator;
-	}
-
-	public void setCreator(Long creator) {
-		this.creator = creator;
-	}
-
-	public String getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(String createTime) {
-		this.createTime = createTime;
-	}
-
-	public Long getUpdator() {
-		return updator;
-	}
-
-	public void setUpdator(Long updator) {
-		this.updator = updator;
-	}
-
-	public String getUpdateTime() {
-		return updateTime;
-	}
-
-	public void setUpdateTime(String updateTime) {
-		this.updateTime = updateTime;
-	}
-
 	public Long getGroupId() {
 		return groupId;
 	}
 
 	public void setGroupId(Long groupId) {
 		this.groupId = groupId;
+	}
+
+	public Long getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
 	}
 
 }

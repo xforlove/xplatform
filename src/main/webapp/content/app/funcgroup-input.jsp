@@ -45,21 +45,20 @@
 				</ol>
 
 				<form class="form-horizontal" action="/${scopeUrl }/app/funcgroup-save.do" method="POST" role="form">
-					<c:if test="${id != null}">
-						<input type="hidden" id="id" name="id" value="${funcGrp.id}">
+					<c:if test="${model != null}">
+						<input type="hidden" id="id" name="id" value="${model.id}">
 					</c:if>
 					
 					<div class="form-group">
-						<label for="name" class="col-sm-2 control-label">功能组名</label>
+						<label for="name" class="col-sm-2 control-label">名称</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control" id="name" name="name" value="${funcGrp.name }">
+							<input type="text" class="form-control" id="name" name="name" value="${model.name }">
 						</div>
 					</div>
 					<div class="form-group">
-						<div class="checkbox col-sm-offset-2 col-sm-4">
-							<label>
-								<input type="checkbox" id="statFlag" name="statFlag" value="${funcGrp.statFlag }"> 启用
-							</label>
+						<label for="descn" class="col-sm-2 control-label">描述</label>
+						<div class="col-sm-4">
+							<textarea type="text" class="form-control" id="descn" name="descn" rows="3">${model.descn }</textarea>
 						</div>
 					</div>
 					<div class="form-group">

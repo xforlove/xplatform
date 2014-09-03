@@ -1,4 +1,4 @@
-package net.rockey.datadict.model;
+package net.rockey.form.model;
 
 import java.io.Serializable;
 
@@ -9,13 +9,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "datadict_group")
-public class DataDictGroup implements Serializable {
+@Table(name = "form_template")
+public class FormTemplate implements Serializable {
 
 	private Long id;
 	private String code;
 	private String name;
-	private boolean allowUpdate;
+	private String url;
+	private String descn;
 
 	@Id
 	@GeneratedValue
@@ -45,13 +46,22 @@ public class DataDictGroup implements Serializable {
 		this.name = name;
 	}
 
-	@Column(name = "allow_update")
-	public boolean isAllowUpdate() {
-		return allowUpdate;
+	@Column(name = "url", length = 256)
+	public String getUrl() {
+		return url;
 	}
 
-	public void setAllowUpdate(boolean allowUpdate) {
-		this.allowUpdate = allowUpdate;
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	@Column(name = "descn", length = 256)
+	public String getDescn() {
+		return descn;
+	}
+
+	public void setDescn(String descn) {
+		this.descn = descn;
 	}
 
 }

@@ -17,14 +17,25 @@ import javax.persistence.Table;
 public class AuthUser {
 
 	private Long id;
+
+	/** 姓名 */
 	private String name;
+
+	/** 登录账号 */
 	private String loginId;
+
+	/** 登录密码 */
 	private String loginPass;
+
+	/** 手机号码 */
 	private String phone;
+
+	/** 电子邮箱 */
 	private String email;
-	private int passErrorCnt;
-	private String passUpdateTime;
+
+	/** 状态标志 */
 	private String statFlag;
+
 	private Long creator;
 	private String createTime;
 	private Long updator;
@@ -43,7 +54,7 @@ public class AuthUser {
 		this.id = id;
 	}
 
-	@Column(name = "name", nullable = false, length = 50)
+	@Column(name = "name", nullable = false, length = 64)
 	public String getName() {
 		return name;
 	}
@@ -52,7 +63,7 @@ public class AuthUser {
 		this.name = name;
 	}
 
-	@Column(name = "login_id", nullable = false, length = 50)
+	@Column(name = "login_id", nullable = false, length = 64)
 	public String getLoginId() {
 		return loginId;
 	}
@@ -70,7 +81,7 @@ public class AuthUser {
 		this.loginPass = loginPass;
 	}
 
-	@Column(name = "phone", nullable = false, length = 50)
+	@Column(name = "phone", nullable = false, length = 64)
 	public String getPhone() {
 		return phone;
 	}
@@ -79,7 +90,7 @@ public class AuthUser {
 		this.phone = phone;
 	}
 
-	@Column(name = "email", nullable = false, length = 50)
+	@Column(name = "email", nullable = false, length = 64)
 	public String getEmail() {
 		return email;
 	}
@@ -88,25 +99,7 @@ public class AuthUser {
 		this.email = email;
 	}
 
-	@Column(name = "pass_error_cnt", nullable = false, length = 2)
-	public int getPassErrorCnt() {
-		return passErrorCnt;
-	}
-
-	public void setPassErrorCnt(int passErrorCnt) {
-		this.passErrorCnt = passErrorCnt;
-	}
-
-	@Column(name = "pass_update_time", length = 14)
-	public String getPassUpdateTime() {
-		return passUpdateTime;
-	}
-
-	public void setPassUpdateTime(String passUpdateTime) {
-		this.passUpdateTime = passUpdateTime;
-	}
-
-	@Column(name = "stat_flag", nullable = false, length = 50)
+	@Column(name = "stat_flag", nullable = false, length = 64)
 	public String getStatFlag() {
 		return statFlag;
 	}
@@ -134,7 +127,7 @@ public class AuthUser {
 		this.creator = creator;
 	}
 
-	@Column(name = "create_time", length = 14)
+	@Column(name = "create_time", length = 64)
 	public String getCreateTime() {
 		return createTime;
 	}
@@ -152,7 +145,7 @@ public class AuthUser {
 		this.updator = updator;
 	}
 
-	@Column(name = "update_time", length = 14)
+	@Column(name = "update_time", length = 64)
 	public String getUpdateTime() {
 		return updateTime;
 	}

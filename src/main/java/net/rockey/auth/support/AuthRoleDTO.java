@@ -3,11 +3,19 @@ package net.rockey.auth.support;
 public class AuthRoleDTO {
 
 	private Long id;
+
+	/** 角色代号 */
 	private String code;
+
+	/** 角色名称 */
 	private String name;
+
+	/** 角色描述 */
 	private String descn;
+
+	/** 状态标志 */
 	private String statFlag;
-	private String statFlagCn;
+
 	private Long creator;
 	private String createTime;
 	private Long updator;
@@ -60,14 +68,6 @@ public class AuthRoleDTO {
 
 	public void setStatFlag(String statFlag) {
 		this.statFlag = statFlag;
-	}
-
-	public String getStatFlagCn() {
-		return statFlagCn;
-	}
-
-	public void setStatFlagCn(String statFlagCn) {
-		this.statFlagCn = statFlagCn;
 	}
 
 	public Long getCreator() {

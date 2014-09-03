@@ -1,45 +1,54 @@
 package net.rockey.datadict.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "datadict_item")
-public class DataDictItem {
+public class DataDictItem implements Serializable {
 
-	private String itemCode;
-	private String itemName;
-	private String groupCode;
+	private Long id;
+
+	/** 代码 */
+	private String code;
+
+	/** 名称 */
+	private String name;
+
+	/** 是否允许修改 */
 	private boolean allowUpdate;
 
 	@Id
-	@Column(name = "item_code", unique = true, nullable = false, length = 50)
-	public String getItemCode() {
-		return itemCode;
+	@GeneratedValue
+	public Long getId() {
+		return id;
 	}
 
-	public void setItemCode(String itemCode) {
-		this.itemCode = itemCode;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	@Column(name = "item_name", nullable = false, length = 100)
-	public String getItemName() {
-		return itemName;
+	@Column(name = "code", length = 64)
+	public String getCode() {
+		return code;
 	}
 
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
-	@Column(name = "group_code", nullable = false, length = 50)
-	public String getGroupCode() {
-		return groupCode;
+	@Column(name = "name", length = 64)
+	public String getName() {
+		return name;
 	}
 
-	public void setGroupCode(String groupCode) {
-		this.groupCode = groupCode;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Column(name = "allow_update")
