@@ -2,16 +2,16 @@ package net.rockey.form.operation;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import net.rockey.bpm.cmd.CompleteTaskWithCommentCmd;
-import net.rockey.bpm.manager.BpmLeaveApplyLogManager;
 import net.rockey.bpm.manager.BpmProcessManager;
-import net.rockey.bpm.model.BpmLeaveApplyLog;
 import net.rockey.core.spring.ApplicationContextHelper;
 import net.rockey.core.util.CONSTANTS;
 import net.rockey.core.util.LogUtils;
 import net.rockey.core.util.ShiroUtils;
+import net.rockey.form.keyvalue.KeyValue;
+import net.rockey.form.keyvalue.Record;
+import net.rockey.form.support.RecordBuilder;
 
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.ProcessEngine;
@@ -29,7 +29,7 @@ public class CompleteTaskOperation extends AbstractOperation<Void> {
 	public Void execute(CommandContext commandContext) {
 		ProcessEngine processEngine = getProcessEngine();
 		String taskId = getParamValue(CONSTANTS.PROCESS_PARAMETER_TASK_ID);
-		String businessType = getParamValue(CONSTANTS.PROCESS_PARAMETER_BUSINESS_TYPE);
+		KeyValue keyValue = getKeyValue();
 
 		TaskService taskService = processEngine.getTaskService();
 		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
@@ -79,36 +79,31 @@ public class CompleteTaskOperation extends AbstractOperation<Void> {
 
 		String processInstanceId = task.getProcessInstanceId();
 
-		// 通过流程实例号获得业务对象
-		BpmLeaveApplyLog applyLog = this.getBpmLeaveApplyLogManager()
-				.findUniqueBy("processInstanceId", processInstanceId);
-
 		Map<String, Object> processParameters = new HashMap<String, Object>();
 
-		// 构建流程参数
-		Map<String, Object> parameters = this.getParameters();
-		for (Entry<String, Object> entry : parameters.entrySet()) {
-			String key = entry.getKey();
+		// 通过流程实例号获得业务对象
+		Record record = keyValue.findByRef(processInstanceId);
 
-			/*
-			 * 参数结构：pp_reason 前缀 pp_ 的意思是 process parameter, 后面是属性名称
-			 */
-			if (key.startsWith("pp_")) {
-				String[] params = key.split("_");
-				processParameters.put(params[1], entry.getValue());
-			}
+		if (record == null) {
+			new CompleteTaskWithCommentCmd(taskId, processParameters,
+					CONSTANTS.OPERATION_COMMENT_COMPLETE)
+					.execute(commandContext);
 
+			return null;
 		}
+
+		// 构建流程参数
+		processParameters = this.getProcessParameters();
+		
+		log.info(processParameters);
 
 		new CompleteTaskWithCommentCmd(taskId, processParameters,
 				CONSTANTS.OPERATION_COMMENT_COMPLETE).execute(commandContext);
 
-		log.info("业务类型 := " + businessType);
+		record = new RecordBuilder().build(record,
+				CONSTANTS.PROCESS_STATUS_RUNNING, processParameters);
 
-		applyLog.setStatFlag(CONSTANTS.BUSINESS_APPLY_LOG_STAT_FLAG_NORMAL);
-		applyLog.setProcessStatFlag(CONSTANTS.PROCESS_STATUS_RUNNING);
-
-		this.getBpmLeaveApplyLogManager().save(applyLog);
+		keyValue.save(record);
 
 		return null;
 	}
@@ -117,8 +112,8 @@ public class CompleteTaskOperation extends AbstractOperation<Void> {
 		return ApplicationContextHelper.getBean(BpmProcessManager.class);
 	}
 
-	public BpmLeaveApplyLogManager getBpmLeaveApplyLogManager() {
-		return ApplicationContextHelper.getBean(BpmLeaveApplyLogManager.class);
+	public KeyValue getKeyValue() {
+		return ApplicationContextHelper.getBean(KeyValue.class);
 	}
 
 }

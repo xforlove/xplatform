@@ -15,7 +15,24 @@
 	$(document).ready(function() {
 		// TODO
 		
+		loadLeaders();
 	});
+	
+	function loadLeaders(){
+		
+		$.ajax({
+			type : "GET",
+			url : "../auth/ajax-users.do",
+			async: true,
+			success : function(data) {
+				$("#leader").html(data);
+			},
+			error : function(xmlHttpRequest, errorMessage, exception) {
+				alert(errorMessage);
+			}
+		});
+
+	}
 </script>
 </head>
 
@@ -38,22 +55,19 @@
 				</ol>
 
 				<form class="form-horizontal" action="/${scopeUrl }/form/form-startProcessInstance.do" method="POST" role="form">
-					<input type="hidden" id="processDefinitionId" name="processDefinitionId" value="${param.processDefinitionId}">
-					<input type="hidden" id="bpmProcessId" name="bpmProcessId" value="${param.bpmProcessId}">
-					<input type="hidden" id="autoCompleteFirstTask" name="autoCompleteFirstTask" value="${param.autoCompleteFirstTask}">
-					<input type="hidden" id="businessKey" name="businessKey" value="${param.businessKey}">
-					<input type="hidden" id="businessType" name="businessType" value="vocationRequest">
+					<!-- 流程数据 - Start -->
+					<input type="hidden" id="processDefinitionId" name="processDefinitionId" value="${processDefinitionId}">
+					<input type="hidden" id="bpmProcessId" name="bpmProcessId" value="${bpmProcessId}">
+					<input type="hidden" id="autoCompleteFirstTask" name="autoCompleteFirstTask" value="${autoCompleteFirstTask}">
+					<input type="hidden" id="businessKey" name="businessKey" value="${businessKey}">
+					<input type="hidden" id="creator" name="creator" value="${model.creator}">
+					<!-- 流程数据 - End -->
 
-					<div class="form-group">
-						<label for="leader" class="col-sm-2 control-label">审核人ID</label>
-						<div class="col-sm-4">
-							<input type="text" class="form-control" id="leader" name="pp_leader" >
-						</div>
-					</div>
 					<div class="form-group">
 						<label for="type" class="col-sm-2 control-label">请假类型</label>
 						<div class="col-sm-4">
-							<select id="type" name="pp_type" class="singleselect" multiple="multiple">
+							<select class="form-control" id="type" name="type">
+								<option value="ONSELECT">请选择</option>
 								<option value="1">年假</option>
 								<option value="2">事假</option>
 								<option value="3">病假</option>
@@ -63,15 +77,21 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="duration" class="col-sm-2 control-label">请假天数</label>
+						<label for="applyDuration" class="col-sm-2 control-label">请假天数</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control" id="duration" name="pp_duration" >
+							<input type="text" class="form-control" id="applyDuration" name="pp_applyDuration" >
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="reason" class="col-sm-2 control-label">请假原因</label>
 						<div class="col-sm-4">
-							<textarea rows="3" class="form-control" id="reason" name="pp_reason"></textarea>
+							<textarea rows="3" class="form-control" id="reason" name="reason"></textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="leader" class="col-sm-2 control-label">指定审核人</label>
+						<div class="col-sm-4">
+							<select class="form-control" id="leader" name="pp_leader"></select>
 						</div>
 					</div>
 					<div class="form-group">

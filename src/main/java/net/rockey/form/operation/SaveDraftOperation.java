@@ -1,17 +1,15 @@
 package net.rockey.form.operation;
 
-import net.rockey.bpm.manager.BpmLeaveApplyLogManager;
-import net.rockey.bpm.model.BpmLeaveApplyLog;
 import net.rockey.core.spring.ApplicationContextHelper;
 import net.rockey.core.util.CONSTANTS;
-import net.rockey.core.util.CPublic;
 import net.rockey.core.util.LogUtils;
 import net.rockey.core.util.ShiroUtils;
-import net.rockey.form.manager.RecordManager;
-import net.rockey.form.model.Record;
+import net.rockey.form.keyvalue.KeyValue;
+import net.rockey.form.keyvalue.Record;
 import net.rockey.form.support.RecordBuilder;
 
 import org.activiti.engine.impl.interceptor.CommandContext;
+import org.activiti.engine.task.Task;
 import org.apache.log4j.Logger;
 
 public class SaveDraftOperation extends AbstractOperation<String> {
@@ -22,51 +20,46 @@ public class SaveDraftOperation extends AbstractOperation<String> {
 	@Override
 	public String execute(CommandContext commandContext) {
 		String taskId = getParamValue(CONSTANTS.PROCESS_PARAMETER_TASK_ID);
-		String bpmProcessId = getParamValue(CONSTANTS.PROCESS_PARAMETER_BPM_PROCESS_ID);
-		String businessType = getParamValue(CONSTANTS.PROCESS_PARAMETER_BUSINESS_TYPE);
+		String processDefinitionId = getParamValue(CONSTANTS.PROCESS_PARAMETER_BPM_DEFINITION_ID);
 		String businessKey = getParamValue(CONSTANTS.PROCESS_PARAMETER_BUSINESS_KEY);
-		
+		KeyValue keyValue = getKeyValue();
+
 		if (this.notEmpty(taskId)) {
 			// TODO - 如果是任务草稿，直接通过processInstanceId获得record，更新数据
+			Task task = getProcessEngine().getTaskService().createTaskQuery()
+					.taskId(taskId).singleResult();
 
-		} else if (this.notEmpty(businessKey)) {
-			// TODO - 如果是流程草稿，直接通过businessKey获得record，更新数据
-
-		} else {
-			// 如果是第一次保存草稿，肯定是流程草稿，先初始化record，再保存数据
-			
-			// TODO - 抽象业务实体
-			
-			Record record = new RecordBuilder()
-					.build(bpmProcessId, CONSTANTS.PROCESS_STATUS_DRAFT, this
-							.getFilteredParameters(), Long
-							.parseLong((String) ShiroUtils
-									.getAttribute("user_id")));
-			
-			
-			
-			if (CONSTANTS.BPM_BUSINESS_TYPE_VOCATION_REQUEST
-					.equals(businessType)) {
-				// 构建业务模型
-				BpmLeaveApplyLog applyLog = new BpmLeaveApplyLog();
-				applyLog.setType(getParamValue("pp_type"));
-				applyLog.setCreator(Long.parseLong((String) ShiroUtils
-						.getAttribute("user_id")));
-				applyLog.setCreateTime(CPublic.getDateAndTime());
-				applyLog.setStatFlag(CONSTANTS.BUSINESS_APPLY_LOG_STAT_FLAG_INIT);
-
-				this.getBpmLeaveApplyLogManager().save(applyLog);
-
-				// 获得businessKey
-				businessKey = String.valueOf(applyLog.getId());
-			} else {
-				log.error("businessType is unknown.");
+			if (task == null) {
+				throw new IllegalStateException("任务不存在");
 			}
 
+			String processInstanceId = task.getProcessInstanceId();
+			Record record = keyValue.findByRef(processInstanceId);
+
+			// TODO
+
+		} else if (this.notEmpty(businessKey)) {
+			// 如果是流程草稿，直接通过businessKey获得record，更新数据
+			Record record = keyValue.findByCode(businessKey);
+
+			record = new RecordBuilder().build(record,
+					CONSTANTS.PROCESS_STATUS_DRAFT_PROCESS,
+					this.getFilteredParameters());
+
+			keyValue.save(record);
+		} else {
+			// 如果是第一次保存草稿，肯定是流程草稿，先初始化record，再保存数据
+			Record record = new RecordBuilder().build(processDefinitionId,
+					CONSTANTS.PROCESS_STATUS_DRAFT_PROCESS,
+					this.getFilteredParameters(),
+					(String) ShiroUtils.getAttribute("user_id"));
+
+			// 保存业务实体.
+			keyValue.save(record);
+
+			// 获取BusinessKey.
+			businessKey = String.valueOf(record.getId());
 		}
-
-		log.info(businessKey);
-
 		return businessKey;
 	}
 
@@ -74,13 +67,7 @@ public class SaveDraftOperation extends AbstractOperation<String> {
 		return (str != null) && (!"".equals(str));
 	}
 
-	public BpmLeaveApplyLogManager getBpmLeaveApplyLogManager() {
-		return ApplicationContextHelper
-				.getBean(BpmLeaveApplyLogManager.class);
-	}
-	
-	public RecordManager getRecordManager(){
-		return ApplicationContextHelper
-				.getBean(RecordManager.class);
+	public KeyValue getKeyValue() {
+		return ApplicationContextHelper.getBean(KeyValue.class);
 	}
 }

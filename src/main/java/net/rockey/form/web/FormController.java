@@ -4,14 +4,12 @@ import java.util.Map;
 
 import net.rockey.bpm.FormInfo;
 import net.rockey.bpm.cmd.FindStartFormCmd;
-import net.rockey.bpm.manager.BpmLeaveApplyLogManager;
 import net.rockey.bpm.manager.BpmProcessManager;
-import net.rockey.bpm.model.BpmLeaveApplyLog;
 import net.rockey.bpm.model.BpmProcess;
 import net.rockey.core.spring.MessageHelper;
 import net.rockey.core.util.LogUtils;
+import net.rockey.form.keyvalue.KeyValue;
 import net.rockey.form.manager.FormTemplateManager;
-import net.rockey.form.manager.RecordManager;
 import net.rockey.form.model.FormTemplate;
 import net.rockey.form.operation.CompleteTaskOperation;
 import net.rockey.form.operation.StartProcessOperation;
@@ -42,10 +40,7 @@ public class FormController {
 	private BpmProcessManager bpmProcessManager;
 
 	@Autowired
-	private BpmLeaveApplyLogManager bpmLeaveApplyLogManager;
-	
-	@Autowired
-	private RecordManager recordManager;
+	private KeyValue keyValue;
 	
 	@Autowired
 	private FormTemplateManager formTemplateManager;
@@ -82,11 +77,11 @@ public class FormController {
 		if (formInfo.isFormExists()) {
 
 			// 如果存在表单，则从FormTemplate中获取URL
-			FormTemplate formTemplate = formTemplateManager.findUniqueBy(
-					"code", formInfo.getFormKey());
-			
-			return "redirect:" + formTemplate.getUrl();
-			
+			FormTemplate form = formTemplateManager.findUniqueBy("code",
+					formInfo.getFormKey());
+
+			return "redirect:" + form.getUrl();
+
 			// TODO - return "form/form-viewStartForm";
 		} else {
 			// TODO
@@ -132,7 +127,7 @@ public class FormController {
 			messageHelper.addFlashMessage(redirectAttributes, "任务不存在");
 			return "redirect:/bpm/workspace-listPersonalTasks.do";
 		}
-		
+
 		redirectAttributes.addAttribute("taskId", task.getId());
 
 		// 获得流程定义时配置的taskFormKey
@@ -141,27 +136,17 @@ public class FormController {
 				task.getProcessDefinitionId(), task.getTaskDefinitionKey());
 
 		log.debug("taskFormKey : " + taskFormKey);
-		
+
 		ProcessInstance processInstance = processEngine.getRuntimeService()
 				.createProcessInstanceQuery()
 				.processInstanceId(task.getProcessInstanceId()).singleResult();
 
 		String businessKey = processInstance.getBusinessKey();
-		
+
 		redirectAttributes.addAttribute("businessKey", businessKey);
 
-		
-		
-		BpmLeaveApplyLog applyLog = bpmLeaveApplyLogManager.get(Long
-				.parseLong(businessKey));
-
-		// TODO - 以后考虑通过Ajax直接加载至页面
-		redirectAttributes.addAttribute("type", applyLog.getType());
-		redirectAttributes.addAttribute("creator", applyLog.getCreator());
-		
-		redirectAttributes.addAttribute("applySeqId", applyLog.getId());
-		
-		FormTemplate form = formTemplateManager.findUniqueBy("code", taskFormKey);
+		FormTemplate form = formTemplateManager.findUniqueBy("code",
+				taskFormKey);
 
 		return "redirect:" + form.getUrl();
 

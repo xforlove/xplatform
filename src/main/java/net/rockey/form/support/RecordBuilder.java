@@ -2,28 +2,29 @@ package net.rockey.form.support;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 
 import net.rockey.core.util.CPublic;
-import net.rockey.form.model.Prop;
-import net.rockey.form.model.Record;
+import net.rockey.form.keyvalue.Prop;
+import net.rockey.form.keyvalue.Record;
 
 public class RecordBuilder {
 
-	public Record build(Record record, String statFlag,
-			Map<String, String[]> parameters) {
-		record.setStatFlag(statFlag);
+	public Record build(Record record, String status,
+			Map<String, Object> parameters) {
+		record.setStatus(status);
 
-		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
+		for (Map.Entry<String, Object> entry : parameters.entrySet()) {
 			String key = entry.getKey();
-			String[] value = entry.getValue();
+			String value = CPublic.parseStr(entry.getValue());
 
-			if ((value == null) || (value.length == 0)) {
+			if ((value == null) || (value.trim().length() == 0)) {
 				continue;
 			}
 
 			Prop prop = new Prop();
 			prop.setCode(key);
-			prop.setValue(this.getValue(value));
+			prop.setValue(value);
 			record.getProps().put(prop.getCode(), prop);
 		}
 
@@ -33,23 +34,23 @@ public class RecordBuilder {
 	/**
 	 * 创建一个新record
 	 */
-	public Record build(String category, String statFlag,
-			Map<String, String[]> parameters, Long creator) {
+	public Record build(String category, String status,
+			Map<String, Object> parameters, String creator) {
 		Record record = new Record();
 		record.setCategory(category);
 		record.setCreator(creator);
 		record.setCreateTime(CPublic.getDateAndTime());
 
-		return build(record, statFlag, parameters);
+		return build(record, status, parameters);
 	}
 
 	/**
-	 * 更新record的processInstanceId属性.
+	 * 更新record的ref属性.
 	 */
-	public Record build(Record record, String statFlag, String processInstanceId) {
-		record.setProcessInstanceId(processInstanceId);
+	public Record build(Record record, String status, String ref) {
+		record.setRef(ref);
 
-		return build(record, statFlag, Collections.EMPTY_MAP);
+		return build(record, status, Collections.EMPTY_MAP);
 	}
 
 	/**

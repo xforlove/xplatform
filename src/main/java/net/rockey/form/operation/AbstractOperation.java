@@ -2,7 +2,6 @@ package net.rockey.form.operation;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import net.rockey.core.spring.ApplicationContextHelper;
 
@@ -11,13 +10,15 @@ import org.activiti.engine.impl.interceptor.Command;
 
 public abstract class AbstractOperation<T> implements Operation<T>, Command<T> {
 
-	private Map<String, String[]> parameters;
-	private Map<String, String[]> filteredParameters;
+	private Map<String, Object> parameters;
+	private Map<String, Object> filteredParameters;
+	private Map<String, Object> processParameters;
 
 	@Override
-	public T execute(Map<String, String[]> parameters) {
+	public T execute(Map<String, Object> parameters) {
 		this.parameters = parameters;
-		this.filteredParameters = filterParameters();
+
+		filterParameters();
 
 		ProcessEngine processEngine = getProcessEngine();
 
@@ -25,23 +26,23 @@ public abstract class AbstractOperation<T> implements Operation<T>, Command<T> {
 	}
 
 	public String getParamValue(String name) {
-		String[] value = parameters.get(name);
+		String value = (String) parameters.get(name);
 
-		if ((value == null) || value.length == 0) {
+		if ((value == null) || value.length() == 0) {
 			return null;
 		}
 
-		return value[0];
+		return value;
 	}
 
 	public String getFilteredParamValue(String name) {
-		String[] value = filteredParameters.get(name);
+		String value = (String) filteredParameters.get(name);
 
-		if ((value == null) || value.length == 0) {
+		if ((value == null) || value.length() == 0) {
 			return null;
 		}
 
-		return value[0];
+		return value;
 	}
 
 	/**
@@ -49,30 +50,36 @@ public abstract class AbstractOperation<T> implements Operation<T>, Command<T> {
 	 * 
 	 * @return
 	 */
-	public Map<String, String[]> filterParameters() {
-		filteredParameters = new HashMap<String, String[]>();
+	public void filterParameters() {
+		// init.
+		this.filteredParameters = new HashMap<String, Object>();
+		this.processParameters = new HashMap<String, Object>();
 
-		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
+		for (Map.Entry<String, Object> entry : parameters.entrySet()) {
 			String key = entry.getKey();
 
 			if (key.startsWith("pp_")) {
 				String[] params = key.split("_");
 				this.filteredParameters.put(params[1], entry.getValue());
+				this.processParameters.put(params[1], entry.getValue());
 			} else {
 				this.filteredParameters.put(key, entry.getValue());
 			}
 
 		}
 
-		return this.filteredParameters;
 	}
 
-	public Map<String, String[]> getParameters() {
+	public Map<String, Object> getParameters() {
 		return this.parameters;
 	}
 
-	public Map<String, String[]> getFilteredParameters() {
+	public Map<String, Object> getFilteredParameters() {
 		return this.filteredParameters;
+	}
+
+	public Map<String, Object> getProcessParameters() {
+		return this.processParameters;
 	}
 
 	public ProcessEngine getProcessEngine() {

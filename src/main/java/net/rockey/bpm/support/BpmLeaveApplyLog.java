@@ -1,16 +1,6 @@
-package net.rockey.bpm.model;
+package net.rockey.bpm.support;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "bpm_leave_apply_log")
-public class BpmLeaveApplyLog implements java.io.Serializable {
-
-	private Long id;
+public class BpmLeaveApplyLog {
 
 	/** 请假类型，如：年假、事假、婚假、病假、调休等 */
 	private String type;
@@ -39,29 +29,43 @@ public class BpmLeaveApplyLog implements java.io.Serializable {
 	/** 请假原因 */
 	private String reason;
 
+	/** 上级审核结果 */
+	private int leaderAuditPass;
+
+	/** 驳回理由 */
+	private String rejectReason;
+
 	/** 申请人员ID */
 	private Long creator;
+	private String creatorName;
 	private String createTime;
 
 	/** 审核人员ID */
 	private Long auditor;
+	private String auditorName;
 	private String auditTime;
-	
-	/** 流程相关属性 */
-	private String processInstanceId;
-	private String processStatFlag;
 
-	@Id
-	@GeneratedValue
-	public Long getId() {
-		return id;
+	/** 记录人员ID */
+	private Long recorder;
+	private String recorderName;
+	private String recordTime;
+
+	public int getLeaderAuditPass() {
+		return leaderAuditPass;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setLeaderAuditPass(int leaderAuditPass) {
+		this.leaderAuditPass = leaderAuditPass;
 	}
 
-	@Column(name = "type", length = 32)
+	public String getRejectReason() {
+		return rejectReason;
+	}
+
+	public void setRejectReason(String rejectReason) {
+		this.rejectReason = rejectReason;
+	}
+
 	public String getType() {
 		return type;
 	}
@@ -70,7 +74,6 @@ public class BpmLeaveApplyLog implements java.io.Serializable {
 		this.type = type;
 	}
 
-	@Column(name = "applyl_begin_time", length = 32)
 	public String getApplyBeginTime() {
 		return applyBeginTime;
 	}
@@ -79,7 +82,6 @@ public class BpmLeaveApplyLog implements java.io.Serializable {
 		this.applyBeginTime = applyBeginTime;
 	}
 
-	@Column(name = "apply_end_time", length = 32)
 	public String getApplyEndTime() {
 		return applyEndTime;
 	}
@@ -88,7 +90,6 @@ public class BpmLeaveApplyLog implements java.io.Serializable {
 		this.applyEndTime = applyEndTime;
 	}
 
-	@Column(name = "apply_duration")
 	public double getApplyDuration() {
 		return applyDuration;
 	}
@@ -97,7 +98,6 @@ public class BpmLeaveApplyLog implements java.io.Serializable {
 		this.applyDuration = applyDuration;
 	}
 
-	@Column(name = "actual_begin_time", length = 32)
 	public String getActualBeginTime() {
 		return actualBeginTime;
 	}
@@ -106,7 +106,6 @@ public class BpmLeaveApplyLog implements java.io.Serializable {
 		this.actualBeginTime = actualBeginTime;
 	}
 
-	@Column(name = "actual_end_time", length = 32)
 	public String getActualEndTime() {
 		return actualEndTime;
 	}
@@ -115,7 +114,6 @@ public class BpmLeaveApplyLog implements java.io.Serializable {
 		this.actualEndTime = actualEndTime;
 	}
 
-	@Column(name = "actual_duration")
 	public double getActualDuration() {
 		return actualDuration;
 	}
@@ -124,7 +122,6 @@ public class BpmLeaveApplyLog implements java.io.Serializable {
 		this.actualDuration = actualDuration;
 	}
 
-	@Column(name = "stat_flag", length = 32)
 	public String getStatFlag() {
 		return statFlag;
 	}
@@ -133,7 +130,6 @@ public class BpmLeaveApplyLog implements java.io.Serializable {
 		this.statFlag = statFlag;
 	}
 
-	@Column(name = "reason", length = 256)
 	public String getReason() {
 		return reason;
 	}
@@ -142,7 +138,6 @@ public class BpmLeaveApplyLog implements java.io.Serializable {
 		this.reason = reason;
 	}
 
-	@Column(name = "creator")
 	public Long getCreator() {
 		return creator;
 	}
@@ -151,7 +146,6 @@ public class BpmLeaveApplyLog implements java.io.Serializable {
 		this.creator = creator;
 	}
 
-	@Column(name = "creator_time", length = 32)
 	public String getCreateTime() {
 		return createTime;
 	}
@@ -160,7 +154,6 @@ public class BpmLeaveApplyLog implements java.io.Serializable {
 		this.createTime = createTime;
 	}
 
-	@Column(name = "auditor")
 	public Long getAuditor() {
 		return auditor;
 	}
@@ -169,7 +162,6 @@ public class BpmLeaveApplyLog implements java.io.Serializable {
 		this.auditor = auditor;
 	}
 
-	@Column(name = "audit_time", length = 32)
 	public String getAuditTime() {
 		return auditTime;
 	}
@@ -178,25 +170,44 @@ public class BpmLeaveApplyLog implements java.io.Serializable {
 		this.auditTime = auditTime;
 	}
 
-	@Column(name = "process_instance_id", length = 64)
-	public String getProcessInstanceId() {
-		return processInstanceId;
+	public Long getRecorder() {
+		return recorder;
 	}
 
-	public void setProcessInstanceId(String processInstanceId) {
-		this.processInstanceId = processInstanceId;
+	public void setRecorder(Long recorder) {
+		this.recorder = recorder;
 	}
 
-	
-	@Column(name = "process_stat_flag", length = 64)
-	public String getProcessStatFlag() {
-		return processStatFlag;
+	public String getRecordTime() {
+		return recordTime;
 	}
 
-	public void setProcessStatFlag(String processStatFlag) {
-		this.processStatFlag = processStatFlag;
+	public void setRecordTime(String recordTime) {
+		this.recordTime = recordTime;
 	}
-	
-	
+
+	public String getCreatorName() {
+		return creatorName;
+	}
+
+	public void setCreatorName(String creatorName) {
+		this.creatorName = creatorName;
+	}
+
+	public String getAuditorName() {
+		return auditorName;
+	}
+
+	public void setAuditorName(String auditorName) {
+		this.auditorName = auditorName;
+	}
+
+	public String getRecorderName() {
+		return recorderName;
+	}
+
+	public void setRecorderName(String recorderName) {
+		this.recorderName = recorderName;
+	}
 
 }

@@ -200,25 +200,17 @@ public class UserController {
 		exportor.export(response, tbModel);
 	}
 
-	@RequestMapping("user-list-text")
-	public void ajaxText(HttpServletRequest request, PrintWriter printWriter) {
-		String idName = request.getParameter("idName");
-		String isSingle = request.getParameter("isSingle");
-
-		StringBuffer html = new StringBuffer(1000);
+	@RequestMapping("ajax-users")
+	public void ajaxUsers(HttpServletRequest request, PrintWriter printWriter) {
+		StringBuffer html = new StringBuffer(1024);
 		List<AuthUser> users = (List<AuthUser>) userManager.getAll();
 
-		String className = Boolean.valueOf(isSingle) ? "singleselect"
-				: "multiselect";
-
-		html.append("<select id=\"").append(idName).append("\" name=\"")
-				.append(idName).append("\" class=\"").append(className)
-				.append("\" multiple=\"multiple\">");
+		html.append("<option value=\"ONSELECT\">请选择</option>");
+		
 		for (AuthUser user : users) {
 			html.append("<option value=\"").append(user.getId()).append("\">")
 					.append(user.getName()).append("</option>");
 		}
-		html.append("</select>");
 
 		printWriter.write(html.toString());
 		printWriter.flush();
