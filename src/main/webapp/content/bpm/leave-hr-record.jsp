@@ -84,14 +84,14 @@
 					<div class="form-group">
 						<label for="leaderAuditPass" class="col-sm-2 control-label">审批结果</label>
 						<div class="col-sm-4">
-							<c:if test="${leaderAuditPass == 1}">同意</c:if>
-							<c:if test="${leaderAuditPass == 0}">驳回</c:if>
+							<c:if test="${model.leaderAuditPass == 1}">同意</c:if>
+							<c:if test="${model.leaderAuditPass == 0}">驳回</c:if>
 						</div>
 					</div>
 					<div class="form-group" id="auditRejectDiv">
 						<label for="rejectReason" class="col-sm-2 control-label">驳回理由</label>
 						<div class="col-sm-4">
-							<textarea rows="3" class="form-control" id="rejectReason" name="rejectReason"></textarea>
+							<textarea rows="3" class="form-control" id="rejectReason" name="rejectReason" readonly="readonly">${model.rejectReason }</textarea>
 						</div>
 					</div>
 					<div class="form-group">

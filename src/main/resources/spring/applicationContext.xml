@@ -19,10 +19,6 @@
 		<property name="basenames" value="org.springframework.security.messages" />
 	</bean>
 
-	<bean id="keyValue" class="net.rockey.form.keyvalue.DatabaseKeyValue">
-		<property name="jdbcTemplate" ref="jdbcTemplate" />
-	</bean>
-
 	<bean id="exportor" class="net.rockey.ext.export.CsvExportor" />
 
 	<bean id="messageHelper" class="net.rockey.core.spring.MessageHelper" />

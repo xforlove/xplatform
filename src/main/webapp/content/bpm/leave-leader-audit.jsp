@@ -14,8 +14,8 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		// TODO
-		$("#auditPassDiv").hide();
-		$("#auditRejectDiv").hide();
+		
+		init();
 	});
 	
 	function loadRecorders(){
@@ -32,13 +32,20 @@
 		});
 	}
 	
+	function init(){
+		$("#auditPassDiv").hide();
+		$("#auditRejectDiv").hide();
+	}
+	
 	function changeLeaderAudit(value){
 		if (value == 1) {
 			// 同意
 			loadRecorders();
+			init();
 			$("#auditPassDiv").show();
 		} else if (value == 0) {
 			// 驳回
+			init();
 			$("#auditRejectDiv").show();
 		} else {
 			alert("invalidate value : " + value);

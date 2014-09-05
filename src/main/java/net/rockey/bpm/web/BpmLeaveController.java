@@ -8,7 +8,6 @@ import net.rockey.core.util.CONSTANTS;
 import net.rockey.core.util.LogUtils;
 import net.rockey.core.util.ParamUtils;
 import net.rockey.core.util.ShiroUtils;
-import net.rockey.form.keyvalue.DatabaseKeyValue;
 import net.rockey.form.keyvalue.KeyValue;
 import net.rockey.form.keyvalue.Prop;
 import net.rockey.form.keyvalue.Record;
@@ -31,7 +30,8 @@ public class BpmLeaveController {
 	@Autowired
 	private UserManager userManager;
 
-	private KeyValue keyValue = new DatabaseKeyValue();
+	@Autowired
+	private KeyValue keyValue;
 
 	@RequestMapping("apply")
 	public String apply(@RequestParam Map<String, Object> parameterMap,

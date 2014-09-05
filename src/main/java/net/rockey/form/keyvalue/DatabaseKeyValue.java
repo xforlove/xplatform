@@ -228,13 +228,8 @@ public class DatabaseKeyValue implements KeyValue {
 		return (text == null) || "".equals(text);
 	}
 
-	// ~ ======================================================================
-	/**
-	 * @param jdbcTemplate
-	 *            jdbc template.
-	 */
+	// ~ =================================================================
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
-
 }

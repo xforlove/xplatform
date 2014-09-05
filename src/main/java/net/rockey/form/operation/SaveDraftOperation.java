@@ -58,7 +58,7 @@ public class SaveDraftOperation extends AbstractOperation<String> {
 			keyValue.save(record);
 
 			// 获取BusinessKey.
-			businessKey = String.valueOf(record.getId());
+			businessKey = record.getCode();
 		}
 		return businessKey;
 	}

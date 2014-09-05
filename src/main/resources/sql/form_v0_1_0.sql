@@ -9,23 +9,23 @@ INSERT INTO form_template(id, code, descn, name, url) VALUES
 INSERT INTO form_template(id, code, descn, name, url) VALUES	
 	(3, 'leave:modifyApply', '', 'µ÷ÕûÉêÇë', '/leave/modifyApply.do');
 	
-	
--------------------------------------------------------------------------------
---  keyvalue record
--------------------------------------------------------------------------------
+
+/*
+DROP TABLE KV_PROP;
+DROP TABLE KV_RECORD;
+*/
+
 CREATE TABLE KV_RECORD(
 	ID BIGINT auto_increment,
 	CATEGORY VARCHAR(200),
-	STATUS INT,
+	STATUS VARCHAR(64),
 	REF VARCHAR(200),
 	CREATOR VARCHAR(64),
 	CREATE_TIME VARCHAR(64),
 	CONSTRAINT PK_KV_RECORD PRIMARY KEY(ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--------------------------------------------------------------------------------
---  keyvalue property
--------------------------------------------------------------------------------
+
 CREATE TABLE KV_PROP(
         ID BIGINT auto_increment,
 	CODE VARCHAR(200),
