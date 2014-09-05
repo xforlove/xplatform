@@ -1,6 +1,9 @@
 <%@page import="org.apache.shiro.SecurityUtils"%>
 <%@page contentType="text/html;charset=UTF-8"%>
 <%@include file="/common/taglibs.jsp"%>
+<%
+pageContext.setAttribute("currentHeader", "dashboard");
+%>
 <!DOCTYPE html>
 <html lang="zh-cn">
 

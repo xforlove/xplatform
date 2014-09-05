@@ -58,7 +58,7 @@ $(document).ready(function() {
 	
 	$.showMessage($('#m-success-message').html(), {
 		position: 'bottom',
-        size: '55',
+        size: '50',
         fontSize: '20px'
     });
 	 

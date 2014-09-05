@@ -2,8 +2,8 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@include file="/common/taglibs.jsp"%>
 <%
-pageContext.setAttribute("currentHeader", "auth");
-pageContext.setAttribute("currentNavi", "role");
+pageContext.setAttribute("currentHeader", "param");
+pageContext.setAttribute("currentNavi", "param");
 %>
 
 <!DOCTYPE html>
@@ -17,13 +17,13 @@ pageContext.setAttribute("currentNavi", "role");
 <script type="text/javascript">
 
 	$(document).ready(function() {
+		// TODO
 
 		initChkbox('statFlag', 'NORMAL');
 
 		$('#statFlag').click(function(){
 			chkboxOnclick('statFlag', 'NORMAL', 'CLOSE');
 		});
-
 	});
 	
 </script>
@@ -31,37 +31,61 @@ pageContext.setAttribute("currentNavi", "role");
 
 <body>
 
-	<%@include file="/header/auth.jsp"%>
+	<%@include file="/header/param.jsp"%>
 
 	<div class="container-fluid">
 
 		<div class="row">
 			
-			<%@include file="/navigation/auth.jsp"%>
+			<%@include file="/navigation/param.jsp"%>
 
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
 				<ol class="breadcrumb">
-					<li><a href="javascript: void(0);">权限体系</a></li>
-					<li><a href="javascript: location.href='role-list.do'">角色列表</a></li>
-					<li class="active">编辑角色</li>
+					<li><a href="javascript: void(0);">参数设置</a></li>
+					<li><a href="javascript: location.href='form-template-list.do'">参数列表</a></li>
+					<li class="active">编辑参数</li>
 				</ol>
 
-				<form class="form-horizontal" action="/${scopeUrl }/auth/role-save.do" method="POST" role="form">
+				<form class="form-horizontal" action="/${scopeUrl }/param/param-save.do" method="POST" role="form">
 					<c:if test="${model != null}">
 						<input type="hidden" id="id" name="id" value="${model.id}">
 					</c:if>
 					
 					<div class="form-group">
-						<label for="code" class="col-sm-2 control-label">角色代号</label>
+						<label for="code" class="col-sm-2 control-label">代号</label>
 						<div class="col-sm-4">
 							<input type="text" class="form-control" id="code" name="code" value="${model.code }">
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="name" class="col-sm-2 control-label">角色名</label>
+						<label for="name" class="col-sm-2 control-label">名称</label>
 						<div class="col-sm-4">
 							<input type="text" class="form-control" id="name" name="name" value="${model.name }">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="type" class="col-sm-2 control-label">类型</label>
+						<div class="col-sm-4">
+							<select class="form-control" id="type" name="type">
+								<option value="ONSELECT">请选择</option>
+								<option value="1" ${model.type == 1 ? 'selected' : ''}>布尔型</option>
+								<option value="2" ${model.type == 2 ? 'selected' : ''}>整型</option>
+								<option value="3" ${model.type == 3 ? 'selected' : ''}>双精度浮点型</option>
+								<option value="4" ${model.type == 4 ? 'selected' : ''}>字符串型</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="value" class="col-sm-2 control-label">参数值</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" id="value" name="value" value="${model.value }">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="defValue" class="col-sm-2 control-label">默认值</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" id="defValue" name="defValue" value="${model.defValue }">
 						</div>
 					</div>
 					<div class="form-group">

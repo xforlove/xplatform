@@ -1,7 +1,10 @@
 <%@page import="org.apache.shiro.SecurityUtils"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@include file="/common/taglibs.jsp"%>
-<%pageContext.setAttribute("currentNavi", "form-template");%>
+<%
+pageContext.setAttribute("currentHeader", "form");
+pageContext.setAttribute("currentNavi", "form-template");
+%>
 
 <!DOCTYPE html>
 <html lang="zh-cn">

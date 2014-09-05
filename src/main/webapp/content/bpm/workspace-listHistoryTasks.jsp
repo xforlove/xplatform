@@ -1,7 +1,10 @@
 <%@ page import="org.apache.shiro.SecurityUtils"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@include file="/common/taglibs.jsp"%>
-<% pageContext.setAttribute("currentNavi", "task-done"); %>
+<% 
+pageContext.setAttribute("currentHeader", "workspace");
+pageContext.setAttribute("currentNavi", "task-done"); 
+%>
 
 <!DOCTYPE html>
 <html lang="zh-cn">

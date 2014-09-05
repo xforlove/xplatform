@@ -2,6 +2,7 @@ package net.rockey.system.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -9,64 +10,91 @@ import javax.persistence.Table;
 @Table(name = "sys_param")
 public class Sysparam {
 
-	private String sparamCode;
-	private String sparamName;
-	private String sparamType;
-	private String sparamValue;
-	private String sparamDefault;
+	private Long id;
+
+	/** 参数代号 */
+	private String code;
+
+	/** 参数名称 */
+	private String name;
+
+	/** 参数类型：1-布尔型, 2-整型, 3-双精度浮点型, 4-字符串 */
+	private int type;
+
+	/** 参数值 */
+	private String value;
+
+	/** 参数默认值 */
+	private String defValue;
+
+	/** 状态 */
 	private String statFlag;
-	private String isSplimit;
-	private String sparamDescn;
+
+	/** 是否有特殊配置：0-无, 1-有 */
+	private int isSplimit;
+
+	/** 参数描述 */
+	private String descn;
+
 	private String createTime;
 	private String updateTime;
 
 	@Id
-	@Column(name = "sparam_code", unique = true, nullable = false, length = 50)
-	public String getSparamCode() {
-		return sparamCode;
+	@GeneratedValue
+	public Long getId() {
+		return id;
 	}
 
-	public void setSparamCode(String sparamCode) {
-		this.sparamCode = sparamCode;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	@Column(name = "sparam_name", nullable = false, length = 200)
-	public String getSparamName() {
-		return sparamName;
+	@Column(name = "code", length = 64)
+	public String getCode() {
+		return code;
 	}
 
-	public void setSparamName(String sparamName) {
-		this.sparamName = sparamName;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
-	@Column(name = "sparam_type", nullable = false, length = 20)
-	public String getSparamType() {
-		return sparamType;
+	@Column(name = "name", length = 64)
+	public String getName() {
+		return name;
 	}
 
-	public void setSparamType(String sparamType) {
-		this.sparamType = sparamType;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	@Column(name = "sparam_value", nullable = false, length = 200)
-	public String getSparamValue() {
-		return sparamValue;
+	@Column(name = "type")
+	public int getType() {
+		return type;
 	}
 
-	public void setSparamValue(String sparamValue) {
-		this.sparamValue = sparamValue;
+	public void setType(int type) {
+		this.type = type;
 	}
 
-	@Column(name = "sparam_default", nullable = false, length = 200)
-	public String getSparamDefault() {
-		return sparamDefault;
+	@Column(name = "value", length = 256)
+	public String getValue() {
+		return value;
 	}
 
-	public void setSparamDefault(String sparamDefault) {
-		this.sparamDefault = sparamDefault;
+	public void setValue(String value) {
+		this.value = value;
 	}
 
-	@Column(name = "stat_flag", nullable = false, length = 50)
+	@Column(name = "def_value", length = 256)
+	public String getDefValue() {
+		return defValue;
+	}
+
+	public void setDefValue(String defValue) {
+		this.defValue = defValue;
+	}
+
+	@Column(name = "stat_flag", length = 64)
 	public String getStatFlag() {
 		return statFlag;
 	}
@@ -75,25 +103,25 @@ public class Sysparam {
 		this.statFlag = statFlag;
 	}
 
-	@Column(name = "is_splimit", nullable = false, length = 10)
-	public String getIsSplimit() {
+	@Column(name = "is_splimit")
+	public int getIsSplimit() {
 		return isSplimit;
 	}
 
-	public void setIsSplimit(String isSplimit) {
+	public void setIsSplimit(int isSplimit) {
 		this.isSplimit = isSplimit;
 	}
 
-	@Column(name = "sparam_descn", length = 200)
-	public String getSparamDescn() {
-		return sparamDescn;
+	@Column(name = "descn", length = 256)
+	public String getDescn() {
+		return descn;
 	}
 
-	public void setSparamDescn(String sparamDescn) {
-		this.sparamDescn = sparamDescn;
+	public void setDescn(String descn) {
+		this.descn = descn;
 	}
 
-	@Column(name = "create_time", length = 14)
+	@Column(name = "create_time", length = 64)
 	public String getCreateTime() {
 		return createTime;
 	}
@@ -102,7 +130,7 @@ public class Sysparam {
 		this.createTime = createTime;
 	}
 
-	@Column(name = "update_time", length = 14)
+	@Column(name = "update_time", length = 64)
 	public String getUpdateTime() {
 		return updateTime;
 	}

@@ -6,9 +6,11 @@ INSERT INTO form_template(id, code, descn, name, url) VALUES
 INSERT INTO form_template(id, code, descn, name, url) VALUES
 	(2, 'leave:leaderAudit', '', '上级审批', '/leave/leaderAudit.do'),
 	
-INSERT INTO form_template(id, code, descn, name, url) VALUES	
-	(3, 'leave:modifyApply', '', '调整申请', '/leave/modifyApply.do');
+INSERT INTO form_template(id, code, descn, name, url) VALUES
+	(3, 'leave:modifyApply', '', '调整申请', '/leave/modifyApply.do'),
 	
+INSERT INTO form_template(id, code, descn, name, url) VALUES
+	(4,	'leave:hrRecord', '',	'人事归档', '/leave/hrRecord.do');
 
 /*
 DROP TABLE KV_PROP;
