@@ -7,16 +7,15 @@ import java.util.UUID;
 
 import javax.transaction.Transactional;
 
-import net.rockey.core.util.LogUtils;
-
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 @Transactional
 public class DatabaseKeyValue implements KeyValue {
 
-	private static Logger log = LogUtils
-			.getLogger(DatabaseKeyValue.class, true);
+	private static final Logger log = LoggerFactory
+			.getLogger(DatabaseKeyValue.class);
 
 	private JdbcTemplate jdbcTemplate;
 

@@ -1,8 +1,7 @@
 package net.rockey.dashboard;
 
-import net.rockey.core.util.LogUtils;
-
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -10,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("dashboard")
 public class DashboardController {
 
-	private final Logger log = LogUtils.getLogger(DashboardController.class, true);
+	private static final Logger log = LoggerFactory
+			.getLogger(DashboardController.class);
 	
 	@RequestMapping("/dashboard")
 	public String dashboard() throws Exception {

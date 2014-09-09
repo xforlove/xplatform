@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.rockey.core.util.LogUtils;
-
 import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.impl.HistoricActivityInstanceQueryImpl;
 import org.activiti.engine.impl.Page;
@@ -17,11 +15,14 @@ import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.impl.pvm.PvmActivity;
 import org.activiti.engine.impl.pvm.PvmTransition;
 import org.activiti.engine.impl.pvm.process.ActivityImpl;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ActivitiHistoryGraphBuilder {
-	private static Logger log = LogUtils.getLogger(
-			ActivitiHistoryGraphBuilder.class, true);
+
+	private final static Logger log = LoggerFactory
+			.getLogger(ActivitiHistoryGraphBuilder.class);
+
 	private String processInstanceId;
 	private ProcessDefinitionEntity processDefinitionEntity;
 	private List<HistoricActivityInstance> historicActivityInstances;
@@ -45,8 +46,9 @@ public class ActivitiHistoryGraphBuilder {
 			currentNode.setType(historicActivityInstance.getActivityType());
 			currentNode
 					.setActive(historicActivityInstance.getEndTime() == null);
-			log.debug("currentNode : " + currentNode.getName() + ", "
-					+ currentNode.getId());
+			
+			log.debug("currentNode : {}, {}", currentNode.getName(),
+					currentNode.getId());
 
 			Edge previousEdge = this.findPreviousEdge(currentNode,
 					historicActivityInstance.getStartTime().getTime());
@@ -58,7 +60,7 @@ public class ActivitiHistoryGraphBuilder {
 
 				graph.setInitial(currentNode);
 			} else {
-				log.debug("previousEdge : " + previousEdge.getName());
+				log.debug("previousEdge : {}", previousEdge.getName());
 			}
 
 			nodeMap.put(currentNode.getId(), currentNode);
@@ -125,10 +127,10 @@ public class ActivitiHistoryGraphBuilder {
 				continue;
 			}
 
-			log.debug("current activity start time : "
-					+ new Date(currentStartTime));
-			log.debug("nestest activity end time : "
-					+ visitiedHistoryActivityInstance.getEndTime());
+			log.debug("current activity start time : {}", new Date(
+					currentStartTime));
+			log.debug("nestest activity end time : {}",
+					visitiedHistoryActivityInstance.getEndTime());
 
 			// 如果当前节点的开始时间，比上一个节点的结束时间要早，跳过
 			if (currentStartTime < visitiedHistoryActivityInstance.getEndTime()
@@ -161,8 +163,7 @@ public class ActivitiHistoryGraphBuilder {
 			return null;
 		}
 
-		log.debug("previousNode : " + previousNode.getName() + ","
-				+ previousNode.getId());
+		log.debug("previousNode : {}, {}", previousNode.getName(), previousNode.getId());
 
 		Edge edge = new Edge();
 		edge.setName(temporaryPvmTransitionId);

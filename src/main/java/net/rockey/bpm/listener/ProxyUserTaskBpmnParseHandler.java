@@ -4,8 +4,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import net.rockey.core.util.LogUtils;
-
 import org.activiti.bpmn.model.ActivitiListener;
 import org.activiti.bpmn.model.BaseElement;
 import org.activiti.bpmn.model.ImplementationType;
@@ -15,12 +13,13 @@ import org.activiti.engine.impl.bpmn.parser.BpmnParse;
 import org.activiti.engine.impl.bpmn.parser.handler.UserTaskParseHandler;
 import org.activiti.engine.impl.task.TaskDefinition;
 import org.activiti.engine.parse.BpmnParseHandler;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ProxyUserTaskBpmnParseHandler implements BpmnParseHandler {
 
-	private static Logger log = LogUtils.getLogger(
-			ProxyUserTaskBpmnParseHandler.class, true);
+	private static final Logger log = LoggerFactory
+			.getLogger(ProxyUserTaskBpmnParseHandler.class);
 
 	private String taskListenerId;
 
@@ -44,7 +43,7 @@ public class ProxyUserTaskBpmnParseHandler implements BpmnParseHandler {
 		}
 
 		UserTask userTask = (UserTask) baseElement;
-		log.info("bpmnParse : " + bpmnParse + ", userTask : " + userTask);
+		log.info("bpmnParse : {}, userTask : {}", bpmnParse, userTask);
 
 		TaskDefinition taskDefinition = (TaskDefinition) bpmnParse
 				.getCurrentActivity().getProperty(

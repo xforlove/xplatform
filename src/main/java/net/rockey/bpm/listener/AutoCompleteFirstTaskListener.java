@@ -2,7 +2,6 @@ package net.rockey.bpm.listener;
 
 import net.rockey.bpm.cmd.CompleteTaskWithCommentCmd;
 import net.rockey.bpm.support.DefaultTaskListener;
-import net.rockey.core.util.LogUtils;
 import net.rockey.core.util.ShiroUtils;
 
 import org.activiti.engine.delegate.DelegateTask;
@@ -11,13 +10,13 @@ import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.impl.pvm.PvmActivity;
 import org.activiti.engine.impl.pvm.PvmTransition;
 import org.activiti.engine.impl.pvm.process.ActivityImpl;
-import org.apache.log4j.Logger;
-import org.apache.shiro.SecurityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AutoCompleteFirstTaskListener extends DefaultTaskListener {
 
-	private static Logger log = LogUtils.getLogger(
-			AutoCompleteFirstTaskListener.class, true);
+	private static final Logger log = LoggerFactory
+			.getLogger(AutoCompleteFirstTaskListener.class);
 
 	@Override
 	public void onCreate(DelegateTask delegateTask) throws Exception {

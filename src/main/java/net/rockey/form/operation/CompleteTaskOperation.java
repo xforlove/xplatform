@@ -7,7 +7,6 @@ import net.rockey.bpm.cmd.CompleteTaskWithCommentCmd;
 import net.rockey.bpm.manager.BpmProcessManager;
 import net.rockey.core.spring.ApplicationContextHelper;
 import net.rockey.core.util.CONSTANTS;
-import net.rockey.core.util.LogUtils;
 import net.rockey.core.util.ShiroUtils;
 import net.rockey.form.keyvalue.KeyValue;
 import net.rockey.form.keyvalue.Record;
@@ -18,12 +17,13 @@ import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.impl.interceptor.CommandContext;
 import org.activiti.engine.task.Task;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CompleteTaskOperation extends AbstractOperation<Void> {
 
-	private final Logger log = LogUtils.getLogger(CompleteTaskOperation.class,
-			true);
+	private static final Logger log = LoggerFactory
+			.getLogger(CompleteTaskOperation.class);
 
 	@Override
 	public Void execute(CommandContext commandContext) {
@@ -53,7 +53,7 @@ public class CompleteTaskOperation extends AbstractOperation<Void> {
 			throw new IllegalStateException("任务不存在");
 		}
 
-		log.info(task.getDelegationState());
+		log.info("{}", task.getDelegationState());
 
 		/* 处理委办任务 */
 		// if (DelegationState.PENDING == task.getDelegationState()) {
@@ -95,7 +95,7 @@ public class CompleteTaskOperation extends AbstractOperation<Void> {
 		// 构建流程参数
 		processParameters = this.getProcessParameters();
 		
-		log.info(processParameters);
+		log.info("processParameters : {}", processParameters);
 
 		new CompleteTaskWithCommentCmd(taskId, processParameters,
 				CONSTANTS.OPERATION_COMMENT_COMPLETE).execute(commandContext);

@@ -5,14 +5,14 @@ import java.util.Map;
 import net.rockey.auth.manager.UserManager;
 import net.rockey.bpm.support.BpmLeaveApplyLog;
 import net.rockey.core.util.CONSTANTS;
-import net.rockey.core.util.LogUtils;
 import net.rockey.core.util.ParamUtils;
 import net.rockey.core.util.ShiroUtils;
 import net.rockey.form.keyvalue.KeyValue;
 import net.rockey.form.keyvalue.Prop;
 import net.rockey.form.keyvalue.Record;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,8 +24,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("leave")
 public class BpmLeaveController {
 
-	private static final Logger log = LogUtils.getLogger(
-			BpmLeaveController.class, true);
+	private static final Logger log = LoggerFactory
+			.getLogger(BpmLeaveController.class);
 
 	@Autowired
 	private UserManager userManager;
@@ -45,9 +45,9 @@ public class BpmLeaveController {
 		String businessKey = ParamUtils.getString(parameterMap,
 				CONSTANTS.PROCESS_PARAMETER_BUSINESS_KEY);
 
-		log.info("processDefinitionId : " + processDefinitionId);
-		log.info("bpmProcessId : " + bpmProcessId);
-		log.info("businessKey : " + businessKey);
+		log.info("processDefinitionId : {}", processDefinitionId);
+		log.info("bpmProcessId : {}", bpmProcessId);
+		log.info("businessKey : {}", businessKey);
 
 		model.addAttribute("processDefinitionId", processDefinitionId);
 		model.addAttribute("bpmProcessId", bpmProcessId);
@@ -73,8 +73,8 @@ public class BpmLeaveController {
 		String taskId = ParamUtils.getString(parameterMap,
 				CONSTANTS.PROCESS_PARAMETER_TASK_ID);
 
-		log.info("businessKey : " + businessKey);
-		log.info("taskId : " + taskId);
+		log.info("businessKey : {}", businessKey);
+		log.info("taskId : {}", taskId);
 
 		model.addAttribute("businessKey", businessKey);
 		model.addAttribute("taskId", taskId);
@@ -120,8 +120,8 @@ public class BpmLeaveController {
 		String taskId = ParamUtils.getString(parameterMap,
 				CONSTANTS.PROCESS_PARAMETER_TASK_ID);
 
-		log.info("businessKey : " + businessKey);
-		log.info("taskId : " + taskId);
+		log.info("businessKey : {}", businessKey);
+		log.info("taskId : {}", taskId);
 
 		model.addAttribute("businessKey", businessKey);
 		model.addAttribute("taskId", taskId);
@@ -163,7 +163,7 @@ public class BpmLeaveController {
 
 		return "bpm/leave-modify-apply";
 	}
-	
+
 	@RequestMapping("hrRecord")
 	public String hrRecord(@RequestParam Map<String, Object> parameterMap,
 			RedirectAttributes redirectAttributes, Model model) {
@@ -173,8 +173,8 @@ public class BpmLeaveController {
 		String taskId = ParamUtils.getString(parameterMap,
 				CONSTANTS.PROCESS_PARAMETER_TASK_ID);
 
-		log.info("businessKey : " + businessKey);
-		log.info("taskId : " + taskId);
+		log.info("businessKey : {}", businessKey);
+		log.info("taskId : {}", taskId);
 
 		model.addAttribute("businessKey", businessKey);
 		model.addAttribute("taskId", taskId);
@@ -218,5 +218,5 @@ public class BpmLeaveController {
 
 		return "bpm/leave-hr-record";
 	}
-	
+
 }

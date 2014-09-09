@@ -3,15 +3,15 @@ package net.rockey.bpm.listener;
 import java.util.Map;
 
 import net.rockey.bpm.support.DefaultTaskListener;
-import net.rockey.core.util.LogUtils;
 
 import org.activiti.engine.delegate.DelegateTask;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CustomAssignmentListener extends DefaultTaskListener {
 
-	private static Logger log = LogUtils.getLogger(
-			CustomAssignmentListener.class, true);
+	private static final Logger log = LoggerFactory
+			.getLogger(CustomAssignmentListener.class);
 
 	@Override
 	public void notify(DelegateTask delegateTask) {

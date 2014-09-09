@@ -6,13 +6,13 @@ import java.util.Map;
 import net.rockey.core.mapper.BeanMapper;
 import net.rockey.core.spring.MessageHelper;
 import net.rockey.core.util.CONSTANTS;
-import net.rockey.core.util.LogUtils;
 import net.rockey.core.util.ParamUtils;
 import net.rockey.core.util.StringUtils;
 import net.rockey.system.manager.SysparamManager;
 import net.rockey.system.model.Sysparam;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,8 +25,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("param")
 public class SysparamController {
 
-	private static Logger log = LogUtils.getLogger(SysparamController.class,
-			true);
+	private static final Logger log = LoggerFactory
+			.getLogger(SysparamController.class);
 
 	@Autowired
 	private SysparamManager sysparamManager;
@@ -74,7 +74,7 @@ public class SysparamController {
 		Long id = sysparam.getId();
 		String statFlag = sysparam.getStatFlag();
 
-		log.debug(statFlag);
+		log.debug("statFlag : {}", statFlag);
 
 		statFlag = statFlag == null ? CONSTANTS.STAT_FLAG_CLOSE : statFlag;
 

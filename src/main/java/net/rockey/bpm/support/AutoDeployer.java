@@ -7,7 +7,6 @@ import java.util.zip.ZipInputStream;
 import javax.annotation.PostConstruct;
 
 import net.rockey.bpm.cmd.SyncProcessCmd;
-import net.rockey.core.util.LogUtils;
 
 import org.activiti.engine.ActivitiException;
 import org.activiti.engine.ProcessEngine;
@@ -15,7 +14,8 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.DeploymentBuilder;
 import org.activiti.engine.repository.ProcessDefinition;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ContextResource;
 import org.springframework.core.io.Resource;
@@ -26,7 +26,8 @@ import org.springframework.core.io.Resource;
  */
 public class AutoDeployer {
 
-	private final Logger log = LogUtils.getLogger(AutoDeployer.class, true);
+	private final static Logger log = LoggerFactory
+			.getLogger(AutoDeployer.class);
 
 	private ProcessEngine processEngine;
 
@@ -80,7 +81,7 @@ public class AutoDeployer {
 				}
 
 				Deployment deployment = deploymentBuilder.deploy();
-				log.info("auto deploy : " + resourceName);
+				log.info("auto deploy : {}", resourceName);
 
 				for (ProcessDefinition processDefinition : repositoryService
 						.createProcessDefinitionQuery()

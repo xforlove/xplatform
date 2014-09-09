@@ -1,22 +1,21 @@
 package net.rockey.bpm.support;
 
-import net.rockey.core.util.LogUtils;
-
 import org.activiti.engine.delegate.DelegateTask;
 import org.activiti.engine.delegate.TaskListener;
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DefaultTaskListener implements TaskListener {
 
-	private static final Logger log = LogUtils.getLogger(
-			DefaultTaskListener.class, true);
+	private final static Logger log = LoggerFactory
+			.getLogger(DefaultTaskListener.class);
 
 	@Override
 	public void notify(DelegateTask delegateTask) {
 		String eventName = delegateTask.getEventName();
-		log.debug(this);
-		log.debug(eventName + ", " + delegateTask);
+		
+		log.debug("{}, {}, {}", this, eventName, delegateTask);
 
 		if ("create".equals(eventName)) {
 			try {

@@ -2,7 +2,6 @@ package net.rockey.form.operation;
 
 import net.rockey.core.spring.ApplicationContextHelper;
 import net.rockey.core.util.CONSTANTS;
-import net.rockey.core.util.LogUtils;
 import net.rockey.core.util.ShiroUtils;
 import net.rockey.form.keyvalue.KeyValue;
 import net.rockey.form.keyvalue.Record;
@@ -10,12 +9,13 @@ import net.rockey.form.support.RecordBuilder;
 
 import org.activiti.engine.impl.interceptor.CommandContext;
 import org.activiti.engine.task.Task;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SaveDraftOperation extends AbstractOperation<String> {
 
-	private final Logger log = LogUtils.getLogger(SaveDraftOperation.class,
-			true);
+	private static final Logger log = LoggerFactory
+			.getLogger(SaveDraftOperation.class);
 
 	@Override
 	public String execute(CommandContext commandContext) {

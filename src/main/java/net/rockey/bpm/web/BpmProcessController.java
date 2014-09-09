@@ -11,13 +11,13 @@ import net.rockey.bpm.model.BpmConfBase;
 import net.rockey.bpm.model.BpmProcess;
 import net.rockey.core.mapper.BeanMapper;
 import net.rockey.core.spring.MessageHelper;
-import net.rockey.core.util.LogUtils;
 import net.rockey.core.util.Page;
 import net.rockey.core.util.ParamUtils;
 import net.rockey.core.util.StringUtils;
 import net.rockey.ext.export.Exportor;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,8 +30,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("bpm")
 public class BpmProcessController {
 
-	private final Logger log = LogUtils.getLogger(BpmProcessController.class,
-			true);
+	private static final Logger log = LoggerFactory
+			.getLogger(BpmProcessController.class);
 
 	@Autowired
 	private BpmCategoryManager bpmCategoryManager;

@@ -6,7 +6,6 @@ import net.rockey.bpm.manager.BpmProcessManager;
 import net.rockey.bpm.model.BpmProcess;
 import net.rockey.core.spring.ApplicationContextHelper;
 import net.rockey.core.util.CONSTANTS;
-import net.rockey.core.util.LogUtils;
 import net.rockey.core.util.ShiroUtils;
 import net.rockey.form.keyvalue.KeyValue;
 import net.rockey.form.keyvalue.Record;
@@ -16,12 +15,13 @@ import org.activiti.engine.IdentityService;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.impl.interceptor.CommandContext;
 import org.activiti.engine.runtime.ProcessInstance;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class StartProcessOperation extends AbstractOperation<String> {
 
-	private final Logger log = LogUtils.getLogger(StartProcessOperation.class,
-			true);
+	private static final Logger log = LoggerFactory
+			.getLogger(StartProcessOperation.class);
 
 	@Override
 	public String execute(CommandContext commandContext) {
@@ -36,7 +36,7 @@ public class StartProcessOperation extends AbstractOperation<String> {
 		String processDefinitionKey = bpmProcess.getBpmConfBase()
 				.getProcessDefinitionKey();
 
-		log.info("processDefinitionKey : " + processDefinitionKey);
+		log.info("processDefinitionKey : {}", processDefinitionKey);
 
 		// 先保存草稿
 		String businessKey = new SaveDraftOperation().execute(this
@@ -50,7 +50,7 @@ public class StartProcessOperation extends AbstractOperation<String> {
 		// 构建流程参数
 		Map<String, Object> processParameters = this.getProcessParameters();
 
-		log.info(processParameters);
+		log.info("processParameters : {}", processParameters);
 
 		// 启动流程
 		ProcessInstance processInstance = processEngine.getRuntimeService()

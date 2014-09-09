@@ -1,7 +1,6 @@
 package net.rockey.bpm.cmd;
 
 import net.rockey.bpm.FormInfo;
-import net.rockey.core.util.LogUtils;
 
 import org.activiti.engine.delegate.Expression;
 import org.activiti.engine.impl.bpmn.parser.BpmnParse;
@@ -14,11 +13,12 @@ import org.activiti.engine.impl.pvm.PvmActivity;
 import org.activiti.engine.impl.pvm.PvmTransition;
 import org.activiti.engine.impl.pvm.process.ActivityImpl;
 import org.activiti.engine.impl.task.TaskDefinition;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class FindStartFormCmd implements Command<FormInfo> {
 
-	private final Logger log = LogUtils.getLogger(FindStartFormCmd.class, true);
+	private final static Logger log = LoggerFactory.getLogger(FindStartFormCmd.class);
 
 	private String processDefinitionId;
 
@@ -79,9 +79,10 @@ public class FindStartFormCmd implements Command<FormInfo> {
 				Expression expression = taskDefinition.getAssigneeExpression();
 				if (expression != null) {
 					String expressionText = expression.getExpressionText();
-					log.debug(expressionText);
-					log.debug(startActivity.getProperties());
-					log.debug(processDefinitionEntity.getProperties());
+					
+					log.debug("{}, {}, {}", expressionText,
+							startActivity.getProperties(),
+							processDefinitionEntity.getProperties());
 
 					String initiatorVariableName = (String) processDefinitionEntity
 							.getProperty(BpmnParse.PROPERTYNAME_INITIATOR_VARIABLE_NAME);

@@ -7,7 +7,6 @@ import net.rockey.bpm.cmd.FindStartFormCmd;
 import net.rockey.bpm.manager.BpmProcessManager;
 import net.rockey.bpm.model.BpmProcess;
 import net.rockey.core.spring.MessageHelper;
-import net.rockey.core.util.LogUtils;
 import net.rockey.form.keyvalue.KeyValue;
 import net.rockey.form.manager.FormTemplateManager;
 import net.rockey.form.model.FormTemplate;
@@ -19,7 +18,8 @@ import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +31,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("form")
 public class FormController {
 
-	private final Logger log = LogUtils.getLogger(FormController.class, true);
+	private static final Logger log = LoggerFactory
+			.getLogger(FormController.class);
 
 	@Autowired
 	private ProcessEngine processEngine;
@@ -135,7 +136,7 @@ public class FormController {
 		String taskFormKey = formService.getTaskFormKey(
 				task.getProcessDefinitionId(), task.getTaskDefinitionKey());
 
-		log.debug("taskFormKey : " + taskFormKey);
+		log.debug("taskFormKey : {}", taskFormKey);
 
 		ProcessInstance processInstance = processEngine.getRuntimeService()
 				.createProcessInstanceQuery()

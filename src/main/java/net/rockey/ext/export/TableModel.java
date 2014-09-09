@@ -3,14 +3,14 @@ package net.rockey.ext.export;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.rockey.core.util.LogUtils;
 import net.rockey.core.util.ReflectUtils;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TableModel {
 
-	private final Logger log = LogUtils.getLogger(TableModel.class, true);
+	private static final Logger log = LoggerFactory.getLogger(TableModel.class);
 	private String name;
 	private List<String> headers = new ArrayList<String>();
 	private List data;

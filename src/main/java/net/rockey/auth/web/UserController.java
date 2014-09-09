@@ -17,14 +17,14 @@ import net.rockey.auth.support.AuthUserConverter;
 import net.rockey.auth.support.AuthUserDTO;
 import net.rockey.core.spring.MessageHelper;
 import net.rockey.core.util.CONSTANTS;
-import net.rockey.core.util.LogUtils;
 import net.rockey.core.util.Page;
 import net.rockey.core.util.ParamUtils;
 import net.rockey.core.util.StringUtils;
 import net.rockey.ext.export.Exportor;
 import net.rockey.ext.export.TableModel;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +39,8 @@ import com.alibaba.fastjson.JSON;
 @RequestMapping("auth")
 public class UserController {
 
-	private final Logger log = LogUtils.getLogger(UserController.class, true);
+	private final static Logger log = LoggerFactory
+			.getLogger(UserController.class);
 
 	@Autowired
 	private UserManager userManager;
@@ -59,6 +60,8 @@ public class UserController {
 	@RequestMapping("user-list")
 	public String list(@RequestParam Map<String, Object> parameterMap,
 			Model model) {
+
+		log.debug("parameterMap : {}", parameterMap);
 
 		String name = ParamUtils.getString(parameterMap, "name");
 
@@ -112,7 +115,7 @@ public class UserController {
 		String userName = userDTO.getName();
 		String statFlag = userDTO.getStatFlag();
 
-		log.debug(statFlag);
+		log.debug("stat_flag : {}", statFlag);
 
 		statFlag = statFlag == null ? CONSTANTS.STAT_FLAG_CLOSE : statFlag;
 
@@ -206,7 +209,7 @@ public class UserController {
 		List<AuthUser> users = (List<AuthUser>) userManager.getAll();
 
 		html.append("<option value=\"ONSELECT\">请选择</option>");
-		
+
 		for (AuthUser user : users) {
 			html.append("<option value=\"").append(user.getId()).append("\">")
 					.append(user.getName()).append("</option>");

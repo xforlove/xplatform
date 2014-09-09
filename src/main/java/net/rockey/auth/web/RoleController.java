@@ -11,12 +11,12 @@ import net.rockey.auth.service.AuthService;
 import net.rockey.auth.support.AuthRoleDTO;
 import net.rockey.core.spring.MessageHelper;
 import net.rockey.core.util.CONSTANTS;
-import net.rockey.core.util.LogUtils;
 import net.rockey.core.util.Page;
 import net.rockey.core.util.ParamUtils;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +29,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("auth")
 public class RoleController {
 
-	private final Logger log = LogUtils.getLogger(RoleController.class, true);
+	private final static Logger log = LoggerFactory
+			.getLogger(RoleController.class);
 
 	@Autowired
 	private RoleManager roleManager;
@@ -44,6 +45,8 @@ public class RoleController {
 	public String list(@ModelAttribute Page page,
 			@RequestParam Map<String, Object> parameterMap, Model model) {
 
+		log.debug("parameterMap : {}", parameterMap);
+		
 		String name = ParamUtils.getString(parameterMap, "name");
 
 		List<AuthRole> roles;
@@ -80,7 +83,7 @@ public class RoleController {
 		String roleName = roleDTO.getName();
 		String statFlag = roleDTO.getStatFlag();
 		String roleDesc = roleDTO.getDescn();
-		
+
 		statFlag = statFlag == null ? CONSTANTS.STAT_FLAG_CLOSE : statFlag;
 
 		AuthRole role = (roleId == null) ? (new AuthRole()) : (roleManager
@@ -124,7 +127,7 @@ public class RoleController {
 			@RequestParam(value = "funcIds", required = false) String funcIds,
 			RedirectAttributes redirectAttributes, Model model) {
 
-		log.debug(funcIds);
+		log.debug("funcIds : {}", funcIds);
 
 		if (StringUtils.isEmpty(funcIds)) {
 			authService.clearRoleFunctionBy(roleManager.get(rid));

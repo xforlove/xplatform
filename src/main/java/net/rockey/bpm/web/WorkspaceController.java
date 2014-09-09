@@ -10,7 +10,6 @@ import net.rockey.bpm.cmd.ProcessDefinitionDiagramCmd;
 import net.rockey.bpm.manager.BpmCategoryManager;
 import net.rockey.bpm.manager.BpmProcessManager;
 import net.rockey.bpm.model.BpmProcess;
-import net.rockey.core.util.LogUtils;
 import net.rockey.core.util.ShiroUtils;
 
 import org.activiti.engine.HistoryService;
@@ -21,8 +20,8 @@ import org.activiti.engine.history.HistoricVariableInstance;
 import org.activiti.engine.impl.interceptor.Command;
 import org.activiti.engine.task.Task;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
-import org.apache.shiro.SecurityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,8 +32,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("bpm")
 public class WorkspaceController {
 
-	private final Logger log = LogUtils.getLogger(WorkspaceController.class,
-			true);
+	private static final Logger log = LoggerFactory
+			.getLogger(WorkspaceController.class);
 
 	@Autowired
 	private BpmCategoryManager bpmCategoryManager;
