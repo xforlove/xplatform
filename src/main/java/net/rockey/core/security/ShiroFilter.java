@@ -12,8 +12,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.rockey.auth.manager.UserManager;
-import net.rockey.auth.model.AuthUser;
+import net.rockey.system.auth.manager.UserManager;
+import net.rockey.system.auth.model.AuthUser;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;

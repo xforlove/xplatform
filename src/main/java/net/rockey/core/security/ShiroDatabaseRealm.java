@@ -2,11 +2,11 @@ package net.rockey.core.security;
 
 import java.util.Map;
 
-import net.rockey.auth.manager.UserManager;
-import net.rockey.auth.model.AuthRole;
-import net.rockey.auth.model.AuthUser;
-import net.rockey.auth.service.AuthService;
-import net.rockey.auth.support.AuthUserConverter;
+import net.rockey.system.auth.manager.UserManager;
+import net.rockey.system.auth.model.AuthRole;
+import net.rockey.system.auth.model.AuthUser;
+import net.rockey.system.auth.service.AuthService;
+import net.rockey.system.auth.support.AuthUserConverter;
 
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;

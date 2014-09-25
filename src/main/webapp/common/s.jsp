@@ -16,6 +16,9 @@
 <link href="${ctx }/s/multiselect/css/bootstrap-multiselect.css" rel="stylesheet" media="screen">
 <link href="${ctx }/s/multiselect/css/prettify.css" rel="stylesheet" media="screen">
 
+<!-- jQuery Uploadify 核心 CSS 文件 -->
+<link href="${ctx }/s/uploadify/uploadify.css" rel="stylesheet" media="screen">
+
 <!-- Customer 布局文件 -->
 <link href="${ctx }/s/customer/css/layout.css" rel="stylesheet" media="screen">
 
@@ -41,6 +44,10 @@
 <!-- jQuery Sliding Message 核心 JavaScript 文件 -->
 <script src="${ctx }/s/slidingMessage/jquery.slidingmessage.min.js"></script>
 
+<!-- jQuery Uploadify 核心 JavaScript 文件-->
+<script src="${ctx }/s/uploadify/jquery.uploadify.v2.1.4.js"></script>
+<script src="${ctx }/s/uploadify/swfobject.js"></script>
+
 <!-- Customer 脚本 -->
 <script src="${ctx }/s/customer/js/chkbox.js"></script>
 
@@ -60,7 +67,7 @@ $(document).ready(function() {
 		position: 'bottom',
         size: '50',
         fontSize: '20px'
-    });
+    });	
 	 
 	$("#ROCK_DT").dataTable({
 		"dom" : "<'searchPanel'><'space'><fl<t>ip>",

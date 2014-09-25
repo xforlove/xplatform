@@ -19,14 +19,14 @@
 		
 		<shiro:hasPermission name="funcgroup:list">
 		<li class="${currentNavi == 'funcgroup' ? 'active' : ''}">
-			<a href="/${scopeUrl }/app/funcgroup-list.do">
+			<a href="/${scopeUrl }/auth/funcgroup-list.do">
 				<i class="glyphicon glyphicon-list"></i> 功能组列表</a>
 		</li>
 		</shiro:hasPermission>
 		
 		<shiro:hasPermission name="function:list">
 		<li class="${currentNavi == 'function' ? 'active' : ''}">
-			<a href="/${scopeUrl }/app/function-list.do">
+			<a href="/${scopeUrl }/auth/function-list.do">
 				<i class="glyphicon glyphicon-list"></i> 功能列表</a>
 		</li>
 		</shiro:hasPermission>

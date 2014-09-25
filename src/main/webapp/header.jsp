@@ -2,11 +2,11 @@
 <%@page contentType="text/html;charset=UTF-8"%>
 
 <c:if test="${not empty flashMessages}">
-	<div id="m-success-message" style="display:none;">
+	<div id="m-success-message" style="display: none;">
 		<ul>
-		<c:forEach items="${flashMessages}" var="item">
-			 <li>${item}</li>
-		</c:forEach>
+			<c:forEach items="${flashMessages}" var="item">
+				<li>${item}</li>
+			</c:forEach>
 		</ul>
 	</div>
 </c:if>
@@ -35,17 +35,25 @@
 					<a href="/${scopeUrl }/bpm/workspace-home.do">
 						<i class="glyphicon glyphicon-user"></i> 个人事务 </a>
 				</li>
+				<li class="${currentHeader == 'doc' ? 'active' : ''}">
+					<a href="/${scopeUrl }/doc/doc-info-list.do">
+						<i class="glyphicon glyphicon-file"></i> 文件管理 </a>
+				</li>
+				<li class="${currentHeader == 'cms' ? 'active' : ''}">
+					<a href="/${scopeUrl }/cms/index.do">
+						<i class="glyphicon glyphicon-file"></i> 发文管理 </a>
+				</li>
 				<li class="${currentHeader == 'report' ? 'active' : ''}">
 					<a href="#">
 						<i class="glyphicon glyphicon-list-alt"></i> 统计报表 </a>
 				</li>
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<i class="glyphicon glyphicon-cog"></i> 系统配置 <span class="caret"></span></a>
+						<i class="glyphicon glyphicon-cog"></i> 系统管理 <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
 						<li><a href="#">组织结构</a></li>
 						<li class="${currentHeader == 'auth' ? 'active' : ''}"><a href="/${scopeUrl }/auth/index.do">权限体系</a></li>
-						<li class="${currentHeader == 'bpm-console' ? 'active' : ''}"><a href="/${scopeUrl }/bpm/bpm-category-list.do">流程管理</a></li>
+						<li class="${currentHeader == 'bpm-console' ? 'active' : ''}"><a href="/${scopeUrl }/bpm/index.do">流程管理</a></li>
 						<li class="${currentHeader == 'form' ? 'active' : ''}"><a href="/${scopeUrl }/form-template/form-template-list.do">表单管理</a></li>
 						<li class="divider"></li>
 						<li class="${currentHeader == 'log' ? 'active' : ''}"><a href="#">系统日志</a></li>

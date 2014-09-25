@@ -7,4 +7,6 @@
 <%
 	pageContext.setAttribute("ctx", request.getContextPath());
 	pageContext.setAttribute("scopeUrl", "xplatform");
+	
+	String path = request.getContextPath();
 %>

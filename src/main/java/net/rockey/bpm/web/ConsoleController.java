@@ -9,9 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 import net.rockey.bpm.cmd.ProcessDefinitionDiagramCmd;
 import net.rockey.bpm.cmd.SyncProcessCmd;
 
+import org.activiti.engine.HistoryService;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
+import org.activiti.engine.history.HistoricTaskInstance;
+import org.activiti.engine.history.HistoricVariableInstance;
 import org.activiti.engine.impl.interceptor.Command;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
@@ -77,10 +80,34 @@ public class ConsoleController {
 		List<ProcessInstance> processInstances = runtimeService
 				.createProcessInstanceQuery().orderByProcessInstanceId().desc()
 				.list();
-		
+
 		model.addAttribute("processInstances", processInstances);
 
 		return "bpm/console-listProcessInstances";
+	}
+
+	/**
+	 * 查看历史【包含流程跟踪、任务列表（完成和未完成）、流程变量】
+	 * 
+	 * @return
+	 */
+	@RequestMapping("console-viewHistory")
+	public String viewHistory(
+			@RequestParam("processInstanceId") String processInstanceId,
+			Model model) {
+		HistoryService historyService = processEngine.getHistoryService();
+		List<HistoricTaskInstance> historicTasks = historyService
+				.createHistoricTaskInstanceQuery()
+				.processInstanceId(processInstanceId).list();
+		List<HistoricVariableInstance> historicVariableInstances = historyService
+				.createHistoricVariableInstanceQuery()
+				.processInstanceId(processInstanceId).orderByVariableName()
+				.asc().list();
+		model.addAttribute("historicTasks", historicTasks);
+		model.addAttribute("historicVariableInstances",
+				historicVariableInstances);
+
+		return "bpm/console-viewHistory";
 	}
 
 	/**

@@ -2,8 +2,8 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@include file="/common/taglibs.jsp"%>
 <%
-pageContext.setAttribute("currentHeader", "auth");
-pageContext.setAttribute("currentNavi", "role");
+pageContext.setAttribute("currentHeader", "doc");
+pageContext.setAttribute("currentNavi", "doc");
 %>
 
 <!DOCTYPE html>
@@ -24,20 +24,20 @@ pageContext.setAttribute("currentNavi", "role");
 
 <body>
 
-	<%@include file="/header/auth.jsp"%>
+	<%@include file="/header/doc-info.jsp"%>
 
 	<div class="container-fluid">
 
 		<div class="row">
 			
-			<%@include file="/navigation/auth.jsp"%>
+			<%@include file="/navigation/doc-info.jsp"%>
 
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<div id="ROCK_DT_SEARCH">
-					<form id="searchForm" name="searchForm" class="form-inline" role="form" action="role-list.do" method="post">
+					<form id="searchForm" name="searchForm" class="form-inline" role="form" action="doc-info-list.do" method="post">
 						
 						<div class="form-group">
-							<label>角色名：</label>
+							<label>文件名：</label>
 							<input type="text" class="form-control" id="name" name="name" value="${param.name }">
 						</div>
 						
@@ -45,7 +45,7 @@ pageContext.setAttribute("currentNavi", "role");
 							<button type="button" class="btn btn-default" onclick="javascript: document.searchForm.submit();">
 								<i class="glyphicon glyphicon-search"> 查询</i>
 							</button>
-							<button type="button" class="btn btn-default" onclick="javascript: location.href='role-input.do'">
+							<button type="button" class="btn btn-default" onclick="javascript: location.href='doc-info-input.do'">
 								<i class="glyphicon glyphicon-plus"> 创建</i>
 							</button>
 							<button type="button" class="btn btn-default" onclick="javascript: void(0);">
@@ -60,30 +60,26 @@ pageContext.setAttribute("currentNavi", "role");
 						<thead>
 							<tr>
 								<th width="50">序号</th>
-								<th>角色代号</th>
-								<th>角色名</th>
-								<th>描述</th>
-								<th>状态</th>
+								<th>文件名</th>
+								<th>类型</th>
+								<th>上传人</th>
+								<th>上传时间</th>
 								<th width="200">&nbsp;</th>
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${roles }" var="object" varStatus="status">
+							<c:forEach items="${docs }" var="object" varStatus="status">
 								<tr>
 									<td>${status.index + 1 }</td>
-									<td>${object.code }</td>
 									<td>${object.name }</td>
-									<td>${object.descn }</td>
-									<td>${object.statFlag == 'NORMAL' ? '启用' : '禁用' }</td>									
+									<td>${object.type }</td>
+									<td>${object.userId }</td>
+									<td>${object.createTime }</td>									
 									<td>
 										<div class="btn-group">
 											<button type="button" class="btn btn-default btn-sm" 
-												onclick="javascript: location.href='role-input.do?id=${object.id }' ">
+												onclick="javascript: location.href='doc-info-input.do?id=${object.id }' ">
 												<i class="glyphicon glyphicon-edit"> 编辑</i>	
-											</button>
-											<button type="button" class="btn btn-default btn-sm" 
-												onclick="javascript: location.href='role-res-input.do?rid=${object.id }' ">
-												<i class="glyphicon glyphicon-cog"> 配置</i>
 											</button>
 										</div>
 									</td>

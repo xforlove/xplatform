@@ -2,7 +2,6 @@ package net.rockey.bpm.web;
 
 import java.util.Map;
 
-import net.rockey.auth.manager.UserManager;
 import net.rockey.bpm.support.BpmLeaveApplyLog;
 import net.rockey.core.util.CONSTANTS;
 import net.rockey.core.util.ParamUtils;
@@ -10,6 +9,7 @@ import net.rockey.core.util.ShiroUtils;
 import net.rockey.form.keyvalue.KeyValue;
 import net.rockey.form.keyvalue.Prop;
 import net.rockey.form.keyvalue.Record;
+import net.rockey.system.auth.manager.UserManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

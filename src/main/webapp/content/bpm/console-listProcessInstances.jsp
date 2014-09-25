@@ -60,7 +60,7 @@
 									<td>
 										<div class="btn-group">
 											<button type="button" class="btn btn-default btn-sm" 
-												onclick="javascript: location.href='workspace-viewHistory.do?processInstanceId=${object.id}' ">
+												onclick="javascript: location.href='console-viewHistory.do?processInstanceId=${object.id}' ">
 												<i class="glyphicon glyphicon-file"> 历史</i>
 											</button>
 										</div>
